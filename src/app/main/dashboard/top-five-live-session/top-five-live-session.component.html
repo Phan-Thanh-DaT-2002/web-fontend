@@ -1,0 +1,50 @@
+<div class="card">
+    <h5 class="card-header text-primary">Top 5 Live Session</h5>
+    <div class="card-body">
+      <div class="table-responsive" style="overflow-y: hidden; height: 285px;">
+        <table class="table table-hover-animation">
+          <thead>
+            <tr>
+              <th scope="col" class="text-nowrap">Kênh chat</th>
+              <th scope="col" class="text-nowrap">Khách hàng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let row of top5LiveSession; index as i">
+              <tr>
+                <td>
+                    <img *ngIf="row.channelName=='Zalo'"
+                  src="assets/images/chanel/zalo.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='Facebook'"
+                  src="assets/images/chanel/facebook.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='web'"
+                  src="assets/images/chanel/web.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='App EVNHN'"
+                  src="assets/images/chanel/env.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                </td>
+                <td>
+                    <span class="text-success text-nowrap">{{row.cusName}}</span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

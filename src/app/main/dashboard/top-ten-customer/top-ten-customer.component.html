@@ -1,0 +1,44 @@
+<div class="card">
+    <h5 class="card-header text-primary">Top 10 khách hàng tương tác trong tháng</h5>
+    <div class="card-body">
+      <div class="browser-states">
+        <ng-container *ngFor="let row of top10Customer; index as i">
+            <div class="media">
+                <div class="col-5 media h30">
+                    <img *ngIf="row.channelName=='Zalo'"
+                  src="assets/images/chanel/zalo.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='Facebook'"
+                  src="assets/images/chanel/facebook.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='web'"
+                  src="assets/images/chanel/web.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.channelName=='App EVNHN'"
+                  src="assets/images/chanel/env.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                    <h6 class="align-self-center mb-0 h30">{{row.channelName}}</h6>
+                </div>
+                <div class="col-5 h30">
+                    <h6 class="align-self-center mb-0">{{row.cusName}}</h6>
+                </div>
+                <div class="col-2 h30">
+                    <h6 class="align-self-center">{{row.amount}}</h6>
+                </div>
+            </div>
+        </ng-container>
+      </div>
+    </div>
+</div>

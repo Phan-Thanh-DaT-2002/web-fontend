@@ -1,0 +1,55 @@
+<div class="card">
+    <h5 class="card-header text-primary">Top 4 bot được sử dụng nhiều nhất trong ngày</h5>
+    <div class="card-body">
+      <div class="table-responsive" style="overflow-y: auto; height: 285px;">
+        <table class="table table-hover-animation">
+          <thead>
+            <tr>
+              <th scope="col" class="text-nowrap">Tên bot</th>
+              <th scope="col" class="text-nowrap">Số phiên đã chạy</th>
+              <th scope="col" class="text-nowrap">Số phiên online</th>
+              <th scope="col" class="text-nowrap">Ý định</th>
+              <th scope="col" class="text-nowrap">Kịch bản</th>
+              <th scope="col" class="text-nowrap">Zalo</th>
+              <th scope="col" class="text-nowrap">Facebook</th>
+              <th scope="col" class="text-nowrap">Web</th>
+              <th scope="col" class="text-nowrap">App EVNHN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let row of top4Bot; index as i">
+              <tr>
+                <td>
+                  <span class="font-weight-bold text-nowrap">{{row.botName}}</span>
+                </td>
+                <td>
+                    <span class="text-warning">{{row.sessionCount}}</span>
+                </td>
+                <td>
+                    <span class="text-success">{{row.onlineSession}}</span>
+                </td>
+                <td>
+                  <span class="text-nowrap">{{row.intentName}}</span>
+                </td>
+                <td>
+                    <span class="text-nowrap">{{row.storyName}}</span>
+                </td>
+                <td>
+                    <span class="text-primary">{{row.zalo}}</span>
+                </td>
+                <td>
+                    <span class="text-info">{{row.facebook}}</span>
+                </td>
+                <td>
+                    <span class="text-success">{{row.website}}</span>
+                </td>
+                <td>
+                    <span class="text-danger">{{row.app}}</span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,86 @@
+<div class="auth-wrapper auth-v2">
+  <div class="auth-inner row m-0">
+    <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
+      <!-- <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" /> -->
+      <h2 class="brand-text text-primary ml-1">No Name</h2>
+    </a>
+    <!-- /Brand logo-->
+    <!-- Left Text-->
+    <div class="d-none d-lg-flex col-lg-8 align-items-center p-1">
+      <div class="w-70 d-lg-flex align-items-center justify-content-center px-1">
+        <img class="img-fluid" [src]="
+        coreConfig.layout.skin === 'dark'
+          ? 'assets/images/pages/register-v2-dark.svg'
+          : 'assets/images/pages/register-v2.svg'
+      " alt="Register V2" />
+      </div>
+    </div>
+    <!-- /Left Text-->
+    <!-- Login-->
+    <div class="d-flex align-items-center justify-content-center min-vh-50 auth-bg">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 px-xl-2 mx-auto" style="width: 510px;">
+
+
+        <form class="auth-login-form " [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="width: 200px;">
+          <div class="form-group coolinput">
+            <h3>Chào mừng</h3>
+          </div>
+
+          <div class="form-group coolinput">
+            <label for="input" class="text">Tài khoản <span style="color: red">*</span></label>
+            <input type="text" name="input" class="input" for="input" formControlName="username"
+              class="form-control text" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              placeholder="Nhập tài khoản" autofocus="" tabindex="1" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Hãy nhập tài khoản</div>
+            </div>
+          </div>
+          <div class="form-group coolinput">
+            <div class="d-flex justify-content-between">
+              <label for="input" class="text">Mật khẩu <span style="color: red">*</span></label>
+            </div>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input name="input" [type]="passwordTextType ? 'text' : 'password'" formControlName="password"
+                class=" input form-control form-control-merge"
+                [ngClass]="{ 'is-invalid error': submitted && f.password.errors }" placeholder="············"
+                aria-describedby="login-password" tabindex="2" />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
+                      'icon-eye-off': passwordTextType,
+                      'icon-eye': !passwordTextType
+                    }" (click)="togglePasswordTextType()"></i></span>
+              </div>
+            </div>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password.errors }">
+              <div *ngIf="f.password.errors.required">Hãy nhập Mật khẩu.</div>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" id="remember-me" type="checkbox" tabindex="3" />
+              <label class="custom-control-label" for="remember-me"> Ghi nhớ đăng nhập</label>
+            </div>
+          </div> -->
+          <button [disabled]="loading" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Đăng nhập
+          </button>
+
+
+        </form>
+        <a href="/pages/authentication/register-v2"><button [disabled]="loading" class="btn btn-primary btn-block "
+            tabindex="5" style="margin-top: 3px; width: 200px;" rippleEffect>
+            Đăng ký
+          </button></a>
+        <a routerLink="/pages/authentication/forgot-password-v2"><small>Quên mật khẩu?</small></a>
+        <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error" style="width: 2  00px;">
+          <div class="alert-body">
+            <p>{{ error }}</p>
+          </div>
+        </ngb-alert>
+      </div>
+    </div>
+
+    <!-- /Login-->
+  </div>
+</div>
