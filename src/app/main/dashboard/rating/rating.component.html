@@ -1,0 +1,19 @@
+<div class="card">
+    <h5 class="card-header text-primary">Rating</h5>
+    <div class="card-body">
+      <ng-container *ngFor="let rate of rating; index as i">
+        <div class="row">
+          <div class="col-1">
+          </div>
+          <div class="col-8">
+            <div class="rating">
+              <ngb-rating rate="{{5-i}}" max="{{5-i}}" readonly="true"></ngb-rating>
+            </div>
+          </div>
+          <div class="col-3 rating align-self-center">
+            {{rate}}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+</div>

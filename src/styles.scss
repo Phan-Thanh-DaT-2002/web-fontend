@@ -1,0 +1,13 @@
+@import '@core/scss/core.scss';
+@import './assets/scss/styles';
+@import '@core/scss/angular/libs/select.component.scss';
+
+.ng-select.is-invalid{
+    .ng-select-container{
+        border-color: #dc3545;
+    }
+}
+
+body{
+    color: black;
+}

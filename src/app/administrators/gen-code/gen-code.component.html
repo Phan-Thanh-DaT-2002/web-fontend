@@ -1,0 +1,130 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Inline Editing Datatables -->
+    <section id="ngx-datatable-inline-editing">
+      <div class="card">
+        <h4 class="card-title m-1">Thông tin bảng dữ liệu</h4>
+        <div class="users-list-filter">
+          <div class="col-md-6 col-12">
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" placeholder="Tên bảng" [(ngModel)]="tableName" />
+            </div>
+          </div>
+        </div>
+        <ngx-datatable class="bootstrap core-bootstrap" [headerHeight]="40" [rowHeight]="58"
+          [columnMode]="ColumnMode.force" [rows]="columns" [scrollbarH]="true">
+          <ngx-datatable-column [width]="150" [sortable]="false" name="Tên cột" prop="columnName">
+            <ng-template ngx-datatable-cell-template let-value="value" let-rowIndex="rowIndex" let-row="row">
+              <ng-container *ngIf="!row.isDefault">
+                <div title="Double click to edit" (dblclick)="editingColumnName[rowIndex + '-columnName'] = true"
+                  *ngIf="!editingColumnName[rowIndex + '-columnName']">
+                  {{ value }}
+                </div>
+                <input autofocus class="form-control form-control-sm"
+                  (blur)="inlineEditingColumnName($event, 'columnName', rowIndex)"
+                  *ngIf="editingColumnName[rowIndex + '-columnName']" [value]="value" />
+              </ng-container>
+              <ng-container *ngIf="row.isDefault">
+                {{ value }}
+              </ng-container>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="150" [sortable]="false" name="Loại dữ liệu" prop="type">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+              <ng-container *ngIf="!row.isDefault && rowIndex > 0">
+                <div title="Double click to edit" (dblclick)="editingDataType[rowIndex + '-type'] = true"
+                  *ngIf="!editingDataType[rowIndex + '-type']">
+                  <div class="badge badge-pill" [ngClass]="{
+                    'badge-light-primary': value == 'INT',
+                    'badge-light-success': value == 'VARCHAR',
+                    'badge-light-danger': value == 'DATETIME'
+                  }">
+                    {{ value }}
+                  </div>
+                </div>
+                <select *ngIf="editingDataType[rowIndex + '-type']" (blur)="editingDataType[rowIndex + '-type'] = false"
+                  (change)="inlineEditingDataType($event, 'type', rowIndex)" [value]="value"
+                  class="form-control form-control-sm">
+                  <option value="INT">INT</option>
+                  <option value="VARCHAR">VARCHAR</option>
+                  <option value="DATETIME">DATETIME</option>
+                </select>
+              </ng-container>
+              <ng-container *ngIf="row.isDefault || rowIndex == 0">
+                <div class="badge badge-pill" [ngClass]="{
+                  'badge-light-primary': value == 'INT',
+                  'badge-light-success': value == 'VARCHAR',
+                  'badge-light-danger': value == 'DATETIME'
+                }">
+                  {{ value }}
+                </div>
+              </ng-container>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="150" [sortable]="false" name="Độ dài" prop="columnLength">
+            <ng-template ngx-datatable-cell-template let-value="value" let-rowIndex="rowIndex" let-row="row">
+              <ng-container *ngIf="!row.isDefault && rowIndex > 0">
+                <div title="Double click to edit" (dblclick)="editingColumnLength[rowIndex + '-columnLength'] = true"
+                  *ngIf="!editingColumnLength[rowIndex + '-columnLength']">
+                  {{ value }}
+                </div>
+                <input autofocus class="form-control form-control-sm"
+                  (blur)="inlineEditingColumnLength($event, 'columnLength', rowIndex)"
+                  *ngIf="editingColumnLength[rowIndex + '-columnLength']" [value]="value" />
+              </ng-container>
+              <ng-container *ngIf="row.isDefault || rowIndex == 0">
+                {{ value }}
+              </ng-container>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" name="PK">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" [checked]="rowIndex == 0" disabled
+                  id="ckbPK{{ rowIndex }}" />
+                <label class="custom-control-label" for="ckbPK{{ rowIndex }}"></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" name="NN">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" [checked]="rowIndex == 0"
+                  [disabled]="rowIndex == 0 || row.isDefault" (change)="onCkbNNChange(rowIndex)"
+                  id="cknNN{{ rowIndex }}" />
+                <label class="custom-control-label" for="cknNN{{ rowIndex }}"></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false" name="UQ">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" [checked]="rowIndex == 0"
+                  [disabled]="rowIndex == 0 || row.isDefault" (change)="onCkbUQChange(rowIndex)"
+                  id="cknUQ{{ rowIndex }}" />
+                <label class="custom-control-label" for="cknUQ{{ rowIndex }}"></label>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [width]="100" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+            [resizeable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+              <ng-container *ngIf="!row.isDefault">
+                <button *ngIf="rowIndex != 0" rippleEffect class="btn btn-outline-danger"
+                  (click)="deleteItem(rowIndex)">Xóa</button>
+              </ng-container>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+        <div class="col-12 mb-2">
+          <button rippleEffect class="btn btn-primary mr-1" (click)="addItem()">Thêm cột</button>
+          <button rippleEffect class="btn btn-success" (click)="genCode()">Sinh code tự động</button>
+        </div>
+      </div>
+    </section>
+    <!--/ Inline Editing Datatables -->
+  </div>
+</div>

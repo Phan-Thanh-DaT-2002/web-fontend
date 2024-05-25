@@ -1,0 +1,75 @@
+<div class="card">
+    <h5 class="card-header text-primary">Top 20 câu hỏi chưa được xử lý trong tháng</h5>
+    <div class="card-body">
+      <div class="table-responsive" style="overflow-y: auto; overflow-x:auto; height: 375px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Câu hỏi</th>
+              <th>Kênh chat</th>
+              <th>Thời gian</th>
+              <th>Khách hàng</th>
+              <th>Chuyển xử lý</th>
+              <th class="small-col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let row of top20Question; index as i">
+              <tr [ngClass]="i%5==0 ? 'table-primary' : (i%5==1 ? 'table-success' : (i%5 == 2? 'table-warning' : (i%5 == 3? 'table-danger' : (i%5 == 4? 'table-info' : 'table-secondary'))))">
+                <td>
+                  <span class="font-weight-bold">{{row.questions}}</span>
+                </td>
+                <td>
+                  <span class="text-nowrap">
+                  <img *ngIf="row.chanelCode=='ZALO'"
+                  src="assets/images/chanel/zalo.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.chanelCode=='Facebook'"
+                  src="assets/images/chanel/facebook.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.chanelCode=='web'"
+                  src="assets/images/chanel/web.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <img *ngIf="row.chanelCode=='App EVNHN'"
+                  src="assets/images/chanel/env.png"
+                  class="mr-75"
+                  height="20"
+                  width="20"
+                  />
+                  <span>{{row.chanelCode}}</span>
+                </span>
+                </td>
+                <td>
+                  <span>{{row.dateChat}}</span>
+                </td>
+                <td>
+                  <span>{{row.cusName}}</span>
+                </td>
+                <td class="pr-0">
+                    <ng-select *ngIf="row.status==1" id="role-column"
+                                  [items]="listTrainer" 
+                                  bindLabel="username" 
+                                  placeholder="--Chọn người xử lý--"
+                                  (change)="chooseTrainer(row.id, $event)">
+                    </ng-select>
+                    <span *ngIf="row.status==2">{{row.username}}</span>
+                </td>
+                <td class="small-col">
+                  <i *ngIf="row.status==1" class="feather icon-play font-medium-2 cursor-pointer text-white p-1" (click)="notifyTrainer(row.id, row.questions)"></i>  
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
