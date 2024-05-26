@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { UserManagementService } from '../user-management.service';
 import Swal from "sweetalert2";
@@ -13,9 +13,21 @@ import { Console } from 'console';
 export class AddUserComponent implements OnInit {
 
   @Output() afterCreateUser = new EventEmitter<string>();
-
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  @Input() idDoctor  :any;
+  public currentLoginRole;
   public contentHeader: object;
-  public listRole = [];
+  errorLength:boolean = false;
+  public listRole = [
+    { id: 1, label: 'Admin' },
+    { id: 2, label: 'Bác sĩ' },
+    { id: 3, label: 'Bệnh nhân' }
+  ]; 
+  
+  public listgender = [
+    { id: 1, label: 'Nam' },
+    { id: 2, label: 'Nữ' }
+  ];
   public roleLoading = false;
   public addUserForm: FormGroup;
   public addUserFormSubmitted = false;
@@ -26,7 +38,10 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.getListRole();
+    this.currentLoginRole = localStorage.getItem('currentLoginRole')
+    this.idDoctor = window.sessionStorage.getItem("idDoctor");
+    
+    // this.getListRole();
   }
 
   initForm(){
@@ -34,10 +49,12 @@ export class AddUserComponent implements OnInit {
       {
         username: ['',[Validators.required]],
         password: ['', [Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]],
-        fullname: ['',[Validators.required]],
-        phoneNumber: ['',[Validators.pattern('^(0?)([1-9][2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]],
+        fullName: ['',[Validators.required]],
+        phone: ['',[Validators.pattern('^(0?)([1-9][2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]],
         email: ['', [Validators.required, Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]],
-        role: [null, Validators.required],
+        roles: [null, Validators.required],
+        address: ["",],
+        gender: [null, ],
       },
     );
   }
@@ -91,17 +108,54 @@ export class AddUserComponent implements OnInit {
         username: this.addUserForm.value.username.trim()
       })
     }
-    if(this.addUserForm.value.fullname !== ''){
+
+
+    if(this.addUserForm.value.fullName !== ''){
       this.addUserForm.patchValue({
-        fullname: this.addUserForm.value.fullname.trim()
+        fullName: this.addUserForm.value.fullName.trim()
       })
     }
+
+    if(this.addUserForm.value.email !== ''){
+      this.addUserForm.patchValue({
+        email: this.addUserForm.value.email.trim()
+      })
+    }
+    if(this.addUserForm.value.phone !== ''){
+      this.addUserForm.patchValue({
+        phone: this.addUserForm.value.phone.trim()
+      })
+    }
+
+    if(this.addUserForm.value.address !== ''){
+      this.addUserForm.patchValue({
+        address: this.addUserForm.value.address.trim()
+      })
+    }
+
+    this.addUserForm.patchValue({
+      roles: 3
+    })
+    console.log("this.addUserForm.",this.addUserForm);
+    
     if (this.addUserForm.invalid) {
+      for (let name in this.addUserForm.controls) {
+        if (this.addUserForm.controls[name].invalid) {
+          console.error("error fields: ", this.addUserForm);
+        }
+      }
       return;
     }
 
     let content= this.addUserForm.value;
-    content.roleId = this.addUserForm.value.role.id;
+     if(this.currentLoginRole == "2")  content.idDoctor = this.idDoctor
+     
+     if(this.currentLoginRole == "2") content.roles = 3;
+     else content.roles = this.addUserForm.value.role.id;
+
+    content.gender = this.addUserForm.value.gender.id;
+    delete content.role;
+    console.log("content",content);
 
     let params = {
       method: "POST",
@@ -162,6 +216,20 @@ export class AddUserComponent implements OnInit {
         }
       });
 
+  }
+
+  onInput(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+  
+    if (inputValue.length < 10) {
+    this.errorLength = true;
+    }else{
+      this.errorLength = false;
+    }
+  }
+
+  closeForm() {
+    this.closeModal.emit();
   }
 
 }

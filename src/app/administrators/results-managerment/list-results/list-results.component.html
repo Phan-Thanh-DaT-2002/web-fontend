@@ -20,7 +20,8 @@
   </div>
   <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap " [columnMode]="ColumnMode.force"
     [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [externalPaging]="true" [count]="totalRows"
-    [offset]="currentPage" [limit]="perPage" (page)="setPage($event)" [virtualization]="false">
+    [offset]="currentPage" [limit]="perPage" (page)="setPage($event)" [virtualization]="false"
+    cellClass="d-flex justify-content-center ">
 
 
 
@@ -38,13 +39,15 @@
 
     <ngx-datatable-column [sortable]="false" name="chuẩn đoán" prop="" class="text-center" [width]="250">
       <ng-template ngx-datatable-cell-template let-row="row">
-        <span [title]="row.note" class="ng-star-inserted">{{ row.note}}</span>
+        <span [title]="row.note" class="ng-star-inserted cell-content">{{ row.note}}</span>
       </ng-template></ngx-datatable-column>
 
-    <ngx-datatable-column [sortable]="false" name="Thời gian" prop="" class="text-center" [width]="100">
+    <ngx-datatable-column [sortable]="false" name="Thời gian" prop="" class="text-center" headerClass="text-center"
+      cellClass="d-flex justify-content-center " [width]="100">
       <ng-template ngx-datatable-cell-template let-row="row">
         <span [title]="row.time" class="ng-star-inserted">{{ row.time}} phút</span>
       </ng-template></ngx-datatable-column>
+
 
 
     <ngx-datatable-column [sortable]="false" name="Ngày thực hiện" prop="" class="text-center" [width]="100">

@@ -65,6 +65,7 @@ export class ListUserComponent implements OnInit {
   public totalRows = 0;
   public contentHeader: object;
   public listRole = [];
+  public idDoctor;
   public username ="";
   public phoneNumber;
   public isInvalidPhoneNumber: boolean = false;
@@ -92,7 +93,10 @@ public listStatus = [
   { id: 1, label: 'Online' },
   { id: 2, label: 'Offline' }
 ];
-
+public StatusUser = [
+  { id: 1, label: 'Đang hoạt động' },
+  { id: 2, label: 'Đã xóa' }
+];
 public listScore = [
   { id: 1, label: '0 --> 20 điểm' },
   { id: 2, label: '21 --> 40 điểm' },
@@ -141,13 +145,21 @@ public listScore = [
     })
     this.searchUser();
      this.currentLoginRole = localStorage.getItem('currentLoginRole')
-    console.log("currentLoginRole",this.currentLoginRole);
+    // console.log("currentLoginRole",this.currentLoginRole);
     // this.getListRole();
     this.connect();
     this.messages = {
       emptyMessage: this._translateService.instant('LABEL.NO_DATA'),
       totalMessage: this._translateService.instant('LABEL.TOTAL')
     };
+  }
+
+  convertDate(date: any) {
+    return {
+      year: date.year,
+      month: (date.month < 10 ? "0" + date.month : date.month),
+      day: (date.day < 10 ? "0" + date.day : date.day)
+    }
   }
 
   addUser(){
@@ -366,7 +378,8 @@ public listScore = [
           this.rows = response.content["items"];
           console.log(this.rows);
           
-          
+          this.idDoctor = this.rows[0].idDoctor;
+
           this.totalRows = response.content["total"];
           this.totalPage = Math.ceil(this.totalRows / this.perPage);
           
@@ -399,6 +412,9 @@ public listScore = [
 
   // modal Open Small
   openModalAddUser(modalSM) {
+    console.log("this.idDoctor",this.idDoctor);
+
+    window.sessionStorage.setItem("idDoctor", this.idDoctor);
     this.modalService.open(modalSM, {
       centered: true,
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'

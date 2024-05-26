@@ -35,6 +35,11 @@ export class ListResultsComponent implements OnInit {
         Swal.close();
         let response = data;
         if (response.code == '0') {
+          for (var i = 0; i < response.content["items"].length; i++) {
+            response.content["items"][i].dayTest = this.formatDate(response.content["items"][i].dayTest);
+          }
+          console.log("response,response",response);
+          
           this.rows = response.content["items"];
           this.totalRows = response.content["total"];
           this.totalPage = Math.ceil(this.totalRows / this.perPage);
@@ -62,5 +67,16 @@ export class ListResultsComponent implements OnInit {
     this.currentPage = 0  
     this.getDetailResults();
   }
+   formatDate(dateString) {
+    // Tạo đối tượng Date từ chuỗi ngày tháng
+    const date = new Date(dateString);
 
+    // Lấy ngày, tháng, năm
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Tháng được đánh số từ 0-11
+    const year = date.getFullYear();
+
+    // Định dạng lại thành ngày/tháng/năm
+    return `${day}/${month}/${year}`;
+}
 }
