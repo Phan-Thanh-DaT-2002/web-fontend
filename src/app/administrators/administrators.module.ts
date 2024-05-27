@@ -8,6 +8,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule } from '@angular/forms';
 import { pathToFileURL } from 'url';
 import { resultsManagementModule } from './results-managerment/results-managerment.module';
+import { UserInfoManagementModule } from './user-infor/user-infor.module';
 
 
 // routing
@@ -21,6 +22,10 @@ const routes: Routes = [
     path: 'results',
     loadChildren: () => import('./results-managerment/results-managerment.module').then(m => m.resultsManagementModule)
   },
+  {
+    path: 'user-detail',
+    loadChildren: () => import('./user-infor/user-infor.module').then(m => m.UserInfoManagementModule)
+  },
 ]
 
 @NgModule({
@@ -32,6 +37,7 @@ const routes: Routes = [
     NgSelectModule,
     NgxDatatableModule,
     resultsManagementModule,
+    UserInfoManagementModule,
     CommonModule,
     UserManagementModule,
     RouterModule.forChild(routes),

@@ -97,6 +97,7 @@ export class AuthenticationService {
               console.log(decode);
               this.currentLoginRole = decode
               window.localStorage.setItem("currentLoginRole", this.currentLoginRole.type);
+              window.localStorage.setItem("currentLoginId", this.currentLoginRole.id);
               var currentLoginId = localStorage.getItem('loginId')
               var oldLoginId = localStorage.getItem('oldLoginAccount')
 

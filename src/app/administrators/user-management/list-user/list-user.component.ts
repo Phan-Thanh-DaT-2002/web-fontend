@@ -177,11 +177,11 @@ public listScore = [
 
   deleteUser(id:number){
     Swal.fire({
-      title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.DELETE_CONFIRM'),
+      title: "Bạn có chắc chắn muốn xóa?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
-      cancelButtonText: this._translateService.instant('ACTION.CANCEL'),
+      confirmButtonText: "Đồng ý",
+      cancelButtonText: "Hủy",
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-danger ml-1'
@@ -196,14 +196,14 @@ public listScore = [
           if (response.code === 0) {
             Swal.fire({
               icon: "success",
-              title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.DELETE_SUCCESS'),
-              confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+              title: "Đã xóa thành công",
+              confirmButtonText: "Đóng",
             }).then((result) => {
               //load lại trang kết quả
               this.searchUser();
             });
           }  else if (response.code === 45) {
-            Swal.fire(this._translateService.instant('MESSAGE.USER_MANAGEMENT.NOT_DELETED'));
+            Swal.fire("Xóa không thành công");
           }else {
             Swal.fire({
               icon: "error",
@@ -216,9 +216,9 @@ public listScore = [
             Swal.fire({
               icon: "error",
               // title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
-              title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.NOT_DELETED'),
+              title: "Chưa được xóa",
 
-              confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+              confirmButtonText: "Lỗi kết nối hệ thống",
             });
           });
       }
@@ -433,35 +433,35 @@ public listScore = [
     this.searchUser();
   }
 
-  getListRole() {
-    let params = {
-      method: "GET"
-    };
-    this.service
-      .getListRole(params)
-      .then((data) => {
-        let response = data;
-        if (response.code === 0) {
-          this.listRole = response.content;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: response.errorMessages,
-          });
-          if (response.code === 2) {
-            this.listRole = [];
-          }
-        }
-      })
-      .catch((error) => {
-        Swal.close();
-        Swal.fire({
-          icon: "error",
-          title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
-          confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
-        });
-      });
-  }
+  // getListRole() {
+  //   let params = {
+  //     method: "GET"
+  //   };
+  //   this.service
+  //     .getListRole(params)
+  //     .then((data) => {
+  //       let response = data;
+  //       if (response.code === 0) {
+  //         this.listRole = response.content;
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: response.errorMessages,
+  //         });
+  //         if (response.code === 2) {
+  //           this.listRole = [];
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       Swal.close();
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
+  //         confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+  //       });
+  //     });
+  // }
 
   
 
@@ -700,7 +700,6 @@ onDateInput(inputValue: string, path: string): void {
   if(path == "fromDatePre"){
     const parsedDate = this.parseDateString(inputValue, path);
     this.fromDatePre = this.isValidDate(parsedDate);
-    debugger
   }
   else if(path == "toDatePre"){
   const parsedDate = this.parseDateString(inputValue, path);

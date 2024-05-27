@@ -1,6 +1,6 @@
 {
-  "name": "vuexy-admin-template",
-  "version": "7.0.0",
+  "name": "test",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "set NODE_OPTIONS=--max_old_space_size=8192 & ng serve --open",

@@ -26,7 +26,7 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
       .datatable-header {
         background-color: $datatables-bg-header-color;
         text-transform: uppercase;
-        height: 40px !important;
+        
         border-top: 1px solid $datatables-border-color;
 
         .datatable-header-cell {
@@ -34,6 +34,7 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
           padding: 0.75rem 1rem;
           font-weight: bold;
           font-size: 0.8rem;
+          white-space: normal !important;
         }
         // sort-icon positioning
         .datatable-header-cell-template-wrap {
@@ -77,9 +78,8 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
       .datatable-footer {
         background-color: $white;
         color: $datatables-text-color;
-        overflow: hidden;
+        overflow:hidden;
         margin-bottom: 1rem;
-
         .datatable-pager {
           a {
             color: $datatables-text-color;
@@ -136,6 +136,11 @@ $datatables-dark-active-bg-color: $theme-dark-card-bg;
         .page-count {
           color: $datatables-footer-text-color;
         }
+        .datatable-footer-inner {
+          display: flex;
+          align-items: center;
+          width: 100%;
+      }
       }
 
       &.header-height-50 {

@@ -192,12 +192,13 @@
           </div>
 
         </div>
-        <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap " [columnMode]="ColumnMode.force"
-          [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [externalPaging]="true" [count]="totalRows"
-          [messages]="messages" [offset]="currentPage" [limit]="perPage" (page)="setPage($event)"
-          [virtualization]="false">
+        <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+          [selectionType]="SelectionType.checkbox" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+          [externalPaging]="true" [count]="totalRows" [offset]="currentPage" [limit]="perPage" (page)="setPage($event)">
+
+
           <ngx-datatable-column [sortable]="false" name="Stt" [width]="75" headerClass="text-center"
-            cellClass="d-flex justify-content-center align-items-center">
+            cellClass="d-flex justify-content-center ">
             <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
               <strong>{{ (currentPage * perPage) + rowIndex + 1 }}</strong>
             </ng-template>
@@ -210,20 +211,13 @@
 
           <ngx-datatable-column name="Thao tác" [width]="100" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
-              <span (click)="editUser(row.id, modalEditUser)" triggers="mouseenter:mouseleave" placement="right"><i
-                  data-feather="edit" class="text-primary cursor-pointer ml-50"></i></span>
+              <span (click)="editUser(row.id, modalEditUser)" ngbPopover="Cập nhật" triggers="mouseenter:mouseleave"
+                placement="right"><i data-feather="edit" class="text-primary cursor-pointer ml-50"></i></span>
 
-              <span (click)="lockUser(row.id)" *ngIf="row.status === 0 || row.status === 1"
-                ngbPopover="{{ 'ACTION.LOCK'| translate }}" triggers="mouseenter:mouseleave" placement="right"><i
-                  data-feather="lock" class="text-warning cursor-pointer ml-50"></i></span>
 
-              <span (click)="unlockUser(row.id)" *ngIf="row.status === 2" ngbPopover="{{ 'ACTION.UNLOCK'| translate }}"
-                triggers="mouseenter:mouseleave" placement="right"><i data-feather="unlock"
-                  class="text-warning cursor-pointer ml-50"></i></span>
 
-              <span (click)="deleteUser(row.id)" ngbPopover="{{ 'ACTION.DELETE'| translate }}"
-                triggers="mouseenter:mouseleave" placement="right"><i data-feather="trash"
-                  class="text-danger cursor-pointer ml-50"></i></span>
+              <span (click)="deleteUser(row.id)" ngbPopover="Xóa" triggers="mouseenter:mouseleave" placement="right"><i
+                  data-feather="trash" class="text-danger cursor-pointer ml-50"></i></span>
 
             </ng-template>
           </ngx-datatable-column>
@@ -298,7 +292,8 @@
 
           <ng-container *ngIf="currentLoginRole ==2">
             <ngx-datatable-column [sortable]="false" name="Kết quả test mới nhất" prop="" class="text-center"
-              [width]="200"><ng-template ngx-datatable-cell-template let-row="row">
+              cellClass="d-flex justify-content-center " [width]="200"><ng-template ngx-datatable-cell-template
+                let-row="row">
                 <span [title]="row.score" class="ng-star-inserted">{{ row.score}}</span>
               </ng-template></ngx-datatable-column>
           </ng-container>
@@ -324,6 +319,17 @@
               </ng-template>
             </ngx-datatable-column>
           </ng-container>
+
+          <!-- <ngx-datatable-footer>
+            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+              let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+              <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+                [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+              </datatable-pager>
+            </ng-template>
+          </ngx-datatable-footer> -->
         </ngx-datatable>
       </div>
     </section>
@@ -359,13 +365,14 @@
     <!-- Modal edit user-->
     <ng-template #modalEditUser let-modal>
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160">{{'CONTENT_HEADER.UPDATE_USER' | translate}}</h5>
+        <h5 class="modal-title" id="myModalLabel160">{{currentLoginRole == 2 ? "Cập nhật bệnh nhân" : "Cập nhật người
+          dùng"}}</h5>
         <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
-        <app-edit-user (afterEditUser)="afterEditUser()"></app-edit-user>
+        <app-edit-user (afterEditUser)="afterEditUser()" (closeModal)="afterCreateUser()"> </app-edit-user>
       </div>
     </ng-template>
     <!-- / Modal -->

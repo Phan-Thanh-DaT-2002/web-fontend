@@ -8,90 +8,142 @@
                     <div class="card-body">
                         <form [formGroup]="addUserForm" (ngSubmit)="editUser()">
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="login-name-column">{{ 'LABEL.USERNAME'| translate }} <span
+                                        <label for="login-name-column">Tài khoản<span
                                                 style="color: red">*</span></label>
                                         <input type="text" id="login-name-column" class="form-control"
-                                            placeholder="{{ 'LABEL.USERNAME'| translate }}" name="login-column"
-                                            formControlName="username" readonly />
+                                            placeholder="Nhập tài khoản" name="login-column" formControlName="username"
+                                            readonly />
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="full-name-column">{{ 'LABEL.FULLNAME'| translate }} <span
+                                        <label for="full-name-column">Tên đầy đủ<span
                                                 style="color: red">*</span></label>
                                         <input type="text" id="full-name-column" class="form-control"
-                                            placeholder="{{ 'LABEL.FULLNAME'| translate }}" name="fname-column"
-                                            formControlName="fullname"
-                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullname.errors }" />
-                                        <div *ngIf="addUserFormSubmitted && AddUserForm.fullname.errors"
+                                            placeholder="Nhập tên đầy đủ" name="fname-column" formControlName="fullName"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullName.errors }" />
+                                        <div *ngIf="addUserFormSubmitted && AddUserForm.fullName.errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="AddUserForm.fullname.errors.required">{{
-                                                'MESSAGE.USER_MANAGEMENT.FULLNAME_REQUIRE'| translate }}</div>
+                                            <div *ngIf="AddUserForm.fullName.errors.required">Bạn chưa nhập tên đầy đủ
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="email-column">{{ 'LABEL.EMAIL'| translate }} <span
+                                        <label for="email-column">Địa chỉ email <span
                                                 style="color: red">*</span></label>
                                         <input type="text" id="email-column" class="form-control"
-                                            placeholder="{{ 'LABEL.EMAIL'| translate }}" name="email-column"
-                                            formControlName="email"
+                                            placeholder="Nhập địa chỉ email" name="email-column" formControlName="email"
                                             [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.email.errors }" />
                                         <div *ngIf="addUserFormSubmitted && AddUserForm.email.errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="AddUserForm.email.errors.required">{{
-                                                'MESSAGE.USER_MANAGEMENT.EMAIL_REQUIRE'| translate }}</div>
-                                            <div *ngIf="AddUserForm.email.errors.pattern">{{
-                                                'MESSAGE.USER_MANAGEMENT.EMAIL_PARTERN'| translate }}</div>
+                                            <div *ngIf="AddUserForm.email.errors.required">Bạn chưa nhập địa chỉ email
+                                            </div>
+                                            <div *ngIf="AddUserForm.email.errors.pattern">địa chỉ email không hợp lệ
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="phone-column">{{ 'LABEL.PHONE'| translate }}</label>
+                                        <label for="phone-column">Số điện thoại</label>
                                         <input type="text" id="phone-column" class="form-control"
-                                            placeholder="{{ 'LABEL.PHONE'| translate }}" name="phone-column"
-                                            [maxlength]="10" formControlName="phoneNumber"
-                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phoneNumber.errors }" />
-                                        <div *ngIf="addUserFormSubmitted && AddUserForm.phoneNumber.errors"
+                                            placeholder="Nhập số điện thoại" name="phone-column" [maxlength]="10"
+                                            formControlName="phone"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phone.errors }" />
+                                        <div *ngIf="addUserFormSubmitted && AddUserForm.phone.errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="AddUserForm.phoneNumber.errors.pattern">{{
-                                                'MESSAGE.USER_MANAGEMENT.PHONE_PARTERN'| translate }}</div>
+                                            <div *ngIf="AddUserForm.phone.errors.pattern">Số điện thoại nhập không hợp
+                                                lệ</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+
+
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
-                                        <label for="company-column">{{ 'LABEL.ROLE'| translate }}<span
-                                                style="color: red">*</span></label>
-                                        <ng-select *ngIf="currentLang == 'vn'" [items]="listRole" bindLabel="roleName" [loading]="roleLoading"
-                                            formControlName="role" [multiple]="true"
-                                            placeholder="{{ 'LABEL.ROLE'| translate }}"
-                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.role.errors }">
+                                        <label for="phone-column">Ngày tháng năm sinh</label>
+                                        <input type="date" id="phone-column" class="form-control" placeholder=""
+                                            name="dob-column" [maxlength]="10" formControlName="dob"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.dob.errors }" />
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="role-column">Giới tính</label>
+                                        <ng-select id="role-column" [items]="listGender" bindLabel="label"
+                                            bindValue="id" [loading]="roleLoading" formControlName="gender"
+                                            placeholder="Chọn giới tính" [multiple]="false"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.gender.errors }">
                                         </ng-select>
-                                        <ng-select *ngIf="currentLang == 'en'" [items]="listRole" bindLabel="roleNameEn" [loading]="roleLoading"
-                                            formControlName="role" [multiple]="true"
-                                            placeholder="{{ 'LABEL.ROLE'| translate }}"
-                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.role.errors }">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="phone-column">Địa chỉ</label>
+                                        <input type="text" id="phone-column" class="form-control"
+                                            placeholder="Nhập địa chỉ" name="phone-column" formControlName="address"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.address.errors }" />
+                                    </div>
+                                </div>
+
+
+
+                                <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="role-column">Chức vụ<span style="color: red">*</span></label>
+                                        <ng-select id="role-column" [items]="listRole" bindLabel="label" bindValue="id"
+                                            [loading]="roleLoading" formControlName="roles" placeholder="Chọn chức vụ"
+                                            [multiple]="false"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.roles.errors }">
                                         </ng-select>
-                                        <div *ngIf="addUserFormSubmitted && AddUserForm.role.errors"
+
+                                        <div *ngIf="addUserFormSubmitted && AddUserForm.roles.errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="AddUserForm.role.errors.required">{{
-                                                'MESSAGE.USER_MANAGEMENT.ROLE_REQUIRE'| translate }}</div>
+                                            <div *ngIf="AddUserForm.roles.errors.required">Bạn chưa chọn chức vụ</div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="col-12">
-                                    <button type="submit" rippleEffect class="btn btn-primary mr-1">{{ 'ACTION.SAVE'|
-                                        translate
-                                        }}</button>
-                                    <button type="button" rippleEffect class="btn btn-outline-secondary"
-                                        (click)="resetForm()">{{
-                                        'ACTION.RESET'| translate }}</button>
+
+
+                                <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="phone-column">Bác sĩ theo dõi</label>
+                                        <ng-select id="role-column" [items]="listIdDoctor" bindLabel="fullName"
+                                            bindValue="id" [loading]="roleLoading" formControlName="idDoctor"
+                                            placeholder="Chọn Bác sĩ theo doic bệnh nhân" [multiple]="false"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.idDoctor.errors }">
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="currentLoginRole ==2" class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        <label for="phone-column">Kết quả test của lần gần nhất</label>
+                                        <input type="text" id="phone-column" class="form-control"
+                                            placeholder="Nhập kết quả test của lần gần nhất" name="phone-column"
+                                            formControlName="score"
+                                            [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.score.errors }" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 d-flex justify-content-center">
+                                    <button type="submit" rippleEffect class="btn btn-primary mr-1">Cập nhật</button>
+                                    <button type="button" (click)="resetForm()" rippleEffect
+                                        class="btn btn-outline-secondary mr-1">Làm mới
+                                        form cập nhật</button>
+                                    <button type="button" rippleEffect class="btn btn-danger"
+                                        (click)="closeForm()">Đóng</button>
+
                                 </div>
                             </div>
                         </form>

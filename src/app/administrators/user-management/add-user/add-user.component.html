@@ -73,9 +73,22 @@
                         [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phone.errors }" />
                       <div *ngIf="addUserFormSubmitted && AddUserForm.phone.errors" class="invalid-feedback">
                         <div *ngIf="AddUserForm.phone.errors.pattern">Số điện thoại chưa đúng định dạng</div>
+                        <div *ngIf="AddUserForm.phone.errors.required">Bạn chưa nhập số điện thoại</div>
                       </div>
                     </div>
                   </div>
+
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="phone-column">Ngày tháng năm sinh</label>
+                      <input type="date" id="phone-column" class="form-control" placeholder="" name="dob-column"
+                        [maxlength]="10" formControlName="dob"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.dob.errors }" />
+
+                    </div>
+                  </div>
+
 
                   <div class="col-md-4 col-12">
                     <div class="form-group">
@@ -89,8 +102,8 @@
                   <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
                     <div class="form-group">
                       <label for="role-column">Chức vụ<span style="color: red">*</span></label>
-                      <ng-select id="role-column" [items]="listRole" bindLabel="label" [loading]="roleLoading"
-                        formControlName="roles" placeholder="Chọn chức vụ" [multiple]="false"
+                      <ng-select id="role-column" [items]="listRole" bindLabel="label" bindValue="id"
+                        [loading]="roleLoading" formControlName="roles" placeholder="Chọn chức vụ" [multiple]="false"
                         [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.roles.errors }">
                       </ng-select>
 
