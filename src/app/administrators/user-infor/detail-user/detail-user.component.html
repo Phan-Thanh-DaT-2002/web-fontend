@@ -18,8 +18,8 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="full-name-column">Tên đầy đủ<span style="color: red">*</span></label>
-                    <input type="text" id="full-name-column" class="form-control" placeholder="Nhập tên đầy đủ"
-                      name="fname-column" formControlName="fullName"
+                    <input type="text" disabled="true" id="full-name-column" class="form-control"
+                      placeholder="Nhập tên đầy đủ" name="fname-column" formControlName="fullName"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullName.errors }" />
                     <div *ngIf="addUserFormSubmitted && AddUserForm.fullName.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.fullName.errors.required">Bạn chưa nhập tên đầy đủ
@@ -30,8 +30,8 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="email-column">Địa chỉ email <span style="color: red">*</span></label>
-                    <input type="text" id="email-column" class="form-control" placeholder="Nhập địa chỉ email"
-                      name="email-column" formControlName="email"
+                    <input type="text" disabled="true" id="email-column" class="form-control"
+                      placeholder="Nhập địa chỉ email" name="email-column" formControlName="email"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.email.errors }" />
                     <div *ngIf="addUserFormSubmitted && AddUserForm.email.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.email.errors.required">Bạn chưa nhập địa chỉ email
@@ -58,8 +58,8 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="phone-column">Ngày tháng năm sinh</label>
-                    <input type="date" id="phone-column" class="form-control" placeholder="" name="dob-column"
-                      [maxlength]="10" formControlName="dob"
+                    <input type="date" disabled="true" id="phone-column" class="form-control" placeholder=""
+                      name="dob-column" [maxlength]="10" formControlName="dob"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.dob.errors }" />
 
                   </div>
@@ -69,8 +69,9 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="role-column">Giới tính</label>
-                    <ng-select id="role-column" [items]="listGender" bindLabel="label" bindValue="id"
-                      [loading]="roleLoading" formControlName="gender" placeholder="Chọn giới tính" [multiple]="false"
+                    <ng-select id="role-column" disabled="true" [readonly]="true" [items]="listGender" bindLabel="label"
+                      bindValue="id" [loading]="roleLoading" formControlName="gender" placeholder="Chọn giới tính"
+                      [multiple]="false"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.gender.errors }">
                     </ng-select>
                   </div>
@@ -80,7 +81,7 @@
                 <div class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="phone-column">Địa chỉ</label>
-                    <input type="text" id="phone-column" class="form-control" placeholder="Nhập địa chỉ"
+                    <input type="text" disabled="true" id="phone-column" class="form-control" placeholder="Nhập địa chỉ"
                       name="phone-column" formControlName="address"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.address.errors }" />
                   </div>
@@ -91,7 +92,7 @@
                 <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="role-column">Chức vụ<span style="color: red">*</span></label>
-                    <ng-select id="role-column" [items]="listRole" bindLabel="label" bindValue="id"
+                    <ng-select id="role-column" disabled="true" [items]="listRole" bindLabel="label" bindValue="id"
                       [loading]="roleLoading" formControlName="roles" placeholder="Chọn chức vụ" [multiple]="false"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.roles.errors }">
                     </ng-select>
@@ -106,9 +107,9 @@
                 <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="phone-column">Bác sĩ theo dõi</label>
-                    <ng-select id="role-column" [items]="listIdDoctor" bindLabel="fullName" bindValue="id"
-                      [loading]="roleLoading" formControlName="idDoctor" placeholder="Chọn Bác sĩ theo doic bệnh nhân"
-                      [multiple]="false"
+                    <ng-select id="role-column" disabled="true" [items]="listIdDoctor" bindLabel="fullName"
+                      bindValue="id" [loading]="roleLoading" formControlName="idDoctor"
+                      placeholder="Chọn Bác sĩ theo doic bệnh nhân" [multiple]="false"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.idDoctor.errors }">
                     </ng-select>
                   </div>
@@ -117,7 +118,7 @@
                 <div *ngIf="currentLoginRole ==2" class="col-md-4 col-12">
                   <div class="form-group">
                     <label for="phone-column">Kết quả test của lần gần nhất</label>
-                    <input type="text" id="phone-column" class="form-control"
+                    <input type="text " disabled="true" id="phone-column" class="form-control"
                       placeholder="Nhập kết quả test của lần gần nhất" name="phone-column" formControlName="score"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.score.errors }" />
                   </div>
@@ -126,7 +127,8 @@
 
                 <div class="col-12 d-flex justify-content-center">
                   <button type="submit" rippleEffect class="btn btn-primary mr-1">Cập nhật</button>
-                  <button type="button" (click)="resetForm()" rippleEffect class="btn btn-outline-secondary mr-1">Làm
+                  <button type="button" (click)="resetForm()" disabled="true" rippleEffect
+                    class="btn btn-outline-secondary mr-1">Làm
                     mới
                     form cập nhật</button>
 

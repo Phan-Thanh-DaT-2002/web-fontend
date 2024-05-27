@@ -20,6 +20,7 @@ export class DetailUserComponent implements OnInit {
   public addUserFormSubmitted = false;
   public data;
   public userId;
+  isDisabled: boolean = true;
   public status;
   public loginId;
   public currentLoginId;
