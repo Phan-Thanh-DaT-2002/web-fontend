@@ -173,7 +173,8 @@ public listScore = [
       centered: true,
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
-  }
+  } 
+
 
   deleteUser(id:number){
     Swal.fire({
@@ -420,7 +421,32 @@ public listScore = [
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
+  
+  // editUser(userId, modalSM){
+  //   window.localStorage.removeItem("userId");
+  //   window.localStorage.setItem("userId", userId);
+  //   this.modalService.open(modalSM, {
+  //     centered: true,
+  //     size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+  //   });
+  // }
 
+  // modal Open Small
+  openModalTestResultsUser(userId, modalSM) {
+
+    window.sessionStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+
+  afterTestResultsUser(){
+    this.modalService.dismissAll();
+    this.currentPage = 0
+    this.searchUser();
+  }  
+  
   afterCreateUser(){
     this.modalService.dismissAll();
     this.currentPage = 0

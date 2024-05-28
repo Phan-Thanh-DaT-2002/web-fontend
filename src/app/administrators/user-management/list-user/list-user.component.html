@@ -214,7 +214,9 @@
               <span (click)="editUser(row.id, modalEditUser)" ngbPopover="Cập nhật" triggers="mouseenter:mouseleave"
                 placement="right"><i data-feather="edit" class="text-primary cursor-pointer ml-50"></i></span>
 
-
+              <span *ngIf="currentLoginRole ==2" (click)="openModalTestResultsUser(row.id,ModalTestResultsUse)"
+                ngbPopover="Xem kết quả test" triggers="mouseenter:mouseleave" placement="right"><i data-feather="book"
+                  class="text-danger cursor-pointer ml-50"></i></span>
 
               <span (click)="deleteUser(row.id)" ngbPopover="Xóa" triggers="mouseenter:mouseleave" placement="right"><i
                   data-feather="trash" class="text-danger cursor-pointer ml-50"></i></span>
@@ -373,6 +375,22 @@
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
         <app-edit-user (afterEditUser)="afterEditUser()" (closeModal)="afterCreateUser()"> </app-edit-user>
+      </div>
+    </ng-template>
+
+
+    <!-- Modal openModalTestResultsUser user-->
+    <ng-template #ModalTestResultsUse let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel160">lịch sử chuẩn đoán</h5>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" tabindex="0" ngbAutofocus>
+        <app-test-resultes-user (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
+          (closeModal)="afterTestResultsUser()">
+        </app-test-resultes-user>
       </div>
     </ng-template>
     <!-- / Modal -->

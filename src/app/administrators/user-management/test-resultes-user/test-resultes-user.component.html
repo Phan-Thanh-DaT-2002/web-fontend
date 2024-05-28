@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <div class="d-flex align-items-center m-1">
+        <label class="d-flex align-items-center">
+          <select class="form-control mx-25" [(ngModel)]="perPage" (change)="changePerpage()">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </label>
+        <label class="d-flex mr-2">Tổng trang: <span class="label-record">{{
+            totalPage }}</span></label>
+        <label class="d-flex mr-2">Tổng bản ghi: <span class="label-record">{{
+            totalRows }}</span></label>
+      </div>
+    </div>
+
+  </div>
+  <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap " [columnMode]="ColumnMode.force"
+    [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [externalPaging]="true" [count]="totalRows"
+    [offset]="currentPage" [limit]="perPage" (page)="setPage($event)" [virtualization]="false"
+    cellClass="d-flex justify-content-center ">
+
+
+
+
+    <ngx-datatable-column [sortable]="false" name="Lần thứ" prop="" class="text-center" headerClass="text-center"
+      cellClass="d-flex justify-content-center " [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <span [title]="row.numberTest" class="ng-star-inserted">{{ row.numberTest}}</span>
+      </ng-template></ngx-datatable-column>
+
+    <ngx-datatable-column [sortable]="false" name="Kết quả" prop="" class="text-center" [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <span [title]="row.score" class="ng-star-inserted">{{ row.score}} điểm</span>
+      </ng-template></ngx-datatable-column>
+
+    <ngx-datatable-column [sortable]="false" name="chuẩn đoán" prop="" class="text-center" [width]="250">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <span [title]="row.note" class="ng-star-inserted cell-content">{{ row.note}}</span>
+      </ng-template></ngx-datatable-column>
+
+    <ngx-datatable-column [sortable]="false" name="Thời gian" prop="" class="text-center" headerClass="text-center"
+      cellClass="d-flex justify-content-center " [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <span [title]="row.time" class="ng-star-inserted">{{ row.time}} phút</span>
+      </ng-template></ngx-datatable-column>
+
+
+
+    <ngx-datatable-column [sortable]="false" name="Ngày thực hiện" prop="" class="text-center" [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row">
+        <span [title]="row.dayTest" class="ng-star-inserted">{{ row.dayTest}}</span>
+      </ng-template></ngx-datatable-column>
+
+
+
+
+
+
+    <ngx-datatable-footer>
+      <ng-template [sortable]="false" ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+        let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage"
+          [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
+          (change)="table.onFooterPage($event);onchange($event); ">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>

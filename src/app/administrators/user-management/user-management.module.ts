@@ -13,23 +13,13 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { TestResultesUserComponent } from './test-resultes-user/test-resultes-user.component';
 const routes: Routes = [
   {
     path: 'list-user',
     component: ListUserComponent,
   },
-  {
-    path: 'add-user',
-    component: AddUserComponent,
-  },
-  {
-    path: 'detail-user',
-    component: DetailUserComponent,
-  },
-  {
-    path: 'edit-user',
-    component: EditUserComponent,
-  }
+
 ];
 
 @NgModule({
@@ -37,7 +27,8 @@ const routes: Routes = [
     ListUserComponent,
     AddUserComponent,
     DetailUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    TestResultesUserComponent
   ],
   imports: [
     NgSelectModule,
