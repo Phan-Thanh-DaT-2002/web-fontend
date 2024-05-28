@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./detail-user.component.scss']
 })
 export class DetailUserComponent implements OnInit {
-
+  checkUpdate = true;
   public currentLoginRole
   public idDoctor
   public contentHeader: object;
@@ -92,6 +92,8 @@ public listIdDoctor =[]
             confirmButtonText: "Đồng ý",
           }).then((result) => {
             // this.afterEditUser.emit('completed');
+            window.location.reload();
+
           });
         } else {
           Swal.fire({
@@ -113,9 +115,7 @@ public listIdDoctor =[]
   get AddUserForm(){
     return this.addUserForm.controls;
   }
-  resetForm(){
-    this.fillForm()
-  }
+
 
   getIdDoctor(){
     let params = {
@@ -253,5 +253,16 @@ console.log("this data", this.data);
     const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   
     return formattedDate;
+  }
+
+
+  changeStatusUpdate(){
+    this.checkUpdate = ! this.checkUpdate;
+  }
+
+  resetForm(){
+    this.fillForm();
+    this.checkUpdate = ! this.checkUpdate;
+
   }
 }
