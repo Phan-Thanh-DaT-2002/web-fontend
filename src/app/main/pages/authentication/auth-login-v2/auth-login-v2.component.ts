@@ -101,7 +101,6 @@ export class AuthLoginV2Component implements OnInit {
           if(currentLoginRole == "3"){
             this._router.navigate(['/dashboard'])
             .then(() => {
-  
               window.location.reload();
             });
           }

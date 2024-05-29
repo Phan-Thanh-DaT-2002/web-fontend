@@ -171,6 +171,16 @@ public listScore = [
     window.localStorage.setItem("userId", userId);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  } 
+  callForTest(userId, modalSM){
+    window.localStorage.removeItem("userId");
+    window.localStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   } 
@@ -231,6 +241,7 @@ public listScore = [
     window.localStorage.setItem("userId", userId);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
@@ -418,6 +429,7 @@ public listScore = [
     window.sessionStorage.setItem("idDoctor", this.idDoctor);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
@@ -437,7 +449,20 @@ public listScore = [
     window.sessionStorage.setItem("userId", userId);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+
+
+  // modal Open Small
+ CallForTest(userId, modalSM) {
+
+    window.sessionStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
 

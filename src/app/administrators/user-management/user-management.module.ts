@@ -14,6 +14,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestResultesUserComponent } from './test-resultes-user/test-resultes-user.component';
+import { ResultesComponent } from '../call-for-test/resultes/resultes.component';
+import { CallForTestComponent } from '../call-for-test/call-for-test.component';
+import { MatSliderModule } from '@angular/material/slider';
 const routes: Routes = [
   {
     path: 'list-user',
@@ -28,10 +31,13 @@ const routes: Routes = [
     AddUserComponent,
     DetailUserComponent,
     EditUserComponent,
-    TestResultesUserComponent
+    TestResultesUserComponent,
+    CallForTestComponent,
+    ResultesComponent
   ],
   imports: [
     NgSelectModule,
+    MatSliderModule,
     RouterModule.forChild(routes),
     CommonModule,
     FormsModule,

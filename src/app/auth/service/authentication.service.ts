@@ -60,6 +60,8 @@ export class AuthenticationService {
       .then((data) => {
         Swal.close();
         let response = data;
+
+        
       })
       .catch((error) => {
        
@@ -181,6 +183,8 @@ export class AuthenticationService {
       .sendThisUserOnlined(params)
       .then((data) => {
         Swal.close();
+
+        
         let response = data;
       })
       .catch((error) => {
