@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { pathToFileURL } from 'url';
 import { resultsManagementModule } from './results-managerment/results-managerment.module';
 import { UserInfoManagementModule } from './user-infor/user-infor.module';
+import { AnswerForTestManagementModule } from './answer-for-test/answer-for-test-management.module';
 
 
 // routing
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'user-detail',
     loadChildren: () => import('./user-infor/user-infor.module').then(m => m.UserInfoManagementModule)
   },
+  
+  {
+    path: 'user-answer',
+    loadChildren: () => import('./answer-for-test/answer-for-test-management.module').then(m => m.AnswerForTestManagementModule)
+  },
 ]
 
 @NgModule({
@@ -37,6 +43,7 @@ const routes: Routes = [
     NgSelectModule,
     NgxDatatableModule,
     resultsManagementModule,
+    AnswerForTestManagementModule,
     UserInfoManagementModule,
     CommonModule,
     UserManagementModule,

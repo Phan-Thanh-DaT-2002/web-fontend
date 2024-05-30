@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="left-panel">
+    <video id="patient-video" autoplay></video>
+    <video id="doctor-video" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
+  </div>
+  <div class="right-panel">
+    <div class="test-area area">
+      <h2>Bài Test</h2>
+      {{ currentQuestion.question.que }}<br>
+      <button type="button">{{ currentQuestion.question.ans1 }}</button><br>
+      <button type="button">{{ currentQuestion.question.ans2 }}</button><br>
+      <button type="button">{{ currentQuestion.question.ans3 }}</button><br>
+      <button type="button">{{ currentQuestion.question.ans4 }}</button>
+
+
+    </div>
+    <div class="controls">
+      <button (click)="toggleCamera()">Bật/tắt camera</button>
+      <button (click)="toggleMic()">Bật/tắt micrô</button>
+      <button (click)="previousQuestion()">Quay lại</button>
+      <button (click)="nextQuestion()">Câu hỏi tiếp theo</button>
+      <!-- <button (click)="openModalResultsUser(openModalCallForTest)">Kết thúc cuộc gọi</button> -->
+    </div>
+  </div>
+</div>
+
+
+<ng-template #openModalCallForTest let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Đánh giá</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <app-resultes (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
+      (closeModal)="afterTestResultsUser()">
+    </app-resultes>
+  </div>
+</ng-template>

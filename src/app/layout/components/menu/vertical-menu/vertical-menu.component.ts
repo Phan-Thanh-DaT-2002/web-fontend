@@ -126,11 +126,12 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
    */
   toggleSidebar(): void {
     this._coreSidebarService.getSidebarRegistry('menu').toggleOpen();
-   
-debugger
+    this.isSidebarOpen = !this.isSidebarOpen;
+
 
     
   }
+  isSidebarOpen: boolean = false;
   xcheck = true
   /**
    * Toggle sidebar collapsed status
@@ -138,7 +139,7 @@ debugger
   toggleSidebarCollapsible(): void {
     // Get the current menu state
 
-   
+    this.isSidebarOpen = !this.isSidebarOpen;
     if(this.xcheck){
       document.getElementById('myDiv1') ? document.getElementById('myDiv1').style.display = 'none' : "";
       document.getElementById('myDiv2') ? document.getElementById('myDiv2').style.display = 'none' :"";

@@ -1,25 +1,32 @@
+import { User } from './../../../auth/models/user';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-import { UserManagementService } from '../user-management/user-management.service';
+import { AnswerForTestManagementService } from '../answer-for-test-management.service';
 import { Peer } from "peerjs";
+import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
+import { timeout } from 'rxjs/operators';
+
 
 interface Question {
   question: any;
 }
 @Component({
-  selector: 'app-call-for-test',
-  templateUrl: './call-for-test.component.html',
-  styleUrls: ['./call-for-test.component.scss']
+  selector: 'app-answer',
+  templateUrl: './answer.component.html',
+  styleUrls: ['./answer.component.scss']
 })
-export class CallForTestComponent implements OnInit {
+export class AnswerComponent implements OnInit {
+
+
   @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
   @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
-  currentQuestionIndex: number = 0;
-  question: string;
-  currentPage
-  perPage = 10
+  public currentQuestionIndex: number = 0;
+  public question: string;
+  public currentPage
+  public perPage = 10;
+  public peer : any;
   questions: Question[] = [
     { question: { 
           que:'Hôm nay là ngày bao nhiêu?',
@@ -57,49 +64,68 @@ export class CallForTestComponent implements OnInit {
       ans4: "Câu trả lời 4"
     }  }
   ];
-
-  public peer : any;
-  public conn;
-  public data;
-  public idRemote;
   currentQuestion: Question;
-public userId;
-  constructor(     private service: UserManagementService,private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
+public userId : number;
+  constructor(     private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
     this.peer = new Peer();
+    this.userId =   Number(window.localStorage.getItem("currentLoginId"));
+    console.log("this.userId ",this.userId);
+    this.putPeerJsUser();
 
-    this.userId =window.sessionStorage.getItem("userId" );
-console.log("this.userId ",this.userId);
-this.getUserDetail();
+    // Receive messages
+    this.peer.on("connection", (conn) => {
+      conn.on("data", (data) => {
+        // Will print 'hi!'
+        console.log(data);
+        if(data == "pre"){
+          this.previousQuestion() 
+        }     
+        
+        if(data == "next"){
+          this.nextQuestion() 
+        }
+      });
+      conn.on("open", () => {
+        conn.send("hello!");
+      });
+    });
+
 
   }
-  async getUserDetail(){
-    if(this.userId !== ''){
+  async putPeerJsUser(){
+    var idPeerjs
+    await this.peer.on('open', function (id) {
+      
+        idPeerjs = id
+      console.log('My peer ID is: ' + id);
+
+    });
+
+    setTimeout(() => {
+    var content = idPeerjs
+
       let params = {
-        method: "GET"
+        method: "POST",
+       content:content
       };
+      console.log("paramsparams",params);
+      
       Swal.showLoading();
-      await this.service
-        .detailUser(params, this.userId)
+      this.service
+        .putPeerJsUser(params,)
         .then((data) => {
           Swal.close();
           let response = data;
-          if (response.code === 0) {
-            this.data = response.content;
-            this.idRemote =this.data.idPeerjs
-console.log("this data", this.data);
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: response.errorMessages,
-            });
-          }
+      
         })
         .catch((error) => {
           Swal.close();
+         
         });
-    }
+      }, 3000);
+
   }
   onSliderChange(event: any) {
     this.currentQuestionIndex = event.value;
@@ -127,14 +153,6 @@ console.log("this data", this.data);
   }
 
   nextQuestion() {
-
-    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
-    // console.log("idRemote",idRemote);
-    
-    this.conn = this.peer.connect(this.idRemote);
-    this.conn.on("open", () => {
-      this.conn.send("next");
-    });
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -142,14 +160,6 @@ console.log("this data", this.data);
   }
 
   previousQuestion() {
-
-    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
-    // console.log("idRemote",idRemote);
-    
-    this.conn = this.peer.connect(this.idRemote);
-    this.conn.on("open", () => {
-      this.conn.send("pre");
-    });
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -203,25 +213,28 @@ console.log("this data", this.data);
 
 
       
-      let params = {
-        method: "GET",
-        currentPage: this.currentPage, 
-        perPage: this.perPage
-      };
-      console.log("paramsparams",params);
+      // let params = {
+      //   method: "GET",
+      //   currentPage: this.currentPage, 
+      //   perPage: this.perPage
+      // };
+      // console.log("paramsparams",params);
       
-      Swal.showLoading();
-      this.service
-        .searchUser(params)
-        .then((data) => {
-          Swal.close();
-          let response = data;
+      // Swal.showLoading();
+      // this.service
+      //   // .searchUser(params)
+      //   .then((data) => {
+      //     Swal.close();
+      //     let response = data;
       
-        })
-        .catch((error) => {
-          Swal.close();
+      //   })
+      //   .catch((error) => {
+      //     Swal.close();
          
-        });
+      //   });
     }
+
+     
+
     
 }
