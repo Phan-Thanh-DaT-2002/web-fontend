@@ -1,7 +1,7 @@
 <div class="container">
   <div class="left-panel">
-    <video id="patient-video" autoplay></video>
-    <video id="doctor-video" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
+    <video #patientVideo autoplay> </video>
+    <video #doctorVideo class="doctor-video" autoplay muted (click)="swapVideos()"></video>
   </div>
   <div class="right-panel">
     <div class="test-area area">

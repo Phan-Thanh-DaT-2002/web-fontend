@@ -18,10 +18,10 @@ interface Question {
   styleUrls: ['./answer.component.scss']
 })
 export class AnswerComponent implements OnInit {
-
-
-  @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
-  @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
+  @ViewChild('patientVideo', { static: false }) patientVideo: ElementRef;
+  @ViewChild('doctorVideo') doctorVideo: ElementRef;
+  // @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
+  // @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
   public currentQuestionIndex: number = 0;
   public question: string;
   public currentPage
@@ -124,7 +124,7 @@ public userId : number;
           Swal.close();
          
         });
-      }, 3000);
+      }, 7000);// thời gian này nó sẽ thay đổi dựa theo tốc độ mạng 3-7s
 
   }
   onSliderChange(event: any) {
@@ -174,6 +174,7 @@ public userId : number;
   }
 
   swapVideos() {
+    
     const patientVideoElement = this.patientVideo.nativeElement;
     const doctorVideoElement = this.doctorVideo.nativeElement;
 
@@ -190,7 +191,7 @@ public userId : number;
     } else {
       doctorVideoElement.classList.add('doctor-video');
       doctorVideoElement.style.position = 'absolute';
-      doctorVideoElement.style.width = '20%';
+      doctorVideoElement.style.width = '80%';
     }
   }
 

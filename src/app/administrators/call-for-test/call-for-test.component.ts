@@ -68,7 +68,23 @@ public userId;
 
   ngOnInit(): void {
     this.peer = new Peer();
-
+    // Receive messages
+    this.peer.on("connection", (conn) => {
+      conn.on("data", (data) => {
+        // Will print 'hi!'
+        console.log(data);
+        if(data == "pre"){
+          this.previousQuestion() 
+        }     
+        
+        if(data == "next"){
+          this.nextQuestion() 
+        }
+      });
+      conn.on("open", () => {
+        conn.send("hello!");
+      });
+    });
     this.userId =window.sessionStorage.getItem("userId" );
 console.log("this.userId ",this.userId);
 this.getUserDetail();

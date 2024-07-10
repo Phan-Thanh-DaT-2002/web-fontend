@@ -141,10 +141,10 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
 
     this.isSidebarOpen = !this.isSidebarOpen;
     if(this.xcheck){
-      document.getElementById('myDiv1') ? document.getElementById('myDiv1').style.display = 'none' : "";
-      document.getElementById('myDiv2') ? document.getElementById('myDiv2').style.display = 'none' :"";
-      document.getElementById('myDiv3') ? document.getElementById('myDiv3').style.display = 'none' :"";
-      document.getElementById('myDiv4') ? document.getElementById('myDiv4').style.display = 'none' :"";
+      document.getElementById('myDiv1') ? document.getElementById('myDiv1').style.display = 'block' : "";
+      document.getElementById('myDiv2') ? document.getElementById('myDiv2').style.display = 'block' :"";
+      document.getElementById('myDiv3') ? document.getElementById('myDiv3').style.display = 'block' :"";
+      document.getElementById('myDiv4') ? document.getElementById('myDiv4').style.display = 'block' :"";
       this.xcheck=!this.xcheck
     }else{
       document.getElementById('myDiv1') ? document.getElementById('myDiv1').style.display = 'block' :"";
