@@ -19,6 +19,7 @@ body {
   align-items: center;
   background-color: #f0f0f0;
   border-right: 1px solid #ccc;
+  transition: flex 0.5s ease-in-out; 
 }
 .left-panel  .patient-video {
   width: 90%;

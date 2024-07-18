@@ -19,7 +19,12 @@ export class CallForTestComponent implements OnInit {
   currentQuestionIndex: number = 0;
   question: string;
   currentPage
+   isCheckSnap = 1
+  otherCamera = 0
   perPage = 10
+  localStream = null;
+  isCameraOn = false;
+  isMicOn = false;
   questions: Question[] = [
     { question: { 
           que:'Hôm nay là ngày bao nhiêu?',
@@ -85,11 +90,20 @@ public userId;
         conn.send("hello!");
       });
     });
+
+
+
+
     this.userId =window.sessionStorage.getItem("userId" );
 console.log("this.userId ",this.userId);
 this.getUserDetail();
 
   }
+
+
+
+
+
   async getUserDetail(){
     if(this.userId !== ''){
       let params = {
@@ -104,7 +118,14 @@ this.getUserDetail();
           if (response.code === 0) {
             this.data = response.content;
             this.idRemote =this.data.idPeerjs
-console.log("this data", this.data);
+            console.log("this data", this.data);
+
+            this.openStream()
+            .then(stream => {
+              this.playStream("doctorVideo", stream);
+              const call = this.peer.call(this.idRemote, stream);
+              call.on("stream", doctorVideo => this.playStream("doctorVideo", doctorVideo));
+            })
           } else {
             Swal.fire({
               icon: "error",
@@ -122,14 +143,45 @@ console.log("this data", this.data);
     this.currentQuestion = this.questions[this.currentQuestionIndex];
   }
   
-  toggleCamera() {
-    // Implement camera toggle functionality
-    alert('Toggling camera');
+  async  toggleCamera() {
+    if (this.isCameraOn) {
+      // Dừng tất cả các video track
+      if (this.localStream) {
+        this.localStream.getVideoTracks().forEach(track => track.stop());
+        const video = document.getElementById('doctorVideo');
+        if (video instanceof HTMLVideoElement) {
+          video.srcObject = null;
+        } else {
+          console.error('Element with id localVideo not found or is not a video element.');
+        }
+        this.isCameraOn = false;
+      }
+    } else {
+      // Bật camera
+      try {
+        this.localStream = await this.openStream();
+        this.playStream('doctorVideo', this.localStream);
+        this.isCameraOn = true;
+      } catch (err) {
+        console.error('Error accessing media devices.', err);
+      }
+    }
   }
 
-  toggleMic() {
-    // Implement mic toggle functionality
-    alert('Toggling microphone');
+  async  toggleMic() {
+    if (this.localStream) {
+      this.localStream.getAudioTracks().forEach(track => track.enabled = !this.isMicOn);
+      this.isMicOn = !this.isMicOn;
+    } else {
+      try {
+        this.localStream = await this.openStream();
+        this.playStream('doctorVideo', this.localStream);
+        this.localStream.getAudioTracks().forEach(track => track.enabled = this.isMicOn);
+        this.isMicOn = true;
+      } catch (err) {
+        console.error('Error accessing media devices.', err);
+      }
+    }
   }
 
   recordScreen() {
@@ -157,6 +209,26 @@ console.log("this data", this.data);
     }
   }
 
+
+  openCamera() {
+    this.conn = this.peer.connect(this.idRemote);
+    this.conn.on("open", () => {
+      this.conn.send("toggle");
+      this.otherCamera = 1
+    });
+
+  }
+
+  closeCamera() {
+    this.conn = this.peer.connect(this.idRemote);
+    this.conn.on("open", () => {
+      this.conn.send("toggle");
+      this.otherCamera = 0
+    });
+
+  }
+
+
   previousQuestion() {
 
     // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
@@ -180,6 +252,7 @@ console.log("this data", this.data);
   }
 
   swapVideos() {
+    
     const patientVideoElement = this.patientVideo.nativeElement;
     const doctorVideoElement = this.doctorVideo.nativeElement;
 
@@ -187,16 +260,14 @@ console.log("this data", this.data);
     const tempSrc = patientVideoElement.srcObject;
     patientVideoElement.srcObject = doctorVideoElement.srcObject;
     doctorVideoElement.srcObject = tempSrc;
-
+  
     // Swap sizes
-    if (doctorVideoElement.classList.contains('doctor-video')) {
-      doctorVideoElement.classList.remove('doctor-video');
-      doctorVideoElement.style.position = 'static';
+    if (doctorVideoElement.classList.contains('doctorVideo') && this.isCheckSnap == 1) {
+      doctorVideoElement.classList.remove('doctorVideo');
+      // doctorVideoElement.style.position = 'static';
       doctorVideoElement.style.width = '90%';
-    } else {
-      doctorVideoElement.classList.add('doctor-video');
-      doctorVideoElement.style.position = 'absolute';
-      doctorVideoElement.style.width = '20%';
+      doctorVideoElement.style.height = '60%';
+      this.isCheckSnap = 0
     }
   }
 
@@ -239,5 +310,38 @@ console.log("this data", this.data);
          
         });
     }
+ 
     
+    // run stream local
+    async  openStream() {
+      const config = { audio: true, video: true };
+      return await navigator.mediaDevices.getUserMedia(config);
+    }
+
+
+    // async  openVideoStream() {
+    //   const config = { video: true };
+    //   return await navigator.mediaDevices.getUserMedia(config);
+    // }
+    
+    // async  openAudioStream() {
+    //   const config = { audio: true };
+    //   return await navigator.mediaDevices.getUserMedia(config);
+    // }
+
+    
+
+
+     playStream(idVideo, stream) {
+      const video = document.getElementById(idVideo);
+      if (video instanceof HTMLVideoElement) {
+        console.log("video", video);
+        video.srcObject = stream;
+        video.play();
+      } else {
+        console.error(`Element with id ${idVideo} not found or is not a video element.`);
+      }
+    }
+
+
 }

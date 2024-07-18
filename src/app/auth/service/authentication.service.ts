@@ -124,13 +124,13 @@ export class AuthenticationService {
               // })
               }
             }
-            setTimeout(() => {
-              this._toastrService.success(
-                'You have successfully logged in',
-                '👋 Welcome ' + '!',
-                { toastClass: 'toast ngx-toastr', closeButton: true }
-              );
-            }, 2500);
+            // setTimeout(() => {
+            //   this._toastrService.success(
+            //     'You have successfully logged in',
+            //     '👋 Welcome ' + '!',
+            //     { toastClass: 'toast ngx-toastr', closeButton: true }
+            //   );
+            // }, 2500);
             // notify
             this.currentUserSubject.next(userx);
           }

@@ -19,7 +19,7 @@ interface Question {
 })
 export class AnswerComponent implements OnInit {
   @ViewChild('patientVideo', { static: false }) patientVideo: ElementRef;
-  @ViewChild('doctorVideo') doctorVideo: ElementRef;
+  // @ViewChild('doctorVideo') doctorVideo: ElementRef;
   // @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
   // @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
   public currentQuestionIndex: number = 0;
@@ -27,6 +27,8 @@ export class AnswerComponent implements OnInit {
   public currentPage
   public perPage = 10;
   public peer : any;
+  isCheck = true;
+
   questions: Question[] = [
     { question: { 
           que:'Hôm nay là ngày bao nhiêu?',
@@ -64,36 +66,79 @@ export class AnswerComponent implements OnInit {
       ans4: "Câu trả lời 4"
     }  }
   ];
+  @ViewChild("doctorVideo")  doctorVideo: any;
   currentQuestion: Question;
-public userId : number;
+  public userId : number;
   constructor(     private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
     this.peer = new Peer();
-    this.userId =   Number(window.localStorage.getItem("currentLoginId"));
-    console.log("this.userId ",this.userId);
+    this.userId = Number(window.localStorage.getItem("currentLoginId"));
+    console.log("this.userId ", this.userId);
     this.putPeerJsUser();
+  
+    // // Answer call
+    // this.peer.on("call", (call) => {
+    //   this.openStream()
+    //   .then((stream) => {
+    //     debugger
+    //     call.answer(stream); // Answer the call with an A/V stream.
+    //     this.playStream("remote_video", stream)
+    //     call.on("stream", (remoteStream) => {
+    //       this.playStream("doctorVideo", remoteStream); // Play the remote video stream.
+    //     });
+    //   });
+    // });
+    let video = this.doctorVideo.nativeElement;
+    var n = <any>navigator;
+
+    n.getUserMedia =
+      n.getUserMedia ||
+      n.webkitGetUserMedia ||
+      n.mozGetUserMedia ||
+      n.msGetUserMedia;
+
+    this.peer.on("call", function(call) {
+      n.getUserMedia(
+        { video: true, audio: true },
+        function(stream) {
+          call.answer(stream);
+          call.on("stream", function(remotestream) {
+            video.src = URL.createObjectURL(remotestream);
+            video.play();
+          });
+        },
+        function(err) {
+          console.log("Failed to get stream", err);
+        }
+      );
+    });
+
 
     // Receive messages
     this.peer.on("connection", (conn) => {
       conn.on("data", (data) => {
         // Will print 'hi!'
         console.log(data);
-        if(data == "pre"){
-          this.previousQuestion() 
-        }     
-        
-        if(data == "next"){
-          this.nextQuestion() 
+        if (data == "pre") {
+          this.previousQuestion();
+        }
+        if (data == "next") {
+          this.nextQuestion();
+        }
+        if (data == "toggle") {
+          this.openVideos();
         }
       });
+  
       conn.on("open", () => {
         conn.send("hello!");
       });
     });
-
-
   }
+
+  
+
   async putPeerJsUser(){
     var idPeerjs
     await this.peer.on('open', function (id) {
@@ -173,7 +218,7 @@ public userId : number;
     }
   }
 
-  swapVideos() {
+  openVideos() {
     
     const patientVideoElement = this.patientVideo.nativeElement;
     const doctorVideoElement = this.doctorVideo.nativeElement;
@@ -184,16 +229,38 @@ public userId : number;
     doctorVideoElement.srcObject = tempSrc;
 
     // Swap sizes
-    if (doctorVideoElement.classList.contains('doctor-video')) {
-      doctorVideoElement.classList.remove('doctor-video');
-      doctorVideoElement.style.position = 'static';
+
+    var leftPanel = document.querySelector('.left-panel') as HTMLDivElement;
+    // console.log("leftPanel",leftPanel);
+
+    
+    
+    var doctorVideo = document.querySelector('.doctor-video') as HTMLDivElement;
+    if(doctorVideo){
+    console.log("doctorVideo",doctorVideo);
+
+      // doctorVideo.style.flex = '5';
+    }
+
+    if (doctorVideoElement.classList.contains('doctor-video') && this.isCheck == true) {
+      if(leftPanel){
+        leftPanel.style.flex = '5';
+      }
+      // doctorVideoElement.style.position = 'static';
       doctorVideoElement.style.width = '90%';
+      doctorVideoElement.style.height = '60%';
+      this.isCheck = false;
     } else {
-      doctorVideoElement.classList.add('doctor-video');
-      doctorVideoElement.style.position = 'absolute';
+      if(leftPanel){
+        leftPanel.style.flex = '1';
+      }
       doctorVideoElement.style.width = '80%';
+      doctorVideoElement.style.height = '40%';
+      this.isCheck = true;
     }
   }
+
+
 
     // modal Open Small
     openModalResultsUser( modalSM) {
@@ -235,7 +302,37 @@ public userId : number;
       //   });
     }
 
-     
+         // run stream local
+    async  openStream() {
+      const config = { audio: true, video: true };
+      return await navigator.mediaDevices.getUserMedia(config);
+    }
+
+
+    // async  openVideoStream() {
+    //   const config = { video: true };
+    //   return await navigator.mediaDevices.getUserMedia(config);
+    // }
+    
+    // async  openAudioStream() {
+    //   const config = { audio: true };
+    //   return await navigator.mediaDevices.getUserMedia(config);
+    // }
 
     
+
+
+     playStream(idVideo, stream) {
+      const video = document.getElementById(idVideo) ;
+      if (video instanceof HTMLVideoElement) {
+        console.log("video", video);
+        video.srcObject = stream;
+        video.play();
+      } else {
+        console.log(`Element with id ${idVideo} not found or is not a video element.`);
+      }
+    }
+
+
+
 }

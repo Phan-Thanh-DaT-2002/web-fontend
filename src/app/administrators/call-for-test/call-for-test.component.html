@@ -1,7 +1,7 @@
 <div class="container">
   <div class="left-panel">
-    <video id="patient-video" autoplay></video>
-    <video id="doctor-video" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
+    <video #patientVideo id="patientVideo" autoplay></video>
+    <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
   </div>
   <div class="right-panel">
     <div class="test-area">
@@ -16,6 +16,10 @@
     </div>
     <div class="controls">
       <button (click)="toggleCamera()">Bật/tắt camera</button>
+      <button *ngIf="otherCamera == 0" (click)="openCamera()">camera ở phía bệnh nhân đang thu nhỏ ( ấn để phóng
+        to)</button>
+      <button *ngIf="otherCamera == 1" (click)="closeCamera()">camera ở phía bệnh nhân đang phóng to ( ấn để thu
+        nhỏ)</button>
       <button (click)="toggleMic()">Bật/tắt micrô</button>
       <button (click)="recordScreen()">Quay màn hình của bệnh nhân</button>
       <button (click)="openModalResultsUser(openModalCallForTest)">Kết thúc cuộc gọi</button>

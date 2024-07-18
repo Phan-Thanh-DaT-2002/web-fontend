@@ -96,7 +96,7 @@ export class AuthLoginV2Component implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          console.log("data", data);
+          // console.log("data", data);
           var currentLoginRole = localStorage.getItem('currentLoginRole')
           if(currentLoginRole == "3"){
             this._router.navigate(['/admin/user-answer/Answer'])
