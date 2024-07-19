@@ -26,7 +26,7 @@ export class AnswerComponent implements OnInit {
   public question: string;
   public currentPage
   public perPage = 10;
-  public peer : any;
+  public peer = new Peer();;
   isCheck = true;
 
   questions: Question[] = [
@@ -72,47 +72,48 @@ export class AnswerComponent implements OnInit {
   constructor(     private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
-    this.peer = new Peer();
     this.userId = Number(window.localStorage.getItem("currentLoginId"));
     console.log("this.userId ", this.userId);
     this.putPeerJsUser();
   
-    // // Answer call
-    // this.peer.on("call", (call) => {
-    //   this.openStream()
-    //   .then((stream) => {
-    //     debugger
-    //     call.answer(stream); // Answer the call with an A/V stream.
-    //     this.playStream("remote_video", stream)
-    //     call.on("stream", (remoteStream) => {
-    //       this.playStream("doctorVideo", remoteStream); // Play the remote video stream.
-    //     });
-    //   });
-    // });
-    let video = this.doctorVideo.nativeElement;
-    var n = <any>navigator;
-
-    n.getUserMedia =
-      n.getUserMedia ||
-      n.webkitGetUserMedia ||
-      n.mozGetUserMedia ||
-      n.msGetUserMedia;
-
-    this.peer.on("call", function(call) {
-      n.getUserMedia(
-        { video: true, audio: true },
-        function(stream) {
-          call.answer(stream);
-          call.on("stream", function(remotestream) {
-            video.src = URL.createObjectURL(remotestream);
-            video.play();
-          });
-        },
-        function(err) {
-          console.log("Failed to get stream", err);
-        }
-      );
+    // Answer call
+    this.peer.on("call", (call) => {
+      this.openStream()
+      .then((stream) => {
+        debugger
+        call.answer(stream); // Answer the call with an A/V stream.
+        this.playStream("doctorVideo", stream)
+        call.on("stream", (doctorVideo) => {
+          this.playStream("doctorVideo", doctorVideo); // Play the remote video stream.
+        });
+      });
     });
+
+
+    // let video = this.doctorVideo.nativeElement;
+    // var n = <any>navigator;
+
+    // n.getUserMedia =
+    //   n.getUserMedia ||
+    //   n.webkitGetUserMedia ||
+    //   n.mozGetUserMedia ||
+    //   n.msGetUserMedia;
+
+    // this.peer.on("call", function(call) {
+    //   n.getUserMedia(
+    //     { video: true, audio: true },
+    //     function(stream) {
+    //       call.answer(stream);
+    //       call.on("stream", function(remotestream) {
+    //         video.src = URL.createObjectURL(remotestream);
+    //         video.play();
+    //       });
+    //     },
+    //     function(err) {
+    //       console.log("Failed to get stream", err);
+    //     }
+    //   );
+    // });
 
 
     // Receive messages
@@ -127,7 +128,12 @@ export class AnswerComponent implements OnInit {
           this.nextQuestion();
         }
         if (data == "toggle") {
-          this.openVideos();
+          this.openVideos(); 
+          console.log("send again data");
+          
+          // conn.on('open', function() {
+            conn.send('Hello from B!');
+          // });
         }
       });
   

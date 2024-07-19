@@ -70,7 +70,7 @@ export class ListUserComponent implements OnInit {
   public phoneNumber;
   public isInvalidPhoneNumber: boolean = false;
   public isInvalidLength: boolean = false;
-  public expandSearch = false;
+  public expandSearch = true;
   public fullName;
   public fromDatePre;
   public toDatePre;
@@ -129,20 +129,7 @@ public listScore = [
   } 
 
   ngOnInit(): void {
-    // content header
-    this.contentHeader = {
-      headerTitle: 'Quản lý người dùng',
-      actionButton: true,
-      breadcrumb: {
-        type: '',
-        links: [
-        
-        ]
-      }
-    };
-    this.proForm = this.formBuilder.group({
-      UserInfo: ['']
-    })
+
     this.searchUser();
      this.currentLoginRole = localStorage.getItem('currentLoginRole')
     // console.log("currentLoginRole",this.currentLoginRole);
@@ -151,7 +138,7 @@ public listScore = [
     this.messages = {
       emptyMessage: this._translateService.instant('LABEL.NO_DATA'),
       totalMessage: this._translateService.instant('LABEL.TOTAL')
-    };
+    };      
   }
 
   convertDate(date: any) {
@@ -162,9 +149,9 @@ public listScore = [
     }
   }
 
-  addUser(){
-    this.router.navigate(["/admin/user/add-user"]);
-  }
+  // addUser(){
+  //   this.router.navigate(["/admin/user/add-user"]);
+  // }
 
   editUser(userId, modalSM){
     window.localStorage.removeItem("userId");
@@ -615,7 +602,7 @@ public listScore = [
 }
   
 toggleEnhancedSearch() {
-  // //console.log(" hoat dong ", this.expandSearch);
+  // console.log(" hoat dong ", this.expandSearch);
   this.expandSearch = !this.expandSearch;
   // this.fullName = "";
   // this.status = null;

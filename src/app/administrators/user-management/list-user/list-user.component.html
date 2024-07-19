@@ -2,7 +2,7 @@
   <div class="content-body">
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
     <!-- User List -->
-    <section class="users-list-wrapper">
+    <section class="users-wrapper">
       <!-- users filter start -->
       <div class="card">
         <!-- <h5 class="card-header">Quản lý người dùng</h5> -->
@@ -47,14 +47,14 @@
 
             <div class="col-md-6 col-12">
               <div class="col-sm-11 col-form-label offset-1 mt-1">
-                <a [ngClass]="expandSearch ? 'a-link-custom' : 'a-custom'" (click)="toggleEnhancedSearch()">Tìm kiếm
+                <a *ngIf="expandSearch ? 'a-link-custom' : 'a-custom'" (click)="toggleEnhancedSearch()">Tìm kiếm
                   nâng cao</a>
               </div>
             </div>
             <div class="col-md-6 col-12">
             </div>
 
-            <div class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div class="col-md-6 col-12" *ngIf="!expandSearch ? 'showDiv' : ''">
               <div class="col-sm-10 col-form-label offset-1">
                 <label>Tên đầy đủ</label>
               </div>
@@ -64,7 +64,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div class="col-md-6 col-12" *ngIf="!expandSearch ? 'showDiv' : ''">
               <div class="col-sm-10 col-form-label offset-1">
                 <label>Địa chỉ email</label>
               </div>
@@ -75,7 +75,7 @@
             </div>
 
 
-            <div *ngIf="currentLoginRole ==2" class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div *ngIf="currentLoginRole ==2 &&!expandSearch ? 'showDiv' : '' " class="col-md-6 col-12">
               <div class="col-sm-5 col-form-label offset-1">
                 <label for="status">Trạng thái hiện tại</label>
               </div>
@@ -87,7 +87,7 @@
               </div>
             </div>
 
-            <div *ngIf="currentLoginRole ==1" class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div *ngIf="currentLoginRole ==1 && !expandSearch ? 'showDiv' : ''" class="col-md-6 col-12">
               <div class="col-sm-5 col-form-label offset-1">
                 <label for="status">Trạng thái </label>
               </div>
@@ -99,7 +99,7 @@
               </div>
             </div>
 
-            <div *ngIf="currentLoginRole ==2" class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div *ngIf="currentLoginRole ==2 && !expandSearch ? 'showDiv' : ''" class="col-md-6 col-12">
               <div class="col-sm-5 col-form-label offset-1">
                 <label for="status">Kết quả lần test mới nhất</label>
               </div>
@@ -112,7 +112,7 @@
             </div>
 
 
-            <div class="col-md-6 col-12" [ngClass]="!expandSearch ? 'showDiv' : ''">
+            <div class="col-md-6 col-12" *ngIf="!expandSearch ? 'showDiv' : ''">
               <div class="col-sm-5 col-form-label offset-1">
                 <label for="status">Được tạo từ ngày</label>
               </div>
@@ -193,8 +193,8 @@
 
         </div>
         <ngx-datatable [rows]="rows" [rowHeight]="50" class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
-          [selectionType]="SelectionType.checkbox" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
-          [externalPaging]="true" [count]="totalRows" [offset]="currentPage" [limit]="perPage" (page)="setPage($event)">
+          [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [externalPaging]="true" [count]="totalRows"
+          [offset]="currentPage" [limit]="perPage" (page)="setPage($event)">
 
 
           <ngx-datatable-column [sortable]="false" name="Stt" [width]="75" headerClass="text-center"
@@ -328,12 +328,16 @@
               <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
                 [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
                 [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
-                [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+                [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event);onchange($event); ">
               </datatable-pager>
             </ng-template>
           </ngx-datatable-footer> -->
+
+
         </ngx-datatable>
       </div>
+
+
     </section>
     <!--/ User List -->
     <!-- Modal add user-->

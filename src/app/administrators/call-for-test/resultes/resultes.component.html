@@ -23,7 +23,7 @@
                   <div class="form-group">
                     <label for="full-name-column">Đánh giá của bệnh nhân<span style="color: red">*</span></label>
                     <input type="text" id="full-name-column" class="form-control"
-                      placeholder="Nhập đánh giá của bệnh nhân" name="fname-column" formControlName="fullName"
+                      placeholder="Nhập đánh giá của bệnh nhân" name="fname-column" formControlName="note"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.note.errors }" />
                     <div *ngIf="addUserFormSubmitted && AddUserForm.note.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.note.errors.required">Bạn chưa nhập đánh giá

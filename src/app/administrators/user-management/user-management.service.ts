@@ -62,6 +62,9 @@ s
   public async resetPassword(params: any){
     return await this.httpUtilService.callAPI(this.API_URL + "/reset-password" , params).toPromise();
   }
+  public async addPoint(params: any){
+    return await this.httpUtilService.callAPI(this.API_URL + "/change-newPoint" , params).toPromise();
+  }
 
   
   public async deleteMulti(params: any){

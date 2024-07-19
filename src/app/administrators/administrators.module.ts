@@ -5,7 +5,7 @@ import { UserManagementModule } from './user-management/user-management.module';
 import { GenCodeComponent } from './gen-code/gen-code.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { pathToFileURL } from 'url';
 import { resultsManagementModule } from './results-managerment/results-managerment.module';
 import { UserInfoManagementModule } from './user-infor/user-infor.module';
@@ -46,6 +46,8 @@ const routes: Routes = [
     AnswerForTestManagementModule,
     UserInfoManagementModule,
     CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
     UserManagementModule,
     RouterModule.forChild(routes),
   ]

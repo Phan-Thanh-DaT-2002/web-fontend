@@ -75,16 +75,19 @@ public userId;
     this.peer = new Peer();
     // Receive messages
     this.peer.on("connection", (conn) => {
-      conn.on("data", (data) => {
-        // Will print 'hi!'
-        console.log(data);
-        if(data == "pre"){
-          this.previousQuestion() 
-        }     
+      // conn.on("data", (data) => {
+      //   // Will print 'hi!'
+      //   console.log(data);
+      //   if(data == "pre"){
+      //     this.previousQuestion() 
+      //   }     
         
-        if(data == "next"){
-          this.nextQuestion() 
-        }
+      //   if(data == "next"){
+      //     this.nextQuestion() 
+      //   }
+      // });
+      conn.on('data', function(data) {
+        console.log('Received', data);
       });
       conn.on("open", () => {
         conn.send("hello!");

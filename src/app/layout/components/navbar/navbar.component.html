@@ -37,8 +37,10 @@
         id="navbarUserDropdown" aria-haspopup="true" aria-expanded="false">
         <!-- <ng-container *ngIf="this.currentUserName"> -->
         <div class="user-nav d-sm-flex d-none">
-          <span class="user-name font-weight-bolder">{{ this.currentUserName }}</span>
-          <div>bn-bs-ad</div>
+          <span class="user-name font-weight-bolder">Tài khoản: {{ this.currentUserName }}</span>
+          <div *ngIf="this.role == 1"> Quản trị hệ thống</div>
+          <div *ngIf="this.role == 2"> Bác sĩ</div>
+          <div *ngIf="this.role == 3"> Bệnh nhân</div>
         </div>
         <span class="avatar"><img class="round" src="assets/images/avatars/user.png" alt="avatar" height="40"
             width="40" /><span class="avatar-status-online"></span></span>

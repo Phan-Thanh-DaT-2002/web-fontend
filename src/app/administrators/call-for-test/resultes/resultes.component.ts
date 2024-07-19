@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserManagementService } from 'app/administrators/user-management/user-management.service';
 import { Peer } from "peerjs";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-resultes',
@@ -11,7 +13,7 @@ import { Peer } from "peerjs";
 export class ResultesComponent implements OnInit {
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private formBuilder: FormBuilder, private modalService: NgbModal) { }
+  constructor(private formBuilder: FormBuilder,private service: UserManagementService, private modalService: NgbModal) { }
   public addUserForm: FormGroup;
   public addUserFormSubmitted = false;
   public peer : any;
@@ -43,7 +45,56 @@ export class ResultesComponent implements OnInit {
   }
    
   closeForm() {
-    this.closeModal.emit();
+
+    let params = {
+      method: "POST",
+      content: {
+        score : this.addUserForm.value.score,
+        note : this.addUserForm.value.note,
+
+      }
+    };
+    Swal.showLoading();
+    this.service
+      .addPoint(params)
+      .then((data) => {
+        Swal.close();
+        let response = data;
+        if (response.code === 0) {
+          Swal.fire({
+            icon: "success",
+            title: "thành công",
+            confirmButtonText: "Đồng ý",
+          }).then((result) => {
+            // this.initForm();
+           this.closeModal.emit();
+
+          });
+        } 
+        else {
+          Swal.fire({
+            icon: "error",
+            title: response.errorMessages,
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.close();
+        console.log(error);
+        if(error == 'Access is denied'){
+          Swal.fire({
+            icon: "error",
+            title: "Không có quyền truy cập",
+            confirmButtonText: "Đồng ý",
+          });
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Lỗi hệ thống",
+            confirmButtonText: "Đồng ý",
+          });
+        }
+      });
   }
   
 }
