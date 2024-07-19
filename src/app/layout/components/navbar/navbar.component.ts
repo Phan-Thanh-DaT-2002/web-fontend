@@ -196,10 +196,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   /**
    * On init
    */
+  role;
   ngOnInit(): void {
     // get the currentUser details from localStorage
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.currentUserName = this.tokenStorage.getUsername();
+    this.role = localStorage.getItem('currentLoginRole')
     console.log("this.currentUser",this.currentUser);
     
 

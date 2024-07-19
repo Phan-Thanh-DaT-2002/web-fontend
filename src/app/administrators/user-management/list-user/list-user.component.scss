@@ -44,23 +44,3 @@
 .fit-content {
   width: fit-content;
 }
-
-
-#buttonCall {
-  width: 70px;
-  height: 20px;
-  border: 3px solid #315cfd;
-  border-radius: 45px;
-  transition: all 0.3s;
-  cursor: pointer;
-  background: white;
-  font-size: 1.2em;
-  font-weight: 550;
-  font-family: 'Montserrat', sans-serif;
-}
-
-button:hover {
-  background: #315cfd;
-  color: rgb(222, 83, 81);
-  font-size: 1.5em;
-}

@@ -1,33 +1,45 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import Swal from 'sweetalert2';
-import { resultsManagementService } from '../results-managerment.service';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { resultsManagementService } from '../../results-managerment/results-managerment.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-list-results',
-  templateUrl: './list-results.component.html',
-  styleUrls: ['./list-results.component.scss']
+  selector: 'app-test-resultes-user',
+  templateUrl: './test-resultes-user.component.html',
+  styleUrls: ['./test-resultes-user.component.scss']
 })
-export class ListResultsComponent implements OnInit {
+export class TestResultesUserComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   constructor( private service: resultsManagementService) { }
   public currentPage = 0;
   public perPage = 10;
   public rows = [];
   public totalRows = 0;
+  public idDoctor ;
   public totalPage = 0;
   public ColumnMode = ColumnMode;
+  public userId ;
+
+
+
 
   ngOnInit(): void {
-    this.getDetailResults();
+    this.userId= window.sessionStorage.getItem("userId");
+console.log("idDoctor", this.userId);
+this.getDetailResults();
+
   }
   getDetailResults(){
  
     let params = {
       method: "GET", 
+      id : this.userId,
       currentPage: this.currentPage,
       perPage: this.perPage
     };
+
+    console.log("params",params);
+    
     Swal.showLoading();
     this.service
       .getListResults(params)

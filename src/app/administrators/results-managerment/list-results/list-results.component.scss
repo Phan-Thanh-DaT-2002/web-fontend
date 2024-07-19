@@ -1,0 +1,55 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+
+
+.cell-content {
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+.datatable-tree-button{
+  display: none ;
+
+}
+.a-link-custom{
+  cursor: pointer;
+  text-decoration: none !important;
+  font-style: italic;
+}
+
+.a-custom{
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
+.a-link-custom:hover,
+.a-link-custom:focus,
+.a-link-custom:active,
+.a-custom:hover,
+.a-custom:focus, 
+.a-custom:active{
+  color: #007bff !important;
+}
+
+.showDiv{
+  display: none;
+}
+
+.btn-custom {
+  width: 10rem;
+  height: 3.5rem;
+}
+
+.datatable-header-cell
+{
+   display: flex !important;
+   align-items: center !important;
+}
+
+.fit-content {
+  width: fit-content;
+}
+
+

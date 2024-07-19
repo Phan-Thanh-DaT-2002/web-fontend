@@ -65,11 +65,12 @@ export class ListUserComponent implements OnInit {
   public totalRows = 0;
   public contentHeader: object;
   public listRole = [];
+  public idDoctor;
   public username ="";
   public phoneNumber;
   public isInvalidPhoneNumber: boolean = false;
   public isInvalidLength: boolean = false;
-  public expandSearch = false;
+  public expandSearch = true;
   public fullName;
   public fromDatePre;
   public toDatePre;
@@ -92,7 +93,10 @@ public listStatus = [
   { id: 1, label: 'Online' },
   { id: 2, label: 'Offline' }
 ];
-
+public StatusUser = [
+  { id: 1, label: 'Đang hoạt động' },
+  { id: 2, label: 'Đã xóa' }
+];
 public listScore = [
   { id: 1, label: '0 --> 20 điểm' },
   { id: 2, label: '21 --> 40 điểm' },
@@ -125,51 +129,57 @@ public listScore = [
   } 
 
   ngOnInit(): void {
-    // content header
-    this.contentHeader = {
-      headerTitle: 'Quản lý người dùng',
-      actionButton: true,
-      breadcrumb: {
-        type: '',
-        links: [
-        
-        ]
-      }
-    };
-    this.proForm = this.formBuilder.group({
-      UserInfo: ['']
-    })
+
     this.searchUser();
      this.currentLoginRole = localStorage.getItem('currentLoginRole')
-    console.log("currentLoginRole",this.currentLoginRole);
+    // console.log("currentLoginRole",this.currentLoginRole);
     // this.getListRole();
     this.connect();
     this.messages = {
       emptyMessage: this._translateService.instant('LABEL.NO_DATA'),
       totalMessage: this._translateService.instant('LABEL.TOTAL')
-    };
+    };      
   }
 
-  addUser(){
-    this.router.navigate(["/admin/user/add-user"]);
+  convertDate(date: any) {
+    return {
+      year: date.year,
+      month: (date.month < 10 ? "0" + date.month : date.month),
+      day: (date.day < 10 ? "0" + date.day : date.day)
+    }
   }
+
+  // addUser(){
+  //   this.router.navigate(["/admin/user/add-user"]);
+  // }
 
   editUser(userId, modalSM){
     window.localStorage.removeItem("userId");
     window.localStorage.setItem("userId", userId);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
-  }
+  } 
+  callForTest(userId, modalSM){
+    window.localStorage.removeItem("userId");
+    window.localStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  } 
+
 
   deleteUser(id:number){
     Swal.fire({
-      title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.DELETE_CONFIRM'),
+      title: "Bạn có chắc chắn muốn xóa?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
-      cancelButtonText: this._translateService.instant('ACTION.CANCEL'),
+      confirmButtonText: "Đồng ý",
+      cancelButtonText: "Hủy",
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-danger ml-1'
@@ -184,14 +194,14 @@ public listScore = [
           if (response.code === 0) {
             Swal.fire({
               icon: "success",
-              title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.DELETE_SUCCESS'),
-              confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+              title: "Đã xóa thành công",
+              confirmButtonText: "Đóng",
             }).then((result) => {
               //load lại trang kết quả
               this.searchUser();
             });
           }  else if (response.code === 45) {
-            Swal.fire(this._translateService.instant('MESSAGE.USER_MANAGEMENT.NOT_DELETED'));
+            Swal.fire("Xóa không thành công");
           }else {
             Swal.fire({
               icon: "error",
@@ -204,9 +214,9 @@ public listScore = [
             Swal.fire({
               icon: "error",
               // title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
-              title: this._translateService.instant('MESSAGE.USER_MANAGEMENT.NOT_DELETED'),
+              title: "Chưa được xóa",
 
-              confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+              confirmButtonText: "Lỗi kết nối hệ thống",
             });
           });
       }
@@ -218,6 +228,7 @@ public listScore = [
     window.localStorage.setItem("userId", userId);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
@@ -366,7 +377,8 @@ public listScore = [
           this.rows = response.content["items"];
           console.log(this.rows);
           
-          
+          this.idDoctor = this.rows[0].idDoctor;
+
           this.totalRows = response.content["total"];
           this.totalPage = Math.ceil(this.totalRows / this.perPage);
           
@@ -399,12 +411,54 @@ public listScore = [
 
   // modal Open Small
   openModalAddUser(modalSM) {
+    console.log("this.idDoctor",this.idDoctor);
+
+    window.sessionStorage.setItem("idDoctor", this.idDoctor);
     this.modalService.open(modalSM, {
       centered: true,
+      backdrop: 'static',
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+  
+  // editUser(userId, modalSM){
+  //   window.localStorage.removeItem("userId");
+  //   window.localStorage.setItem("userId", userId);
+  //   this.modalService.open(modalSM, {
+  //     centered: true,
+  //     size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+  //   });
+  // }
+
+  // modal Open Small
+  openModalTestResultsUser(userId, modalSM) {
+
+    window.sessionStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      backdrop: 'static',
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
 
+
+  // modal Open Small
+ CallForTest(userId, modalSM) {
+
+    window.sessionStorage.setItem("userId", userId);
+    this.modalService.open(modalSM, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+
+  afterTestResultsUser(){
+    this.modalService.dismissAll();
+    this.currentPage = 0
+    this.searchUser();
+  }  
+  
   afterCreateUser(){
     this.modalService.dismissAll();
     this.currentPage = 0
@@ -417,35 +471,35 @@ public listScore = [
     this.searchUser();
   }
 
-  getListRole() {
-    let params = {
-      method: "GET"
-    };
-    this.service
-      .getListRole(params)
-      .then((data) => {
-        let response = data;
-        if (response.code === 0) {
-          this.listRole = response.content;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: response.errorMessages,
-          });
-          if (response.code === 2) {
-            this.listRole = [];
-          }
-        }
-      })
-      .catch((error) => {
-        Swal.close();
-        Swal.fire({
-          icon: "error",
-          title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
-          confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
-        });
-      });
-  }
+  // getListRole() {
+  //   let params = {
+  //     method: "GET"
+  //   };
+  //   this.service
+  //     .getListRole(params)
+  //     .then((data) => {
+  //       let response = data;
+  //       if (response.code === 0) {
+  //         this.listRole = response.content;
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: response.errorMessages,
+  //         });
+  //         if (response.code === 2) {
+  //           this.listRole = [];
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       Swal.close();
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: this._translateService.instant('MESSAGE.COMMON.CONNECT_FAIL'),
+  //         confirmButtonText: this._translateService.instant('ACTION.ACCEPT'),
+  //       });
+  //     });
+  // }
 
   
 
@@ -548,7 +602,7 @@ public listScore = [
 }
   
 toggleEnhancedSearch() {
-  // //console.log(" hoat dong ", this.expandSearch);
+  // console.log(" hoat dong ", this.expandSearch);
   this.expandSearch = !this.expandSearch;
   // this.fullName = "";
   // this.status = null;
@@ -684,7 +738,6 @@ onDateInput(inputValue: string, path: string): void {
   if(path == "fromDatePre"){
     const parsedDate = this.parseDateString(inputValue, path);
     this.fromDatePre = this.isValidDate(parsedDate);
-    debugger
   }
   else if(path == "toDatePre"){
   const parsedDate = this.parseDateString(inputValue, path);

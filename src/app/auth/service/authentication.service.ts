@@ -60,6 +60,8 @@ export class AuthenticationService {
       .then((data) => {
         Swal.close();
         let response = data;
+
+        
       })
       .catch((error) => {
        
@@ -97,6 +99,7 @@ export class AuthenticationService {
               console.log(decode);
               this.currentLoginRole = decode
               window.localStorage.setItem("currentLoginRole", this.currentLoginRole.type);
+              window.localStorage.setItem("currentLoginId", this.currentLoginRole.id);
               var currentLoginId = localStorage.getItem('loginId')
               var oldLoginId = localStorage.getItem('oldLoginAccount')
 
@@ -121,13 +124,13 @@ export class AuthenticationService {
               // })
               }
             }
-            setTimeout(() => {
-              this._toastrService.success(
-                'You have successfully logged in',
-                '👋 Welcome ' + '!',
-                { toastClass: 'toast ngx-toastr', closeButton: true }
-              );
-            }, 2500);
+            // setTimeout(() => {
+            //   this._toastrService.success(
+            //     'You have successfully logged in',
+            //     '👋 Welcome ' + '!',
+            //     { toastClass: 'toast ngx-toastr', closeButton: true }
+            //   );
+            // }, 2500);
             // notify
             this.currentUserSubject.next(userx);
           }
@@ -180,6 +183,8 @@ export class AuthenticationService {
       .sendThisUserOnlined(params)
       .then((data) => {
         Swal.close();
+
+        
         let response = data;
       })
       .catch((error) => {

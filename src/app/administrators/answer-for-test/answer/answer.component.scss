@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  flex: 1;
+  height: 90vh;
+
+}
+.left-panel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+  transition: flex 0.5s ease-in-out; 
+}
+.left-panel  .patient-video {
+  width: 90%;
+  height: 100vh;
+  border-radius: 8px;
+}
+.doctor-video {
+  position: absolute;
+  width: 80%;
+  height: 40%;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.right-panel {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+.test-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+.controls {
+  padding: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-around;
+}
+
+.area {
+  padding: 5px;
+  background-color: #f9f9f9;
+  display: grid;
+  justify-content: space-around;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  // background-color: #007bff;
+  // color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button:hover {
+  background-color: #71a8e2;
+}

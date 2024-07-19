@@ -1,0 +1,147 @@
+<div class="content-wrapper container-xxl p-0 " style="width: 100%; height: 100%;">
+  <!-- / Basic multiple Column Form section start -->
+  <section id="multiple-column-form">
+    <div class="row match-height">
+      <div class="col-12">
+        <div class="card">
+          <!-- <h5 class="card-header">Cập nhật người dùng</h5> -->
+          <div class="card-body">
+            <form [formGroup]="addUserForm" (ngSubmit)="editUser()">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="login-name-column">Tài khoản<span style="color: red">*</span></label>
+                    <input type="text" id="login-name-column" class="form-control" placeholder="Nhập tài khoản"
+                      name="login-column" formControlName="username" [attr.disabled]="checkUpdate ? true : null" />
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="full-name-column">Tên đầy đủ<span style="color: red">*</span></label>
+                    <input type="text" [attr.disabled]="checkUpdate ? true : null" id="full-name-column"
+                      class="form-control" placeholder="Nhập tên đầy đủ" name="fname-column" formControlName="fullName"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullName.errors }" />
+                    <div *ngIf="addUserFormSubmitted && AddUserForm.fullName.errors" class="invalid-feedback">
+                      <div *ngIf="AddUserForm.fullName.errors.required">Bạn chưa nhập tên đầy đủ
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="email-column">Địa chỉ email <span style="color: red">*</span></label>
+                    <input type="text" [attr.disabled]="checkUpdate ? true : null" id="email-column"
+                      class="form-control" placeholder="Nhập địa chỉ email" name="email-column" formControlName="email"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.email.errors }" />
+                    <div *ngIf="addUserFormSubmitted && AddUserForm.email.errors" class="invalid-feedback">
+                      <div *ngIf="AddUserForm.email.errors.required">Bạn chưa nhập địa chỉ email
+                      </div>
+                      <div *ngIf="AddUserForm.email.errors.pattern">địa chỉ email không hợp lệ
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="phone-column">Số điện thoại</label>
+                    <input type="text" id="phone-column" class="form-control" placeholder="Nhập số điện thoại"
+                      name="phone-column" [maxlength]="10" formControlName="phone"
+                      [attr.disabled]="checkUpdate ? true : null"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phone.errors }" />
+                    <div *ngIf="addUserFormSubmitted && AddUserForm.phone.errors" class="invalid-feedback">
+                      <div *ngIf="AddUserForm.phone.errors.pattern">Số điện thoại nhập không hợp
+                        lệ</div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="phone-column">Ngày tháng năm sinh</label>
+                    <input type="date" [attr.disabled]="checkUpdate ? true : null" id="phone-column"
+                      class="form-control" placeholder="" name="dob-column" [maxlength]="10" formControlName="dob"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.dob.errors }" />
+
+                  </div>
+                </div>
+
+
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="role-column">Giới tính</label>
+                    <ng-select id="role-column" disabled="true" [readonly]="checkUpdate ? true : null"
+                      [items]="listGender" bindLabel="label" bindValue="id" [loading]="roleLoading"
+                      formControlName="gender" placeholder="Chọn giới tính" [multiple]="false"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.gender.errors }">
+                    </ng-select>
+                  </div>
+                </div>
+
+
+                <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="phone-column">Địa chỉ</label>
+                    <input type="text" [attr.disabled]="checkUpdate ? true : null" id="phone-column"
+                      class="form-control" placeholder="Nhập địa chỉ" name="phone-column" formControlName="address"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.address.errors }" />
+                  </div>
+                </div>
+
+
+
+                <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="role-column">Chức vụ<span style="color: red">*</span></label>
+                    <ng-select id="role-column" [attr.disabled]="checkUpdate ? true : null" [items]="listRole"
+                      bindLabel="label" bindValue="id" [loading]="roleLoading" formControlName="roles"
+                      placeholder="Chọn chức vụ" [multiple]="false"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.roles.errors }">
+                    </ng-select>
+
+                    <div *ngIf="addUserFormSubmitted && AddUserForm.roles.errors" class="invalid-feedback">
+                      <div *ngIf="AddUserForm.roles.errors.required">Bạn chưa chọn chức vụ</div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label for="phone-column">Bác sĩ theo dõi</label>
+                    <ng-select id="role-column" [attr.disabled]="checkUpdate ? true : null" [items]="listIdDoctor"
+                      bindLabel="fullName" bindValue="id" [loading]="roleLoading" formControlName="idDoctor"
+                      placeholder="Chọn Bác sĩ theo doic bệnh nhân" [multiple]="false"
+                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.idDoctor.errors }">
+                    </ng-select>
+                  </div>
+                </div>
+
+
+
+
+                <div class="col-12 d-flex justify-content-center">
+                  <button type="button" rippleEffect (click)="changeStatusUpdate()" *ngIf="checkUpdate"
+                    class="btn btn-primary mr-1">
+                    Cập nhật thông tin
+                  </button>
+                  <button type="submit" rippleEffect *ngIf="!checkUpdate" class="btn btn-primary mr-1">
+                    Lưu
+                  </button>
+
+                  <button type="button" (click)="resetForm()" *ngIf="!checkUpdate" rippleEffect
+                    class="btn btn-danger mr-1">
+                    Hủy cập nhật
+                  </button>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Basic multiple Column Form section end -->
+</div>

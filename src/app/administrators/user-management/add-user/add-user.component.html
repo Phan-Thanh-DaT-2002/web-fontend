@@ -1,152 +1,141 @@
 <div class="content-wrapper container-xxl p-0">
-    <div class="content-body">
-<!-- / Basic multiple Column Form section start -->
-  <section id="multiple-column-form">
-    <div class="row match-height">
-      <div class="col-12">
-        <div class="card">
-          <!-- <h5 class="card-header">Thêm mới người dùng</h5> -->
-          <div class="card-body">
-            <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
-              <div class="row">
-                <div class="col-md-6 col-12">
+  <div class="content-body">
+    <!-- / Basic multiple Column Form section start -->
+    <section id="multiple-column-form">
+      <div class="row match-height">
+        <div class="col-12">
+          <div class="card">
+            <!-- <h5 class="card-header">Thêm mới người dùng</h5> -->
+            <div class="card-body">
+              <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+                <div class="row">
+                  <div class="col-md-4 col-12">
                     <div class="form-group">
-                      <label for="login-name-column">{{ 'LABEL.USERNAME'| translate }}<span style="color: red">*</span></label>
-                      <input
-                        type="text"
-                        id="login-name-column"
-                        class="form-control"
-                        placeholder="{{ 'LABEL.USERNAME'| translate }}"
-                        name="login-column"
-                        [maxlength]="50"
-                        formControlName="username"
-                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.username.errors }"
-                      />
-                      <div *ngIf="addUserFormSubmitted && AddUserForm.username.errors" 
-                        class="invalid-feedback">
-                        <div *ngIf="AddUserForm.username.errors.required">{{ 'MESSAGE.USER_MANAGEMENT.USERNAME_REQUIRE'| translate }}</div>
+                      <label for="login-name-column">Tài khoản<span style="color: red">*</span></label>
+                      <input type="text" id="login-name-column" class="form-control" placeholder="Nhập tài khoản"
+                        name="login-column" [maxlength]="50" formControlName="username"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.username.errors }" />
+                      <div *ngIf="addUserFormSubmitted && AddUserForm.username.errors" class="invalid-feedback">
+                        <div *ngIf="AddUserForm.username.errors.required">Bạn chưa nhập tài khoản</div>
                       </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="password-column">{{ 'LABEL.PASSWORD'| translate }}<span style="color: red">*</span></label>
-                    <div class="input-group input-group form-password-toggle mb-2" >
-                      <div class="input-group-prepend" (click)="mergedPwdShow = !mergedPwdShow">
-                        <span class="input-group-text cursor-pointer"
-                          ><i
-                            class="feather"
-                            [ngClass]="{
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="password-column">Mật khẩu<span style="color: red">*</span></label>
+                      <div class="input-group input-group form-password-toggle mb-2">
+                        <div class="input-group-prepend" (click)="mergedPwdShow = !mergedPwdShow">
+                          <span class="input-group-text cursor-pointer"><i class="feather" [ngClass]="{
                               'icon-eye-off': mergedPwdShow,
                               'icon-eye': !mergedPwdShow
-                            }"
-                          ></i
-                        ></span>
-                      </div>
-                      <input
-                        [type]="mergedPwdShow ? 'text' : 'password'"
-                        class="form-control"
-                        id="basic-default-password1"
-                        placeholder="{{ 'LABEL.PASSWORD'| translate }}"
-                        aria-describedby="basic-default-password1"
-                        
-                        formControlName="password"
-                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.password.errors }"
-                      />
-                      <div *ngIf="addUserFormSubmitted && AddUserForm.password.errors"
-                        class="invalid-feedback">
-                        <div *ngIf="AddUserForm.password.errors.required">{{ 'MESSAGE.USER_MANAGEMENT.PASSWORD_REQUIRE'| translate }}</div>
-                        <div *ngIf="AddUserForm.password.errors.pattern">{{ 'MESSAGE.USER_MANAGEMENT.PASSWORD_PARTERN'| translate }}</div>
+                            }"></i></span>
+                        </div>
+                        <input [type]="mergedPwdShow ? 'text' : 'password'" class="form-control"
+                          id="basic-default-password1" placeholder="Nhập mật khẩu"
+                          aria-describedby="basic-default-password1" formControlName="password"
+                          [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.password.errors }" />
+                        <div *ngIf="addUserFormSubmitted && AddUserForm.password.errors" class="invalid-feedback">
+                          <div *ngIf="AddUserForm.password.errors.required">Bạn chưa nhập mật khẩu</div>
+                          <div *ngIf="AddUserForm.password.errors.pattern">Mật khẩu phải dài 8 ký tự, bao gồm chữ in
+                            hoa, chữ in thường, ký tự đặc biệt và số.</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="full-name-column">{{ 'LABEL.FULLNAME'| translate }}<span style="color: red">*</span></label>
-                    <input
-                      type="text"
-                      id="full-name-column"
-                      class="form-control"
-                      placeholder="{{ 'LABEL.FULLNAME'| translate }}"
-                      name="fname-column"
-                      formControlName="fullname"
-                      [maxlength]="100"
-                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullname.errors }"
-                    />
-                    <div *ngIf="addUserFormSubmitted && AddUserForm.fullname.errors"
-                        class="invalid-feedback">
-                        <div *ngIf="AddUserForm.fullname.errors.required">{{ 'MESSAGE.USER_MANAGEMENT.FULLNAME_REQUIRE'| translate }}</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-12">
+                  <div class="col-md-4 col-12">
                     <div class="form-group">
-                      <label for="email-column">{{ 'LABEL.EMAIL'| translate }} <span style="color: red">*</span></label>
-                      <input type="text" id="email-column" class="form-control" placeholder="{{ 'LABEL.EMAIL'| translate }}" name="email-column" 
-                        formControlName="email" [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.email.errors }"
-                      />
+                      <label for="full-name-column">Tên đầy đủ<span style="color: red">*</span></label>
+                      <input type="text" id="full-name-column" class="form-control" placeholder="Nhập tên đầy đủ"
+                        name="fname-column" formControlName="fullName"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.fullName.errors }" />
+                      <div *ngIf="addUserFormSubmitted && AddUserForm.fullName.errors" class="invalid-feedback">
+                        <div *ngIf="AddUserForm.fullName.errors.required">Bạn chưa nhập tên đầy đủ</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="email-column">Địa chỉ email<span style="color: red">*</span></label>
+                      <input type="text" id="email-column" class="form-control" placeholder="nhập địa chỉ email"
+                        name="email-column" formControlName="email"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.email.errors }" />
                       <div *ngIf="addUserFormSubmitted && AddUserForm.email.errors" class="invalid-feedback">
-                          <div *ngIf="AddUserForm.email.errors.required">{{ 'MESSAGE.USER_MANAGEMENT.EMAIL_REQUIRE'| translate }}</div>
-                          <div *ngIf="AddUserForm.email.errors.pattern">{{ 'MESSAGE.USER_MANAGEMENT.EMAIL_PARTERN'| translate }}</div>
+                        <div *ngIf="AddUserForm.email.errors.required">Bạn chưa nhập địa chỉ email</div>
+                        <div *ngIf="AddUserForm.email.errors.pattern">Địa chỉ email chưa đúng định dạng</div>
                       </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group">
-                    <label for="phone-column">{{ 'LABEL.PHONE'| translate }} </label>
-                    <input
-                      type="text"
-                      id="phone-column"
-                      class="form-control"
-                      placeholder="{{ 'LABEL.PHONE'| translate }}"
-                      name="phone-column"
-                      [maxlength]="10"
-                      formControlName="phoneNumber"
-                      [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phoneNumber.errors }"
-                    />
-                    <div *ngIf="addUserFormSubmitted && AddUserForm.phoneNumber.errors" class="invalid-feedback">
-                      <div *ngIf="AddUserForm.phoneNumber.errors.pattern">{{ 'MESSAGE.USER_MANAGEMENT.PHONE_PARTERN'| translate }}</div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6 col-12">
+                  <div class="col-md-4 col-12">
                     <div class="form-group">
-                      <label for="role-column">{{ 'LABEL.ROLE'| translate }}<span style="color: red">*</span></label>
-                      <ng-select *ngIf="currentLang == 'vn'" id="role-column"
-                                 [items]="listRole" 
-                                 bindLabel="roleName" 
-                                 [loading]="roleLoading" 
-                                 formControlName="role" 
-                                 placeholder="{{ 'LABEL.ROLE'| translate }}"
-                                 [multiple]="true"
-                                 [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.role.errors }">
-                      </ng-select>
-                      <ng-select *ngIf="currentLang == 'en'" id="role-column"
-                                 [items]="listRole" 
-                                 bindLabel="roleNameEn"
-                                 [loading]="roleLoading" 
-                                 formControlName="role" 
-                                 placeholder="{{ 'LABEL.ROLE'| translate }}"
-                                 [multiple]="true"
-                                 [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.role.errors }">
-                      </ng-select>
-                      <div *ngIf="addUserFormSubmitted && AddUserForm.role.errors" class="invalid-feedback">
-                          <div *ngIf="AddUserForm.role.errors.required">{{ 'MESSAGE.USER_MANAGEMENT.ROLE_REQUIRE'| translate }}</div>
+                      <label for="phone-column">Số điện thoại <span style="color: red">*</span></label>
+                      <input type="text" id="phone-column" class="form-control" placeholder="Nhập số điện thoại"
+                        name="phone-column" [maxlength]="10" formControlName="phone"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.phone.errors }" />
+                      <div *ngIf="addUserFormSubmitted && AddUserForm.phone.errors" class="invalid-feedback">
+                        <div *ngIf="AddUserForm.phone.errors.pattern">Số điện thoại chưa đúng định dạng</div>
+                        <div *ngIf="AddUserForm.phone.errors.required">Bạn chưa nhập số điện thoại</div>
                       </div>
                     </div>
+                  </div>
+
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="phone-column">Ngày tháng năm sinh</label>
+                      <input type="date" id="phone-column" class="form-control" placeholder="" name="dob-column"
+                        [maxlength]="10" formControlName="dob"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.dob.errors }" />
+
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="phone-column">Địa chỉ</label>
+                      <input type="text" id="phone-column" class="form-control" placeholder="Nhập địa chỉ"
+                        name="phone-column" formControlName="address"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.address.errors }" />
+                    </div>
+                  </div>
+
+                  <div *ngIf="currentLoginRole ==1" class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="role-column">Chức vụ<span style="color: red">*</span></label>
+                      <ng-select id="role-column" [items]="listRole" bindLabel="label" bindValue="id"
+                        [loading]="roleLoading" formControlName="roles" placeholder="Chọn chức vụ" [multiple]="false"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.roles.errors }">
+                      </ng-select>
+
+                      <div *ngIf="addUserFormSubmitted && AddUserForm.roles.errors" class="invalid-feedback">
+                        <div *ngIf="AddUserForm.roles.errors.required">Bạn chưa chọn chức vụ</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group">
+                      <label for="role-column">Giới tính</label>
+                      <ng-select id="role-column" [items]="listgender" bindLabel="label" [loading]="roleLoading"
+                        formControlName="gender" placeholder="Chọn giới tính" [multiple]="false"
+                        [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.gender.errors }">
+                      </ng-select>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 d-flex justify-content-center">
+                    <button type="submit" rippleEffect class="btn btn-primary mr-1">Thêm mới</button>
+                    <button type="reset" rippleEffect class="btn btn-outline-secondary mr-1">Làm mới thông tin</button>
+                    <button type="button" rippleEffect class="btn btn-danger" (click)="closeForm()">Đóng</button>
+                  </div>
                 </div>
-                <div class="col-12">
-                  <button type="submit" rippleEffect class="btn btn-primary mr-1">{{ 'ACTION.SAVE'| translate }}</button>
-                  <button type="reset" rippleEffect class="btn btn-outline-secondary">{{ 'ACTION.RESET'| translate }}</button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- Basic multiple Column Form section end -->
-</div>
+    </section>
+    <!-- Basic multiple Column Form section end -->
+  </div>
 </div>
