@@ -129,11 +129,16 @@ export class AnswerComponent implements OnInit {
         }
         if (data == "toggle") {
           this.openVideos(); 
-          console.log("send again data");
           
-          // conn.on('open', function() {
-            conn.send('Hello from B!');
-          // });
+          if (conn.open) {
+          console.log("send again data");
+          conn.send('Hello from B!');
+          } else {
+            // If connection is not open, add an event listener to send data when it opens
+            conn.on("open", () => {
+              conn.send('Hello from B!');
+            });
+          }
         }
       });
   
