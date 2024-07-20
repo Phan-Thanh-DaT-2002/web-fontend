@@ -6,14 +6,15 @@
         <div class="card">
           <!-- <h5 class="card-header">Cập nhật người dùng</h5> -->
           <div class="card-body">
-            <form>
+            <form [formGroup]="addUserForm" (ngSubmit)="closeForm()">
               <div class="row">
                 <div class=" col-12">
                   <div class="form-group">
                     <label for="login-name-column">Điểm số<span style="color: red">*</span></label>
                     <input type="text" id="login-name-column" class="form-control" placeholder="Nhập điểm số"
-                      name="login-column" formControlName="score" />
-                    <div *ngIf="addUserFormSubmitted && AddUserForm.score.errors" class="invalid-feedback">
+                      name="login-column" formControlName="score"
+                      [ngClass]="{ 'is-invalid':addUserFormSubmitted &&  AddUserForm.score.errors }" />
+                    <div *ngIf=" AddUserForm.score.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.score.errors.required">Bạn chưa nhập điểm
                       </div>
                     </div>
@@ -25,14 +26,14 @@
                     <input type="text" id="full-name-column" class="form-control"
                       placeholder="Nhập đánh giá của bệnh nhân" name="fname-column" formControlName="note"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.note.errors }" />
-                    <div *ngIf="addUserFormSubmitted && AddUserForm.note.errors" class="invalid-feedback">
+                    <div *ngIf=" AddUserForm.note.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.note.errors.required">Bạn chưa nhập đánh giá
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-12 d-flex justify-content-center">
-                  <button type="button" rippleEffect class="btn btn-danger" (click)="closeForm()">Kết thúc</button>
+                  <button type="submit" rippleEffect class="btn btn-danger">Kết thúc</button>
 
                 </div>
               </div>

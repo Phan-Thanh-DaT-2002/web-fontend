@@ -17,11 +17,15 @@ export class ResultesComponent implements OnInit {
   public addUserForm: FormGroup;
   public addUserFormSubmitted = false;
   public peer : any;
-  conn
+  conn;
+  userId;
   ngOnInit(): void {
     this.peer = new Peer();
     const idRemote = document.getElementById('remoteIdVideo');
-    console.log("idRemote",idRemote);
+    this.userId =window.sessionStorage.getItem("userId" );
+
+    // console.log("idRemote",idRemote);
+    // console.log("this.userId",this.userId);
     
     this.conn = this.peer.connect(idRemote);
     this.conn.on('open', function () {
@@ -33,7 +37,6 @@ export class ResultesComponent implements OnInit {
   initForm(){
     this.addUserForm = this.formBuilder.group(
       {
-        id: ["", Validators.required],
         score: ["", Validators.required],
         note: ["", Validators.required],
       },
@@ -45,15 +48,35 @@ export class ResultesComponent implements OnInit {
   }
    
   closeForm() {
+    this.addUserFormSubmitted = true;
+    // console.log("this.addUserForm.value",this.addUserForm.value);
+    if(this.addUserForm.value.score !== ''){
+      this.addUserForm.patchValue({
+        score: this.addUserForm.value.score.trim()
+      })
+    }
+    if(this.addUserForm.value.note !== ''){
+      this.addUserForm.patchValue({
+        note: this.addUserForm.value.note.trim()
+      })
+    }
 
+    if (this.addUserForm.invalid) {
+      return;
+    }
+     var timeTaken = localStorage.getItem('timeTaken')
+     
     let params = {
       method: "POST",
       content: {
-        score : this.addUserForm.value.score,
-        note : this.addUserForm.value.note,
-
+        userId : this.userId,
+        score : this.addUserForm.value.score.trim(),
+        note : this.addUserForm.value.note.trim(),
+        time : timeTaken
       }
     };
+    console.log("params",params);
+    
     Swal.showLoading();
     this.service
       .addPoint(params)
@@ -63,11 +86,12 @@ export class ResultesComponent implements OnInit {
         if (response.code === 0) {
           Swal.fire({
             icon: "success",
-            title: "thành công",
+            title: "Đã đánh giá",
             confirmButtonText: "Đồng ý",
           }).then((result) => {
             // this.initForm();
            this.closeModal.emit();
+           this.searchUser();
 
           });
         } 
@@ -97,4 +121,27 @@ export class ResultesComponent implements OnInit {
       });
   }
   
+  searchUser(){
+
+
+      
+    let params = {
+      method: "GET",
+    };
+    console.log("paramsparams",params);
+    
+    Swal.showLoading();
+    this.service
+      .searchUser(params)
+      .then((data) => {
+        Swal.close();
+        let response = data;
+    
+      })
+      .catch((error) => {
+        Swal.close();
+       
+      });
+  }
+
 }

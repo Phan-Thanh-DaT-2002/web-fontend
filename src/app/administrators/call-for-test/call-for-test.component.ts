@@ -67,7 +67,9 @@ export class CallForTestComponent implements OnInit {
   public conn;
   public data;
   public idRemote;
-  currentQuestion: Question;
+  public startTime;
+  public endTime ;
+  public currentQuestion: Question;
 public userId;
   constructor(     private service: UserManagementService,private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
@@ -94,7 +96,7 @@ public userId;
       });
     });
 
-
+     this.startTime = performance.now();
 
 
     this.userId =window.sessionStorage.getItem("userId" );
@@ -276,7 +278,12 @@ this.getUserDetail();
 
     // modal Open Small
     openModalResultsUser( modalSM) {
-      this.modalService.open(modalSM, {
+      this.endTime = performance.now();
+      const timeTaken = this.endTime - this.startTime;
+
+// console.log(`Thời gian thực hiện: ${Math.floor(timeTaken/1000/60)} milliseconds`);
+localStorage.setItem('timeTaken', `${Math.floor(timeTaken/1000/60)}`);      
+this.modalService.open(modalSM, {
         centered: true,
         backdrop: 'static',
         size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
