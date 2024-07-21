@@ -22,8 +22,9 @@ export class CallForTestComponent implements OnInit {
    isCheckSnap = 1
   otherCamera = 0
   perPage = 10
+  CameraTogge = false;
   localStream = null;
-  isCameraOn = false;
+  isCameraOn = true;
   isMicOn = false;
   questions: Question[] = [
     { question: { 
@@ -149,28 +150,36 @@ this.getUserDetail();
   }
   
   async  toggleCamera() {
+    this.CameraTogge = !this.CameraTogge
+    
     if (this.isCameraOn) {
       // Dừng tất cả các video track
-      if (this.localStream) {
-        this.localStream.getVideoTracks().forEach(track => track.stop());
+      // console.log("this.localStream",this.playStream);
+    // console.log("this.isCameraOn",this.isCameraOn);
+
+      
+      if (this.playStream) {
+        this.isCameraOn = false;
+        // this.localStream.getVideoTracks().forEach(track => track.stop());
         const video = document.getElementById('doctorVideo');
         if (video instanceof HTMLVideoElement) {
           video.srcObject = null;
         } else {
           console.error('Element with id localVideo not found or is not a video element.');
         }
-        this.isCameraOn = false;
+        
       }
     } else {
       // Bật camera
       try {
         this.localStream = await this.openStream();
         this.playStream('doctorVideo', this.localStream);
-        this.isCameraOn = true;
+        this.isCameraOn =  true;
       } catch (err) {
         console.error('Error accessing media devices.', err);
       }
     }
+
   }
 
   async  toggleMic() {

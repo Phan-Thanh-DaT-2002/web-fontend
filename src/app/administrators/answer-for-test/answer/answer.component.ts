@@ -190,12 +190,29 @@ export class AnswerComponent implements OnInit {
   
   toggleCamera() {
     // Implement camera toggle functionality
-    alert('Toggling camera');
+    // alert('Toggling camera');
+ 
+      //  this.service.startRecording();
+    
   }
 
   toggleMic() {
     // Implement mic toggle functionality
-    alert('Toggling microphone');
+    // alert('Toggling microphone');
+    // const videoBlob = this.service.stopRecording();
+
+    // // Tạo URL để hiển thị video ghi lại
+    // const videoURL = URL.createObjectURL(videoBlob);
+
+    // // Hiển thị hoặc tải video
+    // const a = document.createElement('a');
+    // a.style.display = 'none';
+    // a.href = videoURL;
+    // a.download = 'recorded-screen.webm';
+    // document.body.appendChild(a);
+    // a.click();
+    // window.URL.revokeObjectURL(videoURL);
+  
   }
 
   recordScreen() {
