@@ -4,16 +4,23 @@
     <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
   </div>
   <div class="right-panel">
-    <div class="test-area">
+    <div class="test-area question-container">
       <h2>Bài Test</h2>
-
-      <p>{{ currentQuestion.question.que }}</p>
-      <p>{{ currentQuestion.question.ans1 }}</p>
-      <p>{{ currentQuestion.question.ans2 }}</p>
-      <p>{{ currentQuestion.question.ans3 }}</p>
-      <p>{{ currentQuestion.question.ans4 }}</p>
-
+      <h2>{{ currentQuestion.question.que }}</h2>
+      <button id="btn1" (click)="selectBtn(1);" class="custuomQues" *ngIf="currentQuestion.question.ans1"
+        [innerHTML]="getSanitizedHtml(currentQuestion.question.ans1)">{{
+        currentQuestion.question.ans1 }}</button>
+      <button id="btn2" (click)="selectBtn(2);" class="custuomQues" *ngIf="currentQuestion.question.ans2">{{
+        currentQuestion.question.ans2
+        }}</button>
+      <button id="btn3" (click)="selectBtn(3);" class="custuomQues" *ngIf="currentQuestion.question.ans3">{{
+        currentQuestion.question.ans3
+        }}</button>
+      <button id="btn4" (click)="selectBtn(4);" class="custuomQues" *ngIf="currentQuestion.question.ans4">{{
+        currentQuestion.question.ans4 }}</button>
     </div>
+
+
     <div class="controls">
       <button (click)="toggleCamera()" *ngIf="CameraTogge == true">
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />

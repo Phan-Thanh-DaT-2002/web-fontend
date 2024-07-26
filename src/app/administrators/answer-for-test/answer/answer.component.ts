@@ -26,7 +26,8 @@ export class AnswerComponent implements OnInit {
   public question: string;
   public currentPage
   public perPage = 10;
-  public peer = new Peer();;
+  public peer  ;
+  public peer1  = new Peer();
   isCheck = true;
 
   questions: Question[] = [
@@ -65,7 +66,12 @@ export class AnswerComponent implements OnInit {
       ans3: "Câu trả lời 3",
       ans4: "Câu trả lời 4"
     }  }
-  ];
+  ]; 
+  currentPeer = null
+  PRE = "DELTA"
+ SUF = "MEET"
+  idPeerjs
+   local_stream;
   @ViewChild("doctorVideo")  doctorVideo: any;
   currentQuestion: Question;
   public userId : number;
@@ -75,49 +81,12 @@ export class AnswerComponent implements OnInit {
     this.userId = Number(window.localStorage.getItem("currentLoginId"));
     console.log("this.userId ", this.userId);
     this.putPeerJsUser();
-  
-    // Answer call
-    this.peer.on("call", (call) => {
-      this.openStream()
-      .then((stream) => {
-        debugger
-        call.answer(stream); // Answer the call with an A/V stream.
-        this.playStream("doctorVideo", stream)
-        call.on("stream", (doctorVideo) => {
-          this.playStream("doctorVideo", doctorVideo); // Play the remote video stream.
-        });
-      });
-    });
 
-
-    // let video = this.doctorVideo.nativeElement;
-    // var n = <any>navigator;
-
-    // n.getUserMedia =
-    //   n.getUserMedia ||
-    //   n.webkitGetUserMedia ||
-    //   n.mozGetUserMedia ||
-    //   n.msGetUserMedia;
-
-    // this.peer.on("call", function(call) {
-    //   n.getUserMedia(
-    //     { video: true, audio: true },
-    //     function(stream) {
-    //       call.answer(stream);
-    //       call.on("stream", function(remotestream) {
-    //         video.src = URL.createObjectURL(remotestream);
-    //         video.play();
-    //       });
-    //     },
-    //     function(err) {
-    //       console.log("Failed to get stream", err);
-    //     }
-    //   );
-    // });
+    
 
 
     // Receive messages
-    this.peer.on("connection", (conn) => {
+    this.peer1.on("connection", (conn) => {
       conn.on("data", (data) => {
         // Will print 'hi!'
         console.log(data);
@@ -151,16 +120,18 @@ export class AnswerComponent implements OnInit {
   
 
   async putPeerJsUser(){
-    var idPeerjs
-    await this.peer.on('open', function (id) {
-      
-        idPeerjs = id
+    var idPeer
+    await this.peer1.on('open', function (id) {
+      idPeer = id;
+        
       console.log('My peer ID is: ' + id);
 
     });
 
     setTimeout(() => {
-    var content = idPeerjs
+    var content = idPeer
+    this.idPeerjs = idPeer;
+console.log("idPeerjs",this.idPeerjs);
 
       let params = {
         method: "POST",
@@ -180,9 +151,62 @@ export class AnswerComponent implements OnInit {
           Swal.close();
          
         });
+
+        //create zoom
+        var room_id = this.PRE + this.idPeerjs + this.SUF;
+        console.log("room_id", room_id);
+        this.peer = new Peer(room_id)
+
+        this.peer.on('open', (id) => {
+          console.log("Peer Connected with ID: ", id)
+          navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+          .then((stream)  => {
+
+              this.local_stream = stream;
+              this.setLocalStream(this.local_stream)
+
+          }, (err) => {
+              console.log(err)
+          })
+          this.peer.on('call', (call) => {
+            call.answer(this.local_stream);
+            call.on('stream', (stream) => {
+              this.setRemoteStream(stream)
+            })
+            this.currentPeer = call;
+        })
+      })
+    //   this.peer.listAllPeers((peers) => {
+    //     console.log('All peers:', peers);
+    // });
       }, 7000);// thời gian này nó sẽ thay đổi dựa theo tốc độ mạng 3-7s
 
   }
+
+  setRemoteStream(stream) {
+    let video = document.getElementById("doctorVideo");
+    if (video instanceof HTMLVideoElement) {
+      video.srcObject = stream;
+      video.play();
+    }else {
+        console.error(`Element with id ${video} not found or is not a video element.`);
+      }
+  
+  }
+
+
+  setLocalStream(stream) {
+    let video = document.getElementById("patientVideo");
+    
+    if (video instanceof HTMLVideoElement) {
+      video.srcObject = stream;
+    video.muted = true;
+    video.play();
+    }else {
+      console.error(`Element with id ${video} not found or is not a video element.`);
+    }
+    
+}
   onSliderChange(event: any) {
     this.currentQuestionIndex = event.value;
     this.currentQuestion = this.questions[this.currentQuestionIndex];
