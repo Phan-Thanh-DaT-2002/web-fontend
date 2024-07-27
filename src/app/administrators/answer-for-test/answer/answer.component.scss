@@ -81,3 +81,60 @@ body {
 .controls button:hover {
   background-color: #71a8e2;
 }
+
+
+.test-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+.controls {
+  padding: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-around;
+}
+.controls button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  // background-color: #007bff;
+  // color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button:hover {
+  background-color: #71a8e2;
+}
+
+ .custuomQues {
+  background-color: #abd5ac; /* Màu nền xanh lá cây */
+  border: none; /* Không có viền */
+  color: rgb(48, 19, 19); /* Màu chữ trắng */
+  padding: 15px 32px; /* Khoảng cách bên trong button */
+  text-align: center; /* Căn giữa văn bản trong button */
+  text-decoration: none; /* Không gạch chân chữ */
+  display: inline-block; /* Hiển thị như một khối trực tuyến */
+  font-size: 16px; /* Kích thước chữ */
+  margin: 10px; /* Khoảng cách giữa các button */
+  cursor: pointer; /* Con trỏ chuột khi di chuột qua button */
+  border-radius: 5px; /* Bo góc button */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền khi hover */
+}
+/* Hiệu ứng khi di chuột qua button */
+.question-container button:hover {
+  background-color: #45a049; /* Màu nền khi hover */
+}
+
+/* Căn chỉnh cho button được chọn */
+.question-container button.selected {
+  background-color: #008CBA; /* Màu nền xanh dương cho button được chọn */
+}
+
+/* Căn chỉnh cho button đã được chọn hoặc đã trả lời */
+.question-container button.disabled {
+  background-color: #c0c0c0; /* Màu nền xám cho button không hoạt động */
+  cursor: not-allowed; /* Con trỏ chuột khi di chuột qua button không hoạt động */
+}

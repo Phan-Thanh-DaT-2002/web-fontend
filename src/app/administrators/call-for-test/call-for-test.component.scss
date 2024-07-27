@@ -96,3 +96,25 @@ body {
   background-color: #c0c0c0; /* Màu nền xám cho button không hoạt động */
   cursor: not-allowed; /* Con trỏ chuột khi di chuột qua button không hoạt động */
 }
+
+.video-container {
+  position: relative;
+  display: inline-block;
+}
+
+// video {
+//   display: block;
+//   width: 100%; /* Adjust as needed */
+//   height: auto; /* Adjust as needed */
+// }
+
+.overlay {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  color: white; /* Adjust as needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust as needed */
+  padding: 5px; /* Adjust as needed */
+  font-size: 14px; /* Adjust as needed */
+  z-index: 1;
+}

@@ -7,6 +7,7 @@ import { AnswerForTestManagementService } from '../answer-for-test-management.se
 import { Peer } from "peerjs";
 import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 import { timeout } from 'rxjs/operators';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 interface Question {
@@ -19,6 +20,7 @@ interface Question {
 })
 export class AnswerComponent implements OnInit {
   @ViewChild('patientVideo', { static: false }) patientVideo: ElementRef;
+  @ViewChild('doctorVideo', { static: false }) doctorVideo: ElementRef;
   // @ViewChild('doctorVideo') doctorVideo: ElementRef;
   // @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
   // @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
@@ -27,44 +29,234 @@ export class AnswerComponent implements OnInit {
   public currentPage
   public perPage = 10;
   public peer  ;
+  public conn;
   public peer1  = new Peer();
   isCheck = true;
-
+  videoTrack = null;
+// Lấy từng phần của ngày giờ hiện tại
+now = new Date();
+year = this.now.getFullYear();
+month =  this.now.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+day =  this.now.getDate();
+hours =  this.now.getHours();
+minutes =  this.now.getMinutes();
+seconds =  this.now.getSeconds();
   questions: Question[] = [
     { question: { 
+      id: 1,
+      ans: "",
           que:'Hôm nay là ngày bao nhiêu?',
-          ans1: "29/05/2024",
-          ans2: "30/05/2024",
-          ans3: "31/05/2024",
-          ans4: "32/05/2024"
+          ans1: `${this.day-2}/${this.month}/${this.year}`,
+          ans2: `${this.day-1}/${this.month+1}/${this.year}`,
+          ans3: `${this.day}/${this.month}/${this.year}`,
+          ans4: `${this.day}/${this.month-1}/${this.year}`
         } 
     },
     { question:  { 
+      id: 2,
+      ans: "",
+      que:'Bây giờ là mấy giờ?',
+      ans1: `${this.hours-2}  giờ  `,
+      ans2: `${this.hours-1} giờ `,
+      ans3: `${this.hours} giờ`,
+      ans4: `${this.hours} giờ `
+    }  },
+    { question:  { 
+      id: 3,
+      ans: "",
       que:'Mùa này đang là mùa nào?',
       ans1: "Xuân",
       ans2: "Hạ",
       ans3: "Đông",
-
+      ans4: "Thu"
     }  },
     { question:  { 
-      que:'100-7=?',
+      id: 4,
+      ans: "",
+      que:'100-7= bao nhiêu?',
       ans1: "93",
       ans2: "92",
       ans3: "83",
     } },
     { question:  { 
-      que:'Câu hỏi ??',
-      ans1: "Câu trả lời 1",
-      ans2: "Câu trả lời 2",
-      ans3: "Câu trả lời 3",
-      ans4: "Câu trả lời 4"
+      id: 5,
+      ans: "",
+      que:'Hãy cho biết đây là đất nước nào?',
+      ans1: "Hà Nội",
+      ans2: "Việt Nam",
+      ans3: "Trung Quốc",
+      ans4: "Hồ Chí Minh"
     }  },
     { question:  { 
-      que:'Câu hỏi ?',
-      ans1: "Câu trả lời 1",
-      ans2: "Câu trả lời 2",
-      ans3: "Câu trả lời 3",
-      ans4: "Câu trả lời 4"
+      id: 6,
+      ans: "",
+      que:'Hãy cho biết đây là tỉnh nào nào?',
+      ans1: "Hà Nội",
+      ans2: "Hoàng xa",
+      ans3: "Tất cả đều không phải",
+      ans4: "Phú Thọ"
+    }  },
+    { question:  { 
+      id: 7,
+      ans: "",
+      que:'Hãy chọn tên đồ vật được nhìn thấy',
+      ans1: `<img src="https://img.icons8.com/?size=200&id=67393&format=png" alt="Hình ảnh">`,
+      ans2: "Cái tẩy",
+      ans3: "Cái bút",
+      ans4: "Bàn là"
+    }  },
+    { question:  { 
+      id: 8,
+      ans: "",
+      que:'Hãy chọn tên đồ vật được nhìn thấy',
+      ans1: `<img src="https://img.icons8.com/?size=100&id=jNy3SExnbCAp&format=png" alt="Hình ảnh">`,
+      ans2: "Ô tô",
+      ans3: "Cái bút",
+      ans4: "Xe đạp"
+    }  },
+    { question:  { 
+      id: 9,
+      ans: "",
+      que:'Hãy chọn tên đồ vật được nhìn thấy?',
+      ans1: `<img src="https://img.icons8.com/?size=100&id=115370&format=png" alt="Hình ảnh">`,
+      ans2: "Ô tô",
+      ans3: "Cái bút",
+      ans4: "Ti vi"
+    }  },
+    { question:  { 
+      id: 10,
+      ans: "",
+      que:'100-7 = bao nhiêu?',
+      ans1: "63",
+      ans2: "73",
+      ans3: "83",
+      ans4: "93"
+    }  },
+    { question:  { 
+      id: 11,
+      ans: "",
+      que:'93-7 = bao nhiêu?',
+      ans1: "66",
+      ans2: "76",
+      ans3: "86",
+      ans4: "96"
+    }  },
+    { question:  { 
+      id: 12,
+      ans: "",
+      que:'86-7 = bao nhiêu?',
+      ans1: "69",
+      ans2: "79",
+      ans3: "89",
+      ans4: "99"
+    }  },
+    { question:  { 
+      id: 13,
+      ans: "",
+      que:'79-5 = bao nhiêu?',
+      ans1: "44",
+      ans2: "54",
+      ans3: "64",
+      ans4: "74"
+    }  },
+    { question:  { 
+      id: 14,
+      ans: "",
+      que:'74-7 = bao nhiêu?',
+      ans1: "47",
+      ans2: "57",
+      ans3: "57",
+      ans4: "77"
+    }  },
+    { question:  { 
+      id: 15,
+      ans: "",
+      que:'Hãy chọn 1 trong 3 đồ vật ban nãy đã nhìn thấy( không quay lại nhìn)',
+      ans1: "xe đạp",
+      ans2: "xe máy",
+      ans3: "bút chì",
+      ans4: "tẩy"
+    }  },
+    { question:  { 
+      id: 16,
+      ans: "",
+      que: 'Quốc gia nào có diện tích lớn nhất thế giới?',
+      ans1: "Canada",
+      ans2: "Trung Quốc",
+      ans3: "Hoa Kỳ",
+      ans4: "Nga"
+    }  },
+    { question:  { 
+      id: 17,
+      ans: "",
+      que: 'Tác giả của tác phẩm "Truyện Kiều" là ai?',
+      ans1: "Nguyễn Du",
+      ans2: "Nguyễn Trãi",
+      ans3: "Nguyễn Bỉnh Khiêm",
+      ans4: "Nguyễn Đình Chiểu"
+    }  },
+    { question:  { 
+      id: 18,
+      ans: "",
+      que: 'Hà Nội là thủ đô của nước nào?',
+      ans1: "Việt Nam",
+      ans2: "Thái Lan",
+      ans3: "Campuchia",
+      ans4: "Lào"
+    }  },
+    { question:  { 
+      id: 19,
+      ans: "",
+      que: 'Lễ hội đền Hùng được tổ chức vào ngày nào?',
+      ans1: "10/3 âm lịch",
+      ans2: "15/8 âm lịch",
+      ans3: "5/5 âm lịch",
+      ans4: "12/12 âm lịch"
+    }  },
+    { question:  { 
+      id: 20,
+      ans: "",
+      que: 'Ngày quốc khánh của Việt Nam là ngày nào?',
+      ans1: "2/9",
+      ans2: "30/4",
+      ans3: "1/1",
+      ans4: "15/8"
+    }  },
+    { question:  {
+      id: 21,
+      ans: "", 
+      que: 'Quốc hoa của Việt Nam là gì?',
+      ans1: "Sen",
+      ans2: "Hồng",
+      ans3: "Cúc",
+      ans4: "Mai"
+    }  },
+    { question:  { 
+      id: 22,
+      ans: "",
+      que: 'Ngày Tết Nguyên Đán của Việt Nam rơi vào tháng nào?',
+      ans1: "Tháng 1",
+      ans2: "Tháng 2",
+      ans3: "Tháng 3",
+      ans4: "Tháng 4"
+    }  },
+    { question:  { 
+      id: 23,
+      ans: "",
+      que: 'Tên gọi cũ của thành phố Hồ Chí Minh là gì?',
+      ans1: "Sài Gòn",
+      ans2: "Gia Định",
+      ans3: "Cần Thơ",
+      ans4: "Hải Phòng"
+    }  },
+    { question:  { 
+      id: 24,
+      ans: "",
+      que: 'Biểu tượng quốc gia của Việt Nam là gì?',
+      ans1: "Sao vàng trên nền đỏ",
+      ans2: "Cờ đỏ sao vàng",
+      ans3: "Chùa Một Cột",
+      ans4: "Rồng"
     }  }
   ]; 
   currentPeer = null
@@ -72,10 +264,10 @@ export class AnswerComponent implements OnInit {
  SUF = "MEET"
   idPeerjs
    local_stream;
-  @ViewChild("doctorVideo")  doctorVideo: any;
+  // @ViewChild("doctorVideo")  doctorVideo: any;
   currentQuestion: Question;
   public userId : number;
-  constructor(     private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
+  constructor(  private sanitizer: DomSanitizer,   private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
     this.userId = Number(window.localStorage.getItem("currentLoginId"));
@@ -90,24 +282,16 @@ export class AnswerComponent implements OnInit {
       conn.on("data", (data) => {
         // Will print 'hi!'
         console.log(data);
-        if (data == "pre") {
-          this.previousQuestion();
-        }
-        if (data == "next") {
-          this.nextQuestion();
-        }
-        if (data == "toggle") {
-          this.openVideos(); 
-          
-          if (conn.open) {
-          console.log("send again data");
-          conn.send('Hello from B!');
-          } else {
-            // If connection is not open, add an event listener to send data when it opens
-            conn.on("open", () => {
-              conn.send('Hello from B!');
-            });
-          }
+
+        switch(data)
+        {
+          case "pre" :  this.previousQuestionDoctor(); break;
+          case "next":  this.nextQuestionDoctor(); break;
+          case"toggle": this.openVideos(); break;
+          case "1" :  this.selectBtn(1); break;
+          case "2" :  this.selectBtn(2); break;
+          case "3" :  this.selectBtn(3); break;
+          case "4" :  this.selectBtn(4); break;
         }
       });
   
@@ -182,7 +366,9 @@ console.log("idPeerjs",this.idPeerjs);
       }, 7000);// thời gian này nó sẽ thay đổi dựa theo tốc độ mạng 3-7s
 
   }
-
+  getSanitizedHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
   setRemoteStream(stream) {
     let video = document.getElementById("doctorVideo");
     if (video instanceof HTMLVideoElement) {
@@ -212,13 +398,23 @@ console.log("idPeerjs",this.idPeerjs);
     this.currentQuestion = this.questions[this.currentQuestionIndex];
   }
   
-  toggleCamera() {
-    // Implement camera toggle functionality
-    // alert('Toggling camera');
- 
-      //  this.service.startRecording();
-    
-  }
+  async  toggleCamera() {
+    if (this.videoTrack) {
+        // Camera is on, so we need to turn it off
+        this.videoTrack.enabled = !this.videoTrack.enabled;
+        console.log(`Camera ${this.videoTrack.enabled ? 'enabled' : 'disabled'}`);
+    } else {
+        // Camera is off, so we need to turn it on
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            this.videoTrack = stream.getVideoTracks()[0];
+            this.setLocalStream(stream); // Update the video element with the new stream
+            console.log('Camera enabled');
+        } catch (error) {
+            console.error('Error accessing camera:', error);
+        }
+    }
+}
 
   toggleMic() {
     // Implement mic toggle functionality
@@ -249,19 +445,145 @@ console.log("idPeerjs",this.idPeerjs);
     alert('Ending call');
   }
 
-  nextQuestion() {
+  nextQuestionDoctor() {
+
+    console.log(" this.currentQuestion", this.currentQuestion);
+
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+
+
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+
+
+
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
     }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
   }
 
-  previousQuestion() {
+
+  nextQuestion() {
+
+    console.log(" this.currentQuestion", this.currentQuestion);
+
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+
+    this.conn = this.peer.connect(this.idPeerjs);
+    this.conn.on("open", () => {
+      this.conn.send("next");
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+
+
+
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
+  }
+
+
+  previousQuestionDoctor() {
+    console.log(" this.currentQuestion", this.questions);
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+    
+
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
     }
+
+
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+    
+      console.log("selectedButton",selectedButton);
+      
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
   }
+ previousQuestion() {
+    console.log(" this.currentQuestion", this.questions);
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+    
+    this.conn = this.peer.connect(this.idPeerjs);
+    this.conn.on("open", () => {
+      this.conn.send("pre");
+    });
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+
+
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+    
+      console.log("selectedButton",selectedButton);
+      
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+  }
+
 
   ngAfterViewInit() {
     // Ensure that the video elements are available
@@ -299,8 +621,8 @@ console.log("idPeerjs",this.idPeerjs);
         leftPanel.style.flex = '5';
       }
       // doctorVideoElement.style.position = 'static';
-      doctorVideoElement.style.width = '90%';
-      doctorVideoElement.style.height = '60%';
+      doctorVideoElement.style.width = '100%';
+      doctorVideoElement.style.height = '50%';
       this.isCheck = false;
     } else {
       if(leftPanel){
@@ -386,5 +708,49 @@ console.log("idPeerjs",this.idPeerjs);
     }
 
 
-
+    selectBtn(number){
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+      switch(number) 
+        {
+          case  1: {
+            const selectedButton = document.getElementById("btn1");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 1;
+            }
+            break;
+          } 
+          case  2: {
+            const selectedButton = document.getElementById("btn2");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 2;
+            }
+            break;
+          } 
+          case  3: {
+            const selectedButton = document.getElementById("btn3");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 3;
+            }
+            break;
+          } 
+          case  4: {
+            const selectedButton = document.getElementById("btn4");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 4;
+            }
+            break;
+          } 
+        
+        }
+      console.log("this.currentQuestion",this.currentQuestion);
+      
+      
+    }
 }

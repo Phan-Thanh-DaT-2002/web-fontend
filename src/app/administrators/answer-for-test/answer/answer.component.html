@@ -1,21 +1,24 @@
 <div class="container">
   <div class="left-panel">
-    <video #patientVideo autoplay> </video>
-    <!-- <div>
-      <h4>Chạm để phóng to</h4>
-    </div> -->
-    <video #doctorVideo class="doctor-video" autoplay muted (click)="openVideos()"></video>
+    <video #patientVideo id="patientVideo" autoplay> </video>
+
+    <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="openVideos()"></video>
   </div>
   <div class="right-panel">
-    <div class="test-area area">
+    <div class="test-area question-container">
       <h2>Bài Test</h2>
-      {{ currentQuestion.question.que }}<br>
-      <button type="button">{{ currentQuestion.question.ans1 }}</button><br>
-      <button type="button">{{ currentQuestion.question.ans2 }}</button><br>
-      <button type="button">{{ currentQuestion.question.ans3 }}</button><br>
-      <button type="button">{{ currentQuestion.question.ans4 }}</button>
-
-
+      <h2>{{ currentQuestion.question.que }}</h2>
+      <button id="btn1" (click)="selectBtn(1);" class="custuomQues" *ngIf="currentQuestion.question.ans1"
+        [innerHTML]="getSanitizedHtml(currentQuestion.question.ans1)">{{
+        currentQuestion.question.ans1 }}</button>
+      <button id="btn2" (click)="selectBtn(2);" class="custuomQues" *ngIf="currentQuestion.question.ans2">{{
+        currentQuestion.question.ans2
+        }}</button>
+      <button id="btn3" (click)="selectBtn(3);" class="custuomQues" *ngIf="currentQuestion.question.ans3">{{
+        currentQuestion.question.ans3
+        }}</button>
+      <button id="btn4" (click)="selectBtn(4);" class="custuomQues" *ngIf="currentQuestion.question.ans4">{{
+        currentQuestion.question.ans4 }}</button>
     </div>
     <div class="controls">
       <button (click)="toggleCamera()">Bật/tắt camera</button>

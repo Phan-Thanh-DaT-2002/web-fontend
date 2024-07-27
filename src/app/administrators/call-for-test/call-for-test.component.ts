@@ -53,10 +53,10 @@ export class CallForTestComponent implements OnInit {
       id: 2,
       ans: "",
       que:'Bây giờ là mấy giờ?',
-      ans1: `${this.hours-2}  giờ  ${this.minutes} phút ${this.seconds}  giây`,
-      ans2: `${this.hours-1} giờ ${this.minutes} phút ${this.seconds} giây`,
-      ans3: `${this.hours} giờ ${this.minutes} phút ${this.seconds} giây`,
-      ans4: `${this.hours} giờ ${this.minutes-1} phút ${this.seconds} giây`
+      ans1: `${this.hours-2}  giờ `,
+      ans2: `${this.hours-1} giờ`,
+      ans3: `${this.hours} giờ`,
+      ans4: `${this.hours} giờ`
     }  },
     { question:  { 
       id: 3,
@@ -70,7 +70,7 @@ export class CallForTestComponent implements OnInit {
     { question:  { 
       id: 4,
       ans: "",
-      que:'100-7= bao nhiêu',
+      que:'100-7= bao nhiêu?',
       ans1: "93",
       ans2: "92",
       ans3: "83",
@@ -257,7 +257,7 @@ export class CallForTestComponent implements OnInit {
     }  }
   ];
 
-  public peer : any;
+  public peer= new Peer();
   public conn;
   public data;
   public idRemote;
@@ -279,22 +279,23 @@ public userId;
 
   ngOnInit(): void {
     
-    this.peer = new Peer();
     // Receive messages
     this.peer.on("connection", (conn) => {
-      // conn.on("data", (data) => {
-      //   // Will print 'hi!'
-      //   console.log(data);
-      //   if(data == "pre"){
-      //     this.previousQuestion() 
-      //   }     
-        
-      //   if(data == "next"){
-      //     this.nextQuestion() 
-      //   }
-      // });
-      conn.on('data', function(data) {
-        console.log('Received', data);
+     
+      conn.on("data", (data) => {
+        // Will print 'hi!'
+        console.log(data);
+
+        switch(data)
+        {
+          case "pre" :  this.previousQuestionPatient(); break;
+          case "next":  this.nextQuestionPatient(); break;
+          case"toggle": this.toggleCamera(); break;
+          case "1" :  this.selectBtn(1); break;
+          case "2" :  this.selectBtn(2); break;
+          case "3" :  this.selectBtn(3); break;
+          case "4" :  this.selectBtn(4); break;
+        }
       });
       conn.on("open", () => {
         conn.send("hello!");
@@ -349,6 +350,11 @@ this.getUserDetail();
                       this.currentPeer = call;
                       console.log("end");
                       
+                      this.conn = this.peer.connect(this.idRemote);
+                      this.conn.on("open", () => {
+                        this.conn.send(` id :${id}`);
+                      });
+                  
                   })
                   .catch((err) => {
                       console.error(err);
@@ -446,10 +452,15 @@ setRemoteStream(stream) {
   }
 
   nextQuestion() {
+
+    console.log(" this.currentQuestion", this.currentQuestion);
+
     const buttons = document.querySelectorAll('.question-container button');
     buttons.forEach(button => {
       button.classList.remove('selected');
     });
+
+   
     // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
     // console.log("idRemote",idRemote);
     
@@ -457,12 +468,61 @@ setRemoteStream(stream) {
     this.conn.on("open", () => {
       this.conn.send("next");
     });
+
+
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
     }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
   }
+  nextQuestionPatient() {
 
+    console.log(" this.currentQuestion", this.currentQuestion);
+
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+
+   
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+
+
+
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
+  }
 
   openCamera() {
     this.conn = this.peer.connect(this.idRemote);
@@ -484,7 +544,11 @@ setRemoteStream(stream) {
 
 
   previousQuestion() {
-
+    console.log(" this.currentQuestion", this.questions);
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
     // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
     // console.log("idRemote",idRemote);
     
@@ -495,6 +559,51 @@ setRemoteStream(stream) {
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+
+
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+    
+      console.log("selectedButton",selectedButton);
+      
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+  } 
+  previousQuestionPatient() {
+    console.log(" this.currentQuestion", this.questions);
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+    
+
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+
+
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+    
+      console.log("selectedButton",selectedButton);
+      
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
     }
   }
 
@@ -582,6 +691,13 @@ this.modalService.open(modalSM, {
             const selectedButton = document.getElementById("btn1");
             if (selectedButton) {
               selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 1;
+                  
+                this.conn = this.peer.connect(this.idRemote);
+                this.conn.on("open", () => {
+                  this.conn.send("1");
+                });
+
             }
             break;
           } 
@@ -589,6 +705,11 @@ this.modalService.open(modalSM, {
             const selectedButton = document.getElementById("btn2");
             if (selectedButton) {
               selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 2;
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send("2");
+              });
             }
             break;
           } 
@@ -596,6 +717,11 @@ this.modalService.open(modalSM, {
             const selectedButton = document.getElementById("btn3");
             if (selectedButton) {
               selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 3;
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send("3");
+              });
             }
             break;
           } 
@@ -603,11 +729,18 @@ this.modalService.open(modalSM, {
             const selectedButton = document.getElementById("btn4");
             if (selectedButton) {
               selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 4;
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send("4");
+              });
             }
             break;
           } 
         
         }
+      console.log("this.currentQuestion",this.currentQuestion);
+      
       
     }
 
