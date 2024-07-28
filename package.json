@@ -54,6 +54,7 @@
     "chart.js": "2.9.4",
     "core-js": "3.14.0",
     "exceljs": "^4.3.0",
+    "extendable-media-recorder": "^9.2.9",
     "feather-icons": "4.28.0",
     "file-saver": "^2.0.5",
     "flatpickr": "4.6.9",

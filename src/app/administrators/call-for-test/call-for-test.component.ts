@@ -56,7 +56,7 @@ export class CallForTestComponent implements OnInit {
       ans1: `${this.hours-2}  giờ `,
       ans2: `${this.hours-1} giờ`,
       ans3: `${this.hours} giờ`,
-      ans4: `${this.hours} giờ`
+      ans4: `${this.hours+1} giờ`
     }  },
     { question:  { 
       id: 3,
@@ -290,7 +290,9 @@ public userId;
         {
           case "pre" :  this.previousQuestionPatient(); break;
           case "next":  this.nextQuestionPatient(); break;
-          case"toggle": this.toggleCamera(); break;
+          case"toggleVideo": 
+          
+            if(this.otherCamera == 1) { this.otherCamera =0;  }  else {this.otherCamera =1} break;
           case "1" :  this.selectBtn(1); break;
           case "2" :  this.selectBtn(2); break;
           case "3" :  this.selectBtn(3); break;
@@ -352,7 +354,7 @@ this.getUserDetail();
                       
                       this.conn = this.peer.connect(this.idRemote);
                       this.conn.on("open", () => {
-                        this.conn.send(` id :${id}`);
+                        this.conn.send(`id :${id}`);
                       });
                   
                   })
@@ -442,8 +444,10 @@ setRemoteStream(stream) {
 
   recordScreen() {
     // Implement screen recording functionality
-    console.log("questions",this.questions);
-    
+    this.conn = this.peer.connect(this.idRemote);
+    this.conn.on("open", () => {
+      this.conn.send("record");
+    });
   }
 
   endCall() {
@@ -532,6 +536,8 @@ setRemoteStream(stream) {
     });
 
   }
+  
+
 
   closeCamera() {
     this.conn = this.peer.connect(this.idRemote);
@@ -636,6 +642,12 @@ setRemoteStream(stream) {
 
     // modal Open Small
     openModalResultsUser( modalSM) {
+
+
+      this.conn = this.peer.connect(this.idRemote);
+      this.conn.on("open", () => {
+        this.conn.send("StopRecord");
+      });
       this.endTime = performance.now();
       const timeTaken = this.endTime - this.startTime;
 

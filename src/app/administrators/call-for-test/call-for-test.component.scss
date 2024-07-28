@@ -39,7 +39,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #76c7d2;
+
 }
 .test-area {
   flex: 1;
@@ -88,7 +89,7 @@ body {
 
 /* Căn chỉnh cho button được chọn */
 .question-container button.selected {
-  background-color: #008CBA; /* Màu nền xanh dương cho button được chọn */
+  background-color: #adc30a; /* Màu nền xanh dương cho button được chọn */
 }
 
 /* Căn chỉnh cho button đã được chọn hoặc đã trả lời */

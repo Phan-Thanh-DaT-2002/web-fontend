@@ -8,6 +8,13 @@ import { Peer } from "peerjs";
 import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 import { timeout } from 'rxjs/operators';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MediaRecorder } from 'extendable-media-recorder';
+
+// declare const MediaRecorder: {
+//   prototype: MediaRecorder;
+//   new (stream: MediaStream, options?: MediaRecorderOptions): MediaRecorder;
+//   isTypeSupported(type: string): boolean;
+// };
 
 
 interface Question {
@@ -29,10 +36,16 @@ export class AnswerComponent implements OnInit {
   public currentPage
   public perPage = 10;
   public peer  ;
+  recordedChunks: Blob[] = [];
+  
   public conn;
+  public peerJsDoctor;
   public peer1  = new Peer();
   isCheck = true;
+  public mediaRecorder;
+  navigator = <any>navigator;
   videoTrack = null;
+  
 // Lấy từng phần của ngày giờ hiện tại
 now = new Date();
 year = this.now.getFullYear();
@@ -41,6 +54,7 @@ day =  this.now.getDate();
 hours =  this.now.getHours();
 minutes =  this.now.getMinutes();
 seconds =  this.now.getSeconds();
+isRecording = false;
   questions: Question[] = [
     { question: { 
       id: 1,
@@ -59,7 +73,7 @@ seconds =  this.now.getSeconds();
       ans1: `${this.hours-2}  giờ  `,
       ans2: `${this.hours-1} giờ `,
       ans3: `${this.hours} giờ`,
-      ans4: `${this.hours} giờ `
+      ans4: `${this.hours+1} giờ `
     }  },
     { question:  { 
       id: 3,
@@ -282,17 +296,27 @@ seconds =  this.now.getSeconds();
       conn.on("data", (data) => {
         // Will print 'hi!'
         console.log(data);
-
-        switch(data)
-        {
-          case "pre" :  this.previousQuestionDoctor(); break;
-          case "next":  this.nextQuestionDoctor(); break;
-          case"toggle": this.openVideos(); break;
-          case "1" :  this.selectBtn(1); break;
-          case "2" :  this.selectBtn(2); break;
-          case "3" :  this.selectBtn(3); break;
-          case "4" :  this.selectBtn(4); break;
-        }
+        const idPrefix = "id :"
+        const dataStr = String(data);
+        
+        if (dataStr.substring(0, 2) === "id") {
+          this.peerJsDoctor =  dataStr.split(idPrefix)[1];
+          // console.log(" this.peerJsDoctor", this.peerJsDoctor);
+          
+        } 
+        else {
+            switch(data)
+            {
+              case "pre" :  this.previousQuestionDoctor(); break;
+              case "next":  this.nextQuestionDoctor(); break;
+              case"toggle": this.openVideosDoctor(); break;
+              case "1" :  this.selectBtn(1); break;
+              case "2" :  this.selectBtn(2); break;
+              case "3" :  this.selectBtn(3); break;
+              case "4" :  this.selectBtn(4); break;
+              case "record" :  this.startRecording(); break;
+              case "StopRecord" :  this.stopRecording(); break;
+            }}
       });
   
       conn.on("open", () => {
@@ -490,7 +514,7 @@ console.log("idPeerjs",this.idPeerjs);
       button.classList.remove('selected');
     });
 
-    this.conn = this.peer.connect(this.idPeerjs);
+    this.conn = this.peer.connect(this.peerJsDoctor);
     this.conn.on("open", () => {
       this.conn.send("next");
     });
@@ -559,7 +583,7 @@ console.log("idPeerjs",this.idPeerjs);
     // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
     // console.log("idRemote",idRemote);
     
-    this.conn = this.peer.connect(this.idPeerjs);
+    this.conn = this.peer.connect(this.peerJsDoctor);
     this.conn.on("open", () => {
       this.conn.send("pre");
     });
@@ -598,16 +622,19 @@ console.log("idPeerjs",this.idPeerjs);
     const doctorVideoElement = this.doctorVideo.nativeElement;
 
     // Swap the srcObject of the videos
-    const tempSrc = patientVideoElement.srcObject;
-    patientVideoElement.srcObject = doctorVideoElement.srcObject;
-    doctorVideoElement.srcObject = tempSrc;
+    // const tempSrc = patientVideoElement.srcObject;
+    // patientVideoElement.srcObject = doctorVideoElement.srcObject;
+    // doctorVideoElement.srcObject = tempSrc;
 
     // Swap sizes
 
     var leftPanel = document.querySelector('.left-panel') as HTMLDivElement;
     // console.log("leftPanel",leftPanel);
 
-    
+    this.conn = this.peer.connect(this.peerJsDoctor);
+    this.conn.on("open", () => {
+      this.conn.send("toggleVideo");
+    });
     
     var doctorVideo = document.querySelector('.doctor-video') as HTMLDivElement;
     if(doctorVideo){
@@ -622,7 +649,7 @@ console.log("idPeerjs",this.idPeerjs);
       }
       // doctorVideoElement.style.position = 'static';
       doctorVideoElement.style.width = '100%';
-      doctorVideoElement.style.height = '50%';
+      doctorVideoElement.style.height = '70%';
       this.isCheck = false;
     } else {
       if(leftPanel){
@@ -634,7 +661,49 @@ console.log("idPeerjs",this.idPeerjs);
     }
   }
 
+  openVideosDoctor() {
+    
+    const patientVideoElement = this.patientVideo.nativeElement;
+    const doctorVideoElement = this.doctorVideo.nativeElement;
 
+    // Swap the srcObject of the videos
+    // const tempSrc = patientVideoElement.srcObject;
+    // patientVideoElement.srcObject = doctorVideoElement.srcObject;
+    // doctorVideoElement.srcObject = tempSrc;
+
+    // Swap sizes
+
+    var leftPanel = document.querySelector('.left-panel') as HTMLDivElement;
+    // console.log("leftPanel",leftPanel);
+
+    
+
+
+
+    var doctorVideo = document.querySelector('.doctor-video') as HTMLDivElement;
+    if(doctorVideo){
+    console.log("doctorVideo",doctorVideo);
+
+      // doctorVideo.style.flex = '5';
+    }
+
+    if (doctorVideoElement.classList.contains('doctor-video') && this.isCheck == true) {
+      if(leftPanel){
+        leftPanel.style.flex = '5';
+      }
+      // doctorVideoElement.style.position = 'static';
+      doctorVideoElement.style.width = '100%';
+      doctorVideoElement.style.height = '70%';
+      this.isCheck = false;
+    } else {
+      if(leftPanel){
+        leftPanel.style.flex = '1';
+      }
+      doctorVideoElement.style.width = '80%';
+      doctorVideoElement.style.height = '40%';
+      this.isCheck = true;
+    }
+  }
 
     // modal Open Small
     openModalResultsUser( modalSM) {
@@ -720,6 +789,10 @@ console.log("idPeerjs",this.idPeerjs);
             if (selectedButton) {
               selectedButton.classList.add('selected');
               this.currentQuestion.question.ans = 1;
+              this.conn = this.peer.connect(this.peerJsDoctor);
+              this.conn.on("open", () => {
+                this.conn.send("1");
+              });
             }
             break;
           } 
@@ -728,6 +801,10 @@ console.log("idPeerjs",this.idPeerjs);
             if (selectedButton) {
               selectedButton.classList.add('selected');
               this.currentQuestion.question.ans = 2;
+              this.conn = this.peer.connect(this.peerJsDoctor);
+              this.conn.on("open", () => {
+                this.conn.send("2");
+              });
             }
             break;
           } 
@@ -736,6 +813,10 @@ console.log("idPeerjs",this.idPeerjs);
             if (selectedButton) {
               selectedButton.classList.add('selected');
               this.currentQuestion.question.ans = 3;
+              this.conn = this.peer.connect(this.peerJsDoctor);
+              this.conn.on("open", () => {
+                this.conn.send("3");
+              });
             }
             break;
           } 
@@ -744,13 +825,120 @@ console.log("idPeerjs",this.idPeerjs);
             if (selectedButton) {
               selectedButton.classList.add('selected');
               this.currentQuestion.question.ans = 4;
+              this.conn = this.peer.connect(this.peerJsDoctor);
+              this.conn.on("open", () => {
+                this.conn.send("4");
+              });
             }
             break;
           } 
         
         }
       console.log("this.currentQuestion",this.currentQuestion);
-      
-      
+     
     }
+
+
+
+    // startCapture() {
+    //   // Lưu ngữ cảnh hiện tại của `this` để sử dụng trong các callback
+    //   const self = this;
+      
+    //   try {
+    //     // Yêu cầu quyền truy cập vào màn hình của người dùng
+    //     this.navigator.mediaDevices
+    //       .getDisplayMedia({
+    //         video: true // Chỉ yêu cầu quyền truy cập vào video (màn hình)
+    //       })
+    //       .then(stream => {
+    //         // Khi người dùng cho phép, `stream` chứa luồng video màn hình
+    
+    //         // Lấy phần tử video từ DOM để hiển thị luồng video màn hình
+    //         let video = document.querySelector("video");
+    //         video.srcObject = stream; // Gán luồng video vào phần tử video
+    
+    //         // Tạo một đối tượng MediaRecorder để ghi lại luồng video
+    //         this.mediaRecorder = new MediaRecorder(stream);
+    //         console.log(MediaRecorder); // In ra đối tượng MediaRecorder để kiểm tra
+    //         console.log(this.mediaRecorder); // In ra thể hiện của MediaRecorder để kiểm tra
+    
+    //         // Định nghĩa hàm xử lý khi có dữ liệu mới từ MediaRecorder
+    //         this.mediaRecorder.ondataavailable = event => {
+    //           // Tạo một URL blob từ dữ liệu video đã ghi và in ra console
+    //           const url = URL.createObjectURL(event.data);
+    //           console.log(url);
+    //         };
+    
+    //         // Bắt đầu ghi lại luồng video (tùy chọn, nếu cần)
+    //         // this.mediaRecorder.start();
+    //       })
+    //       .catch(err => {
+    //         // Bắt lỗi nếu người dùng từ chối quyền truy cập vào màn hình
+    //         console.error("Error accessing display media: " + err);
+    //       });
+    //   } catch (err) {
+    //     // Bắt lỗi nếu có lỗi khác xảy ra trong quá trình yêu cầu quyền truy cập hoặc ghi lại video
+    //     console.error("Error: " + err);
+    //   }
+    // }
+
+
+    @ViewChild('patientVideo', { static: true }) videoElementRef: ElementRef<HTMLVideoElement>;
+
+    get videoElement(): HTMLVideoElement {
+      return this.videoElementRef.nativeElement;
+    }
+    async startRecording() {
+      try {
+        // Yêu cầu quyền truy cập vào màn hình của người dùng
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        console.log(stream);
+  
+        // Gán luồng video vào phần tử video
+        this.videoElement.srcObject = stream;
+  
+        // Khởi tạo MediaRecorder để ghi lại luồng video
+        this.mediaRecorder = new MediaRecorder(stream);
+        this.recordedChunks = [];
+  
+        this.mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            this.recordedChunks.push(event.data);
+          }
+        };
+  
+        this.mediaRecorder.onstop = () => {
+          const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          this.videoElement.srcObject = null; // Stop displaying live stream
+          this.videoElement.src = url; // Display recorded video
+  
+          // Auto-download video
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'recorded-video.webm';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url); // Clean up URL
+          document.body.removeChild(a);
+        };
+  
+        // Bắt đầu ghi lại
+        this.mediaRecorder.start();
+        this.isRecording = true;
+      } catch (err) {
+        // Bắt lỗi nếu người dùng từ chối quyền truy cập hoặc có lỗi xảy ra
+        console.error('Error accessing display media: ', err);
+      }
+    }
+  
+    stopRecording() {
+      this.isRecording= false;
+      if (this.mediaRecorder && this.isRecording) {
+        this.mediaRecorder.stop();
+        this.isRecording = false;
+      }
+    }
+  
 }
