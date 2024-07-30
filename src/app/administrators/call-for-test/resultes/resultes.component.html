@@ -11,8 +11,8 @@
                 <div class=" col-12">
                   <div class="form-group">
                     <label for="login-name-column">Điểm số<span style="color: red">*</span></label>
-                    <input type="text" id="login-name-column" class="form-control" placeholder="Nhập điểm số"
-                      name="login-column" formControlName="score"
+                    <input type="text" readonly="true" id="login-name-column" class="form-control"
+                      placeholder="Nhập điểm số" name="login-column" formControlName="score"
                       [ngClass]="{ 'is-invalid':addUserFormSubmitted &&  AddUserForm.score.errors }" />
                     <div *ngIf=" AddUserForm.score.errors" class="invalid-feedback">
                       <div *ngIf="AddUserForm.score.errors.required">Bạn chưa nhập điểm
@@ -22,8 +22,8 @@
                 </div>
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="full-name-column">Đánh giá của bệnh nhân<span style="color: red">*</span></label>
-                    <input type="text" id="full-name-column" class="form-control"
+                    <label for="full-name-column">Đánh giá cho bệnh nhân<span style="color: red">*</span></label>
+                    <input type="text" style=" height: 100px;" id="full-name-column" class="form-control"
                       placeholder="Nhập đánh giá của bệnh nhân" name="fname-column" formControlName="note"
                       [ngClass]="{ 'is-invalid': addUserFormSubmitted && AddUserForm.note.errors }" />
                     <div *ngIf=" AddUserForm.note.errors" class="invalid-feedback">

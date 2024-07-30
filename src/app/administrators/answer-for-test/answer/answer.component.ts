@@ -78,17 +78,17 @@ isRecording = false;
     { question:  { 
       id: 3,
       ans: "",
-      que:'Mùa này đang là mùa nào?',
-      ans1: "Xuân",
-      ans2: "Hạ",
-      ans3: "Đông",
-      ans4: "Thu"
+      que:' Một năm thường sẽ có mấy mùa',
+      ans1: "1",
+      ans2: "3",
+      ans3: "2",
+      ans4: "4"
     }  },
     { question:  { 
       id: 4,
       ans: "",
       que:'100-7= bao nhiêu?',
-      ans1: "93",
+      ans1: "93",//
       ans2: "92",
       ans3: "83",
     } },
@@ -97,18 +97,17 @@ isRecording = false;
       ans: "",
       que:'Hãy cho biết đây là đất nước nào?',
       ans1: "Hà Nội",
-      ans2: "Việt Nam",
+      ans2: "Việt Nam",//
       ans3: "Trung Quốc",
       ans4: "Hồ Chí Minh"
     }  },
     { question:  { 
       id: 6,
       ans: "",
-      que:'Hãy cho biết đây là tỉnh nào nào?',
-      ans1: "Hà Nội",
-      ans2: "Hoàng xa",
-      ans3: "Tất cả đều không phải",
-      ans4: "Phú Thọ"
+      que:'Hãy cho biết Việt Nam có giáp biển hay là không?',
+      ans1: "Có ",//
+      ans2: "Không",
+
     }  },
     { question:  { 
       id: 7,
@@ -116,7 +115,7 @@ isRecording = false;
       que:'Hãy chọn tên đồ vật được nhìn thấy',
       ans1: `<img src="https://img.icons8.com/?size=200&id=67393&format=png" alt="Hình ảnh">`,
       ans2: "Cái tẩy",
-      ans3: "Cái bút",
+      ans3: "Cái bút",//
       ans4: "Bàn là"
     }  },
     { question:  { 
@@ -126,7 +125,7 @@ isRecording = false;
       ans1: `<img src="https://img.icons8.com/?size=100&id=jNy3SExnbCAp&format=png" alt="Hình ảnh">`,
       ans2: "Ô tô",
       ans3: "Cái bút",
-      ans4: "Xe đạp"
+      ans4: "Xe đạp"//
     }  },
     { question:  { 
       id: 9,
@@ -135,16 +134,16 @@ isRecording = false;
       ans1: `<img src="https://img.icons8.com/?size=100&id=115370&format=png" alt="Hình ảnh">`,
       ans2: "Ô tô",
       ans3: "Cái bút",
-      ans4: "Ti vi"
+      ans4: "Ti vi"//
     }  },
     { question:  { 
       id: 10,
       ans: "",
-      que:'100-7 = bao nhiêu?',
-      ans1: "63",
-      ans2: "73",
-      ans3: "83",
-      ans4: "93"
+      que:'1000-7 = bao nhiêu?',
+      ans1: "963",
+      ans2: "973",
+      ans3: "983",
+      ans4: "993"//
     }  },
     { question:  { 
       id: 11,
@@ -152,7 +151,7 @@ isRecording = false;
       que:'93-7 = bao nhiêu?',
       ans1: "66",
       ans2: "76",
-      ans3: "86",
+      ans3: "86",//
       ans4: "96"
     }  },
     { question:  { 
@@ -160,7 +159,7 @@ isRecording = false;
       ans: "",
       que:'86-7 = bao nhiêu?',
       ans1: "69",
-      ans2: "79",
+      ans2: "79",//
       ans3: "89",
       ans4: "99"
     }  },
@@ -171,14 +170,14 @@ isRecording = false;
       ans1: "44",
       ans2: "54",
       ans3: "64",
-      ans4: "74"
+      ans4: "74"//
     }  },
     { question:  { 
       id: 14,
       ans: "",
       que:'74-7 = bao nhiêu?',
       ans1: "47",
-      ans2: "57",
+      ans2: "67",//
       ans3: "57",
       ans4: "77"
     }  },
@@ -186,9 +185,9 @@ isRecording = false;
       id: 15,
       ans: "",
       que:'Hãy chọn 1 trong 3 đồ vật ban nãy đã nhìn thấy( không quay lại nhìn)',
-      ans1: "xe đạp",
+      ans1: "xe ô tô",
       ans2: "xe máy",
-      ans3: "bút chì",
+      ans3: "bút chì",//
       ans4: "tẩy"
     }  },
     { question:  { 
@@ -198,13 +197,13 @@ isRecording = false;
       ans1: "Canada",
       ans2: "Trung Quốc",
       ans3: "Hoa Kỳ",
-      ans4: "Nga"
+      ans4: "Nga"//
     }  },
     { question:  { 
       id: 17,
       ans: "",
       que: 'Tác giả của tác phẩm "Truyện Kiều" là ai?',
-      ans1: "Nguyễn Du",
+      ans1: "Nguyễn Du",//
       ans2: "Nguyễn Trãi",
       ans3: "Nguyễn Bỉnh Khiêm",
       ans4: "Nguyễn Đình Chiểu"
@@ -213,7 +212,7 @@ isRecording = false;
       id: 18,
       ans: "",
       que: 'Hà Nội là thủ đô của nước nào?',
-      ans1: "Việt Nam",
+      ans1: "Việt Nam",//
       ans2: "Thái Lan",
       ans3: "Campuchia",
       ans4: "Lào"
@@ -222,7 +221,7 @@ isRecording = false;
       id: 19,
       ans: "",
       que: 'Lễ hội đền Hùng được tổ chức vào ngày nào?',
-      ans1: "10/3 âm lịch",
+      ans1: "10/3 âm lịch",//
       ans2: "15/8 âm lịch",
       ans3: "5/5 âm lịch",
       ans4: "12/12 âm lịch"
@@ -231,7 +230,7 @@ isRecording = false;
       id: 20,
       ans: "",
       que: 'Ngày quốc khánh của Việt Nam là ngày nào?',
-      ans1: "2/9",
+      ans1: "2/9",//
       ans2: "30/4",
       ans3: "1/1",
       ans4: "15/8"
@@ -240,7 +239,7 @@ isRecording = false;
       id: 21,
       ans: "", 
       que: 'Quốc hoa của Việt Nam là gì?',
-      ans1: "Sen",
+      ans1: "Sen",//
       ans2: "Hồng",
       ans3: "Cúc",
       ans4: "Mai"
@@ -249,26 +248,26 @@ isRecording = false;
       id: 22,
       ans: "",
       que: 'Ngày Tết Nguyên Đán của Việt Nam rơi vào tháng nào?',
-      ans1: "Tháng 1",
-      ans2: "Tháng 2",
-      ans3: "Tháng 3",
+      ans1: "Tháng 1",//
+      ans2: "Tháng 5",
+      ans3: "Tháng 6",
       ans4: "Tháng 4"
     }  },
     { question:  { 
       id: 23,
       ans: "",
       que: 'Tên gọi cũ của thành phố Hồ Chí Minh là gì?',
-      ans1: "Sài Gòn",
-      ans2: "Gia Định",
+      ans1: "Sài Gòn",//
+      ans2: "Gia Đinh",
       ans3: "Cần Thơ",
       ans4: "Hải Phòng"
     }  },
     { question:  { 
       id: 24,
       ans: "",
-      que: 'Biểu tượng quốc gia của Việt Nam là gì?',
-      ans1: "Sao vàng trên nền đỏ",
-      ans2: "Cờ đỏ sao vàng",
+      que: 'Biểu tượng quốc gia của ờ Việt Nam là gì?',
+      ans1: "Sao vàng trên nền đỏ",//
+      ans2: "Cờ đỏ sao xanh",
       ans3: "Chùa Một Cột",
       ans4: "Rồng"
     }  }
@@ -277,6 +276,7 @@ isRecording = false;
   PRE = "DELTA"
  SUF = "MEET"
   idPeerjs
+  CameraTogge = true
    local_stream;
   // @ViewChild("doctorVideo")  doctorVideo: any;
   currentQuestion: Question;
@@ -301,7 +301,7 @@ isRecording = false;
         
         if (dataStr.substring(0, 2) === "id") {
           this.peerJsDoctor =  dataStr.split(idPrefix)[1];
-          // console.log(" this.peerJsDoctor", this.peerJsDoctor);
+          console.log(" this.peerJsDoctor", this.peerJsDoctor);
           
         } 
         else {
@@ -310,10 +310,11 @@ isRecording = false;
               case "pre" :  this.previousQuestionDoctor(); break;
               case "next":  this.nextQuestionDoctor(); break;
               case"toggle": this.openVideosDoctor(); break;
-              case "1" :  this.selectBtn(1); break;
-              case "2" :  this.selectBtn(2); break;
-              case "3" :  this.selectBtn(3); break;
-              case "4" :  this.selectBtn(4); break;
+              case"toggleCameraDoctor": this.toggleCameraDoctor(); break;
+              case "1" :  this.selectBtnDoctor(1); break;
+              case "2" :  this.selectBtnDoctor(2); break;
+              case "3" :  this.selectBtnDoctor(3); break;
+              case "4" :  this.selectBtnDoctor(4); break;
               case "record" :  this.startRecording(); break;
               case "StopRecord" :  this.stopRecording(); break;
             }}
@@ -325,6 +326,14 @@ isRecording = false;
     });
   }
 
+  toggleCameraDoctor(){
+    const videoElement = this.doctorVideo.nativeElement as HTMLVideoElement;
+    if (videoElement.style.display === 'none') {
+      videoElement.style.display = 'block';
+    } else {
+      videoElement.style.display = 'none';
+    }
+  }
   
 
   async putPeerJsUser(){
@@ -423,21 +432,26 @@ console.log("idPeerjs",this.idPeerjs);
   }
   
   async  toggleCamera() {
-    if (this.videoTrack) {
-        // Camera is on, so we need to turn it off
-        this.videoTrack.enabled = !this.videoTrack.enabled;
-        console.log(`Camera ${this.videoTrack.enabled ? 'enabled' : 'disabled'}`);
-    } else {
-        // Camera is off, so we need to turn it on
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            this.videoTrack = stream.getVideoTracks()[0];
-            this.setLocalStream(stream); // Update the video element with the new stream
-            console.log('Camera enabled');
-        } catch (error) {
-            console.error('Error accessing camera:', error);
-        }
-    }
+    this.CameraTogge = !this.CameraTogge;
+    this.conn = this.peer.connect(this.peerJsDoctor);
+    this.conn.on("open", () => {
+      this.conn.send("toggleCameraPatient");
+    });
+    // if (this.videoTrack) {
+    //     // Camera is on, so we need to turn it off
+    //     this.videoTrack.enabled = !this.videoTrack.enabled;
+    //     console.log(`Camera ${this.videoTrack.enabled ? 'enabled' : 'disabled'}`);
+    // } else {
+    //     // Camera is off, so we need to turn it on
+    //     try {
+    //         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    //         this.videoTrack = stream.getVideoTracks()[0];
+    //         this.setLocalStream(stream); // Update the video element with the new stream
+    //         console.log('Camera enabled');
+    //     } catch (error) {
+    //         console.error('Error accessing camera:', error);
+    //     }
+    // }
 }
 
   toggleMic() {
@@ -838,7 +852,54 @@ console.log("idPeerjs",this.idPeerjs);
      
     }
 
+    selectBtnDoctor(number){
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+      switch(number) 
+        {
+          case  1: {
+            const selectedButton = document.getElementById("btn1");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 1;
 
+            }
+            break;
+          } 
+          case  2: {
+            const selectedButton = document.getElementById("btn2");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 2;
+
+            }
+            break;
+          } 
+          case  3: {
+            const selectedButton = document.getElementById("btn3");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 3;
+
+            }
+            break;
+          } 
+          case  4: {
+            const selectedButton = document.getElementById("btn4");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 4;
+
+            }
+            break;
+          } 
+        
+        }
+      console.log("this.currentQuestion",this.currentQuestion);
+     
+    }
 
     // startCapture() {
     //   // Lưu ngữ cảnh hiện tại của `this` để sử dụng trong các callback
@@ -910,17 +971,16 @@ console.log("idPeerjs",this.idPeerjs);
         this.mediaRecorder.onstop = () => {
           const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
           const url = URL.createObjectURL(blob);
-          this.videoElement.srcObject = null; // Stop displaying live stream
-          this.videoElement.src = url; // Display recorded video
+          this.videoElement.srcObject = null; 
+          this.videoElement.src = url; 
   
-          // Auto-download video
           const a = document.createElement('a');
           a.style.display = 'none';
           a.href = url;
           a.download = 'recorded-video.webm';
           document.body.appendChild(a);
           a.click();
-          window.URL.revokeObjectURL(url); // Clean up URL
+          window.URL.revokeObjectURL(url); 
           document.body.removeChild(a);
         };
   

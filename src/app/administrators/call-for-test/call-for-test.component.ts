@@ -24,7 +24,7 @@ export class CallForTestComponent implements OnInit {
    isCheckSnap = 1
   otherCamera = 0
   perPage = 10
-  CameraTogge = false;
+  CameraTogge = true;
   localStream = null;
   isCameraOn = true;
   isMicOn = false;
@@ -61,11 +61,11 @@ export class CallForTestComponent implements OnInit {
     { question:  { 
       id: 3,
       ans: "",
-      que:'Mùa này đang là mùa nào?',
-      ans1: "Xuân",
-      ans2: "Hạ",
-      ans3: "Đông",
-      ans4: "Thu"
+      que:' Một năm thường sẽ có mấy mùa',
+      ans1: "1",
+      ans2: "3",
+      ans3: "2",
+      ans4: "4"
     }  },
     { question:  { 
       id: 4,
@@ -87,11 +87,9 @@ export class CallForTestComponent implements OnInit {
     { question:  { 
       id: 6,
       ans: "",
-      que:'Hãy cho biết đây là tỉnh nào nào?',
-      ans1: "Hà Nội",
-      ans2: "Hoàng xa",
-      ans3: "Tất cả đều không phải",
-      ans4: "Phú Thọ"
+      que:'Hãy cho biết Việt Nam có giáp biển hay là không?',
+      ans1: "Có ",
+      ans2: "Không",
     }  },
     { question:  { 
       id: 7,
@@ -123,11 +121,11 @@ export class CallForTestComponent implements OnInit {
     { question:  { 
       id: 10,
       ans: "",
-      que:'100-7 = bao nhiêu?',
-      ans1: "63",
-      ans2: "73",
-      ans3: "83",
-      ans4: "93"
+      que:'1000-7 = bao nhiêu?',
+      ans1: "963",
+      ans2: "973",
+      ans3: "983",
+      ans4: "993"
     }  },
     { question:  { 
       id: 11,
@@ -161,7 +159,7 @@ export class CallForTestComponent implements OnInit {
       ans: "",
       que:'74-7 = bao nhiêu?',
       ans1: "47",
-      ans2: "57",
+      ans2: "67",
       ans3: "57",
       ans4: "77"
     }  },
@@ -232,9 +230,9 @@ export class CallForTestComponent implements OnInit {
       id: 22,
       ans: "",
       que: 'Ngày Tết Nguyên Đán của Việt Nam rơi vào tháng nào?',
-      ans1: "Tháng 1",
-      ans2: "Tháng 2",
-      ans3: "Tháng 3",
+      ans1: "Tháng 1",//
+      ans2: "Tháng 5",
+      ans3: "Tháng 6",
       ans4: "Tháng 4"
     }  },
     { question:  { 
@@ -291,12 +289,12 @@ public userId;
           case "pre" :  this.previousQuestionPatient(); break;
           case "next":  this.nextQuestionPatient(); break;
           case"toggleVideo": 
-          
             if(this.otherCamera == 1) { this.otherCamera =0;  }  else {this.otherCamera =1} break;
-          case "1" :  this.selectBtn(1); break;
-          case "2" :  this.selectBtn(2); break;
-          case "3" :  this.selectBtn(3); break;
-          case "4" :  this.selectBtn(4); break;
+          case "1" :  this.selectBtnPatient(1); break;
+          case "2" :  this.selectBtnPatient(2); break;
+          case "3" :  this.selectBtnPatient(3); break;
+          case "4" :  this.selectBtnPatient(4); break;
+          case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
         }
       });
       conn.on("open", () => {
@@ -313,7 +311,14 @@ this.getUserDetail();
 
   }
 
-
+  toggleCameraPatient(){
+    const videoElement = this.patientVideo.nativeElement as HTMLVideoElement;
+    if (videoElement.style.display === 'none') {
+      videoElement.style.display = 'block';
+    } else {
+      videoElement.style.display = 'none';
+    }
+  }
 
 
   getSanitizedHtml(html: string): SafeHtml {
@@ -340,6 +345,10 @@ this.getUserDetail();
             console.log("room_id",room_id);
             this.peer.on('open', (id) => {
               console.log("Connected with Id: " + id);
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send(`id :${id}`);
+              });
               navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                   .then((stream) => {
                       this.local_stream = stream;
@@ -352,10 +361,7 @@ this.getUserDetail();
                       this.currentPeer = call;
                       console.log("end");
                       
-                      this.conn = this.peer.connect(this.idRemote);
-                      this.conn.on("open", () => {
-                        this.conn.send(`id :${id}`);
-                      });
+                     
                   
                   })
                   .catch((err) => {
@@ -409,21 +415,32 @@ setRemoteStream(stream) {
   }
   
   async  toggleCamera() {
-    if (this.videoTrack) {
-        // Camera is on, so we need to turn it off
-        this.videoTrack.enabled = !this.videoTrack.enabled;
-        console.log(`Camera ${this.videoTrack.enabled ? 'enabled' : 'disabled'}`);
+this.CameraTogge = !this.CameraTogge;
+    this.conn = this.peer.connect(this.idRemote);
+    this.conn.on("open", () => {
+      this.conn.send("toggleCameraDoctor");
+    });
+    const videoElement = this.doctorVideo.nativeElement as HTMLVideoElement;
+    if (videoElement.style.display === 'none') {
+      videoElement.style.display = 'block';
     } else {
-        // Camera is off, so we need to turn it on
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            this.videoTrack = stream.getVideoTracks()[0];
-            this.setLocalStream(stream); // Update the video element with the new stream
-            console.log('Camera enabled');
-        } catch (error) {
-            console.error('Error accessing camera:', error);
-        }
+      videoElement.style.display = 'none';
     }
+    // if (this.videoTrack) {
+    //     // Camera is on, so we need to turn it off
+    //     this.videoTrack.enabled = !this.videoTrack.enabled;
+    //     console.log(`Camera ${this.videoTrack.enabled ? 'enabled' : 'disabled'}`);
+    // } else {
+    //     // Camera is off, so we need to turn it on
+    //     try {
+    //         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    //         this.videoTrack = stream.getVideoTracks()[0];
+    //         this.setLocalStream(stream); // Update the video element with the new stream
+    //         console.log('Camera enabled', stream);
+    //     } catch (error) {
+    //         console.error('Error accessing camera:', error);
+    //     }
+    // }
 }
 
   async  toggleMic() {
@@ -642,8 +659,13 @@ setRemoteStream(stream) {
 
     // modal Open Small
     openModalResultsUser( modalSM) {
+      var correctAns =[3,3,4,1,2,1,3,4,4,4,3,2,4,2,3,4,1,1,1,1,1,1,1,1]
+      var Ans = this.questions.map(q => q.question.ans);
+// console.log("Ans",Anns);
 
-
+      const matchingCount = this.countMatchingElements(correctAns, Ans);
+      // console.log("ansssss",  matchingCount);
+      
       this.conn = this.peer.connect(this.idRemote);
       this.conn.on("open", () => {
         this.conn.send("StopRecord");
@@ -653,6 +675,7 @@ setRemoteStream(stream) {
 
 // console.log(`Thời gian thực hiện: ${Math.floor(timeTaken/1000/60)} milliseconds`);
 localStorage.setItem('timeTaken', `${Math.floor(timeTaken/1000/60)}`);      
+localStorage.setItem('matchingCount', `${matchingCount}`);      
 this.modalService.open(modalSM, {
         centered: true,
         backdrop: 'static',
@@ -754,7 +777,74 @@ this.modalService.open(modalSM, {
       console.log("this.currentQuestion",this.currentQuestion);
       
       
+    } 
+    
+    selectBtnPatient(number){
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+      switch(number) 
+        {
+          case  1: {
+            const selectedButton = document.getElementById("btn1");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 1;
+                  
+        
+
+            }
+            break;
+          } 
+          case  2: {
+            const selectedButton = document.getElementById("btn2");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 2;
+         
+            }
+            break;
+          } 
+          case  3: {
+            const selectedButton = document.getElementById("btn3");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 3;
+        
+            }
+            break;
+          } 
+          case  4: {
+            const selectedButton = document.getElementById("btn4");
+            if (selectedButton) {
+              selectedButton.classList.add('selected');
+              this.currentQuestion.question.ans = 4;
+         
+            }
+            break;
+          } 
+        
+        }
+      console.log("this.currentQuestion",this.currentQuestion);
+      
+      
+    }
+    countMatchingElements(arr1: number[], arr2: number[]): number {
+      if (arr1.length !== arr2.length) {
+        throw new Error("Hai mảng phải có cùng độ dài.");
+      }
+    
+      let count = 0;
+      for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] === arr2[i]) {
+          count++;
+        }
+      }
+    
+      return count;
     }
 
-
 }
+
+

@@ -32,11 +32,11 @@
 
 
     <div class="controls">
-      <button (click)="toggleCamera()" *ngIf="CameraTogge == true">
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == false">
         <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />
-        camera và micrô</button>
-      <button (click)="toggleCamera()" *ngIf="CameraTogge == false"><img width="50" height="50"
-          src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> camera và micrô</button>
+        camera đang tắt</button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == true"><img width="50" height="50"
+          src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> camera đang bật</button>
       <button *ngIf="otherCamera == 0" (click)="openCamera()">camera ở phía bệnh nhân đang thu nhỏ ( ấn để phóng
         to)</button>
       <button *ngIf="otherCamera == 1" (click)="closeCamera()">camera ở phía bệnh nhân đang phóng to ( ấn để thu

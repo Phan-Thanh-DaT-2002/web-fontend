@@ -17,12 +17,14 @@ export class ResultesComponent implements OnInit {
   public addUserForm: FormGroup;
   public addUserFormSubmitted = false;
   public peer : any;
+  public matchingCount
   conn;
   userId;
   ngOnInit(): void {
     this.peer = new Peer();
     const idRemote = document.getElementById('remoteIdVideo');
     this.userId =window.sessionStorage.getItem("userId" );
+    this.matchingCount =localStorage.getItem("matchingCount" );
 
     // console.log("idRemote",idRemote);
     // console.log("this.userId",this.userId);
@@ -37,7 +39,7 @@ export class ResultesComponent implements OnInit {
   initForm(){
     this.addUserForm = this.formBuilder.group(
       {
-        score: ["", Validators.required],
+        score: [this.matchingCount, Validators.required],
         note: ["", Validators.required],
       },
     );

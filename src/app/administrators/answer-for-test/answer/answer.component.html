@@ -22,8 +22,10 @@
         currentQuestion.question.ans4 }}</button>
     </div>
     <div class="controls">
-      <button (click)="toggleCamera()">Bật/tắt camera</button>
-      <button (click)="toggleMic()">Bật/tắt micrô</button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == true"><img width="50" height="50"
+          src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> Camera đang bật </button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == false"><img width="50" height="50"
+          src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />Camera đang tắt</button>
       <button (click)="previousQuestion()"> <img src="https://img.icons8.com/?size=100&id=19047&format=png" width="50"
           height="50" alt="">Câu hỏi trước đó</button>
       <button (click)="nextQuestion()"> <img src="https://img.icons8.com/?size=100&id=19048&format=png" width="50"
