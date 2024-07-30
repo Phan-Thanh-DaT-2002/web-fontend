@@ -10,6 +10,8 @@ import { pathToFileURL } from 'url';
 import { resultsManagementModule } from './results-managerment/results-managerment.module';
 import { UserInfoManagementModule } from './user-infor/user-infor.module';
 import { AnswerForTestManagementModule } from './answer-for-test/answer-for-test-management.module';
+import { ChoseForTestComponent } from './chose-for-test/chose-for-test.component';
+import { AnsChoseForTestComponent } from './ans-chose-for-test/ans-chose-for-test.component';
 
 
 // routing
@@ -37,6 +39,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     GenCodeComponent,
+    AnsChoseForTestComponent,
   ],
   imports: [
     FormsModule,

@@ -9,10 +9,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContentHeaderModule } from 'app/layout/components/content-header/content-header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnswerComponent } from './answer/answer.component';
+import { AnsChoseForTestComponent } from '../ans-chose-for-test/ans-chose-for-test.component';
 const routes: Routes = [
   {
     path: 'Answer',
     component: AnswerComponent,
+  },
+
+  {
+    path: 'AnsChoseForTest',
+    component: AnsChoseForTestComponent,
   },
 
 ];

@@ -17,6 +17,7 @@ import { TestResultesUserComponent } from './test-resultes-user/test-resultes-us
 import { ResultesComponent } from '../call-for-test/resultes/resultes.component';
 import { CallForTestComponent } from '../call-for-test/call-for-test.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { ChoseForTestComponent } from '../chose-for-test/chose-for-test.component';
 const routes: Routes = [
   {
     path: 'list-user',
@@ -33,7 +34,8 @@ const routes: Routes = [
     EditUserComponent,
     TestResultesUserComponent,
     CallForTestComponent,
-    ResultesComponent
+    ResultesComponent,
+    ChoseForTestComponent
   ],
   imports: [
     NgSelectModule,

@@ -9,6 +9,7 @@ import { content } from 'html2canvas/dist/types/css/property-descriptors/content
 import { timeout } from 'rxjs/operators';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MediaRecorder } from 'extendable-media-recorder';
+import { Router } from '@angular/router';
 
 // declare const MediaRecorder: {
 //   prototype: MediaRecorder;
@@ -281,7 +282,12 @@ isRecording = false;
   // @ViewChild("doctorVideo")  doctorVideo: any;
   currentQuestion: Question;
   public userId : number;
-  constructor(  private sanitizer: DomSanitizer,   private service: AnswerForTestManagementService, private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
+  constructor(  private sanitizer: DomSanitizer,  
+     private service: AnswerForTestManagementService,
+      private _router: Router,
+     
+     private modalService: NgbModal,) { 
+       this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
     this.userId = Number(window.localStorage.getItem("currentLoginId"));
@@ -999,6 +1005,12 @@ console.log("idPeerjs",this.idPeerjs);
         this.mediaRecorder.stop();
         this.isRecording = false;
       }
+      this._router.navigate(['/admin/user-answer/AnsChoseForTest'])
+      .then(() => {
+  
+        window.location.reload();
+      });
+    
     }
   
 }
