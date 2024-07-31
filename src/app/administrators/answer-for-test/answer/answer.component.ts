@@ -29,34 +29,31 @@ interface Question {
 export class AnswerComponent implements OnInit {
   @ViewChild('patientVideo', { static: false }) patientVideo: ElementRef;
   @ViewChild('doctorVideo', { static: false }) doctorVideo: ElementRef;
-  // @ViewChild('doctorVideo') doctorVideo: ElementRef;
-  // @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
-  // @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
   public currentQuestionIndex: number = 0;
   public question: string;
   public currentPage
   public perPage = 10;
   public peer  ;
-  recordedChunks: Blob[] = [];
+  public recordedChunks: Blob[] = [];
   
   public conn;
   public peerJsDoctor;
   public peer1  = new Peer();
-  isCheck = true;
+  public isCheck = true;
   public mediaRecorder;
-  navigator = <any>navigator;
-  videoTrack = null;
+  public navigator = <any>navigator;
+  public videoTrack = null;
   
 // Lấy từng phần của ngày giờ hiện tại
-now = new Date();
-year = this.now.getFullYear();
-month =  this.now.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
-day =  this.now.getDate();
-hours =  this.now.getHours();
-minutes =  this.now.getMinutes();
-seconds =  this.now.getSeconds();
-isRecording = false;
-  questions: Question[] = [
+public now = new Date();
+public year = this.now.getFullYear();
+public month =  this.now.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+public day =  this.now.getDate();
+public hours =  this.now.getHours();
+public minutes =  this.now.getMinutes();
+public seconds =  this.now.getSeconds();
+public isRecording = false;
+public  questions: Question[] = [
     { question: { 
       id: 1,
       ans: "",
@@ -273,14 +270,14 @@ isRecording = false;
       ans4: "Rồng"
     }  }
   ]; 
-  currentPeer = null
-  PRE = "DELTA"
- SUF = "MEET"
-  idPeerjs
-  CameraTogge = true
-   local_stream;
+  public currentPeer = null
+  public PRE = "DELTA"
+  public SUF = "MEET"
+  public idPeerjs
+  public CameraTogge = true
+  public  local_stream;
   // @ViewChild("doctorVideo")  doctorVideo: any;
-  currentQuestion: Question;
+  public currentQuestion: Question;
   public userId : number;
   constructor(  private sanitizer: DomSanitizer,  
      private service: AnswerForTestManagementService,

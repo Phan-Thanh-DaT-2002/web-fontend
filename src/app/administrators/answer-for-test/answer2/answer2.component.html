@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="left-panel">
+    <video #patientVideo id="patientVideo" hidden autoplay> </video>
+
+    <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="openVideos()"></video>
+  </div>
+  <div class="right-panel">
+    <div class="test-area question-container">
+      <h2>Bài Test</h2>
+      <h2>{{ currentQuestion.question.que }}</h2>
+      <p *ngIf="isRecording">Recording...</p>
+      <button id="btn1" class="custuomQues" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans1)"
+        *ngIf="currentQuestion.question.ans1">{{
+        currentQuestion.question.ans1 }}</button>
+      <button id="btn2" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans2)" class="custuomQues"
+        *ngIf="currentQuestion.question.ans2">{{
+        currentQuestion.question.ans2
+        }}</button>
+      <button id="btn3" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans3)" class="custuomQues"
+        *ngIf="currentQuestion.question.ans3">{{
+        currentQuestion.question.ans3
+        }}</button>
+      <button id="btn4" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans4)" class="custuomQues"
+        *ngIf="currentQuestion.question.ans4">{{
+        currentQuestion.question.ans4 }}</button>
+    </div>
+    <div class="controls">
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == true"><img width="50" height="50"
+          src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> Camera đang bật </button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == false"><img width="50" height="50"
+          src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />Camera đang tắt</button>
+
+      <!-- <button (click)="openModalResultsUser(openModalCallForTest)">Kết thúc cuộc gọi</button> -->
+    </div>
+  </div>
+</div>

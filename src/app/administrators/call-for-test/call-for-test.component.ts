@@ -18,27 +18,27 @@ interface Question {
 export class CallForTestComponent implements OnInit {
   @ViewChild('patientVideo', { static: true }) patientVideo: ElementRef<HTMLVideoElement>;
   @ViewChild('doctorVideo', { static: true }) doctorVideo: ElementRef<HTMLVideoElement>;
-  currentQuestionIndex: number = 0;
-  question: string;
-  currentPage
-   isCheckSnap = 1
-  otherCamera = 0
-  perPage = 10
-  CameraTogge = true;
-  localStream = null;
-  isCameraOn = true;
-  isMicOn = false;
-   now = new Date();
-   imageUrl = 'https://img.icons8.com/?size=200&id=67393&format=png';
-   imageContainer = document.getElementById('image-container');
+  public currentQuestionIndex: number = 0;
+  public question: string;
+  public currentPage
+  public isCheckSnap = 1
+  public otherCamera = 0
+  public  perPage = 10
+  public  CameraTogge = true;
+  public localStream = null;
+  public isCameraOn = true;
+  public isMicOn = false;
+  public now = new Date();
+  public imageUrl = 'https://img.icons8.com/?size=200&id=67393&format=png';
+  public  imageContainer = document.getElementById('image-container');
 // Lấy từng phần của ngày giờ hiện tại
- year = this.now.getFullYear();
- month =  this.now.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
- day =  this.now.getDate();
- hours =  this.now.getHours();
- minutes =  this.now.getMinutes();
- seconds =  this.now.getSeconds();
-  questions: Question[] = [
+public year = this.now.getFullYear();
+public month =  this.now.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+public day =  this.now.getDate();
+public hours =  this.now.getHours();
+public  minutes =  this.now.getMinutes();
+public seconds =  this.now.getSeconds();
+public questions: Question[] = [
     { question: { 
       id: 1,
       ans: "",
@@ -262,16 +262,16 @@ export class CallForTestComponent implements OnInit {
   public startTime;
   public endTime ;
   public currentQuestion: Question;
-  videoTrack = null;
+  public videoTrack = null;
 
- PRE = "DELTA"
- SUF = "MEET"
+  public PRE = "DELTA"
+  public SUF = "MEET"
 
 //  getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
- local_stream;
- screenStream;
- currentPeer = null
- screenSharing = false
+public local_stream;
+public screenStream;
+ public currentPeer = null
+ public screenSharing = false
 public userId;
   constructor( private sanitizer: DomSanitizer,    private service: UserManagementService,private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 

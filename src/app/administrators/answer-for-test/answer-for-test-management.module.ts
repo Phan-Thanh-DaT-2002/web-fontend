@@ -10,10 +10,20 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { TranslateModule } from '@ngx-translate/core';
 import { AnswerComponent } from './answer/answer.component';
 import { AnsChoseForTestComponent } from '../ans-chose-for-test/ans-chose-for-test.component';
+import { Answer2Component } from './answer2/answer2.component';
+import { Answer3Component } from './answer3/answer3.component';
 const routes: Routes = [
   {
     path: 'Answer',
     component: AnswerComponent,
+  },
+  {
+    path: 'Answer2',
+    component: Answer2Component,
+  },
+  {
+    path: 'Answer3',
+    component: Answer3Component,
   },
 
   {
@@ -26,6 +36,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AnswerComponent,
+    Answer2Component,
+    Answer3Component,
   ],
   imports: [
     NgSelectModule,

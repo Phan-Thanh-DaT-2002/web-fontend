@@ -1,15 +1,16 @@
 <button (click)="CallForTest(userId, openModalCallForTest)" id="buttonCall" class="btn btn-primary"
-  style=" width: 30%; margin: 5px;">Bài đánh giá số 1(dễ)</button>
+  style=" width: 30%; margin: 5px;">Bài đánh giá số 1 (mức dễ)</button>
 
-<button (click)="CallForTest(userId, openModalCallForTest)" id="buttonCall" class="btn btn-success"
-  style=" width: 30%; margin: 5px;">Bài đánh giá số 2(trung bình)</button>
+<button (click)="CallForTest(userId, openModalCallForTest2)" id="buttonCall" class="btn btn-success"
+  style=" width: 30%; margin: 5px;">Bài đánh giá số 2 (mức trung bình)</button>
 
-<button (click)="CallForTest(userId, openModalCallForTest)" id="buttonCall" class="btn btn-danger"
-  style=" width: 30%; margin: 5px;">Bài đánh giá số 3(khó)</button>
+<button (click)="CallForTest(userId, openModalCallForTest3)" id="buttonCall" class="btn btn-danger"
+  style=" width: 30%; margin: 5px;">Bài đánh giá số 3 (mức khó)</button>
+
 <!-- Modal openModalCallForTest user-->
 <ng-template #openModalCallForTest let-modal>
   <div class="modal-header">
-    <h5 class="modal-title" id="myModalLabel160">Đang trong quá trình đánh giá</h5>
+    <h5 class="modal-title" id="myModalLabel160">Đang trong quá trình đánh giá bài thứ 1</h5>
     <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,6 +19,38 @@
     <app-call-for-test (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
       (closeModal)="afterTestResultsUser()">
     </app-call-for-test>
+  </div>
+</ng-template>
+<!-- / Modal -->
+
+<!-- Modal openModalCallForTest user-->
+<ng-template #openModalCallForTest2 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Đang trong quá trình đánh giá bài thứ 2</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <app-call-for-test2 (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
+      (closeModal)="afterTestResultsUser()">
+    </app-call-for-test2>
+  </div>
+</ng-template>
+<!-- / Modal -->
+
+<!-- Modal openModalCallForTest user-->
+<ng-template #openModalCallForTest3 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Đang trong quá trình đánh giá bài thứ 3</h5>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <app-call-for-test3 (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
+      (closeModal)="afterTestResultsUser()">
+    </app-call-for-test3>
   </div>
 </ng-template>
 <!-- / Modal -->

@@ -12,6 +12,8 @@ import { UserInfoManagementModule } from './user-infor/user-infor.module';
 import { AnswerForTestManagementModule } from './answer-for-test/answer-for-test-management.module';
 import { ChoseForTestComponent } from './chose-for-test/chose-for-test.component';
 import { AnsChoseForTestComponent } from './ans-chose-for-test/ans-chose-for-test.component';
+import { CallForTest2Component } from './call-for-test2/call-for-test2.component';
+import { CallForTest3Component } from './call-for-test3/call-for-test3.component';
 
 
 // routing
@@ -40,6 +42,7 @@ const routes: Routes = [
   declarations: [
     GenCodeComponent,
     AnsChoseForTestComponent,
+
   ],
   imports: [
     FormsModule,
