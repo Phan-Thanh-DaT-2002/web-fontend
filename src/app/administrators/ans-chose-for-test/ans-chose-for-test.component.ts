@@ -12,11 +12,34 @@ export class AnsChoseForTestComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  CallForAns(){
-    this._router.navigate(['/admin/user-answer/Answer'])
-    .then(() => {
+  CallForAns(number){
+   switch (number){
+    case 1 : {
+      this._router.navigate(['/admin/user-answer/Answer'])
+      .then(() => {
+  
+        window.location.reload();
+      });
+      break
+    }
 
-      window.location.reload();
-    });
+    case 2 : {
+      this._router.navigate(['/admin/user-answer/Answer2'])
+      .then(() => {
+  
+        window.location.reload();
+      });
+      break
+    }
+
+    case 3 : {
+      this._router.navigate(['/admin/user-answer/Answer3'])
+      .then(() => {
+  
+        window.location.reload();
+      });
+      break
+    }
+   }
   }
 }

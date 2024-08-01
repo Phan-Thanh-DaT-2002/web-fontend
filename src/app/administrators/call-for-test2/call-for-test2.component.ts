@@ -3,6 +3,7 @@ import Peer from 'peerjs';
 import { UserManagementService } from '../user-management/user-management.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Question {
   question: any;
@@ -26,16 +27,435 @@ export class CallForTest2Component implements OnInit {
   public  isCameraOn = true;
   public isMicOn = false;
   public now = new Date();
-  public questions: Question[] = [
+  public  questions: Question[] = [
+    { question:  { 
+      id: 1,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,//
+    
+    } },
+  
+    { question:  { 
+      id: 2,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/49.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,
+    } },
+  
     { question:  { 
       id: 3,
       ans: "",
-      que:' Một năm thường sẽ có mấy mùa',
-      ans1: "1",
-      ans2: "3",
-      ans3: "2",
-      ans4: "4"
-    }  },]
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/11.png"width="50" height="100" alt="">`,//
+    
+    } },
+  
+    { question:  { 
+      id: 4,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/11.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/19.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 5,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/20.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 6,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/20.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/2.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/5.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 7,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 8,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/33.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/37.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 9,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/64.png"width="50" height="100" alt="">`,//
+    
+    } },
+  
+    { question:  { 
+      id: 10,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/64.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/2.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 11,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 12,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 13,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 14,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 15,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 16,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/14.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 17,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 18,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/51.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/37.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/79.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 19,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 20,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/62.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/76.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/46.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 21,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/45.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 22,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/59.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/73.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/45.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 23,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/58.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 24,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/72.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/58.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 25,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 26,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/12.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/21.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 27,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/32.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 28,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/71.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/27.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/32.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 29,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/53.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 30,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/53.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/54.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/52.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/55.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 31,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 32,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/82.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/79.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/74.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 33,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 34,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/24.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/16.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,
+    } },
+    { question:  { 
+      id: 35,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/75.png"width="50" height="100" alt="">`,//
+     
+    } },
+  
+    { question:  { 
+      id: 36,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/78.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/80.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/75.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/69.png"width="50" height="100" alt="">`,
+    } },
+  
+    { question:  { 
+      id: 37,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 38,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/81.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/71.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/73.png"width="50" height="100" alt="">`,
+    } },
+
+    { question:  { 
+      id: 39,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 40,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/12.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,
+    } },
+
+    { question:  { 
+      id: 41,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/4.png"width="50" height="100" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 42,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/8.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/4.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/74.png"width="50" height="100" alt="">`,
+    } },
+
+    { question:  { 
+      id: 43,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,//
+   
+    } },
+
+    { question:  { 
+      id: 44,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/16.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,
+    } },
+
+     { question:  { 
+      id: 45,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/68.png"width="50" height="100" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 46,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/68.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/76.png"width="50" height="100" alt="">`,
+    } },
+    { question:  { 
+      id: 47,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 48,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/imageForTest2/27.png"width="50" height="100" alt="">`,//
+      ans2: `<img src="../../../../assets/images/imageForTest2/29.png"width="50" height="100" alt="">`,
+      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+      ans4: `<img src="../../../../assets/images/imageForTest2/67.png"width="50" height="100" alt="">`,
+    } },];
 
     
   public peer= new Peer();
@@ -54,8 +474,12 @@ export class CallForTest2Component implements OnInit {
   public currentPeer = null
   public screenSharing = false
 public userId;
-  constructor( private service: UserManagementService,private modalService: NgbModal,) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
-
+  constructor( private service: UserManagementService,private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
+  ) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
+  getSanitizedHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
   ngOnInit(): void {
     this.userId =window.sessionStorage.getItem("userId" );
     console.log("this.userId ",this.userId);
@@ -71,14 +495,14 @@ public userId;
   
           switch(data)
           {
-            // case "pre" :  this.previousQuestionPatient(); break;
-            // case "next":  this.nextQuestionPatient(); break;
+            case "pre" :  this.previousQuestionPatient(); break;
+            case "next":  this.nextQuestionPatient(); break;
             // case"toggleVideo": 
             //   if(this.otherCamera == 1) { this.otherCamera =0;  }  else {this.otherCamera =1} break;
-            // case "1" :  this.selectBtnPatient(1); break;
-            // case "2" :  this.selectBtnPatient(2); break;
-            // case "3" :  this.selectBtnPatient(3); break;
-            // case "4" :  this.selectBtnPatient(4); break;
+            case "1" :  this.selectBtnPatient(1); break;
+            case "2" :  this.selectBtnPatient(2); break;
+            case "3" :  this.selectBtnPatient(3); break;
+            case "4" :  this.selectBtnPatient(4); break;
             // case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
           }
         });
@@ -427,4 +851,153 @@ this.modalService.open(modalSM, {
         this.isCheckSnap = 0
       }
     }
+
+    previousQuestion() {
+      console.log(" this.currentQuestion", this.questions);
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+      // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+      // console.log("idRemote",idRemote);
+      
+      // this.conn = this.peer.connect(this.idRemote);
+      // this.conn.on("open", () => {
+      //   this.conn.send("pre");
+      // });
+      if (this.currentQuestionIndex > 0) {
+        this.currentQuestionIndex--;
+        this.currentQuestion = this.questions[this.currentQuestionIndex];
+      }
+  
+  
+      if(this.currentQuestion.question.ans){
+        const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      
+        console.log("selectedButton",selectedButton);
+        
+      selectedButton.classList.add('selected');
+      }
+      else{
+        const buttons = document.querySelectorAll('.question-container button');
+        buttons.forEach(button => {
+          button.classList.remove('selected');
+        });
+      }
+    } 
+      nextQuestion() {
+
+    console.log(" this.currentQuestion", this.currentQuestion);
+
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+
+   
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+    
+    // this.conn = this.peer.connect(this.idRemote);
+    // this.conn.on("open", () => {
+    //   this.conn.send("next");
+    // });
+
+
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
+  }
+  previousQuestionPatient() {
+    console.log(" this.currentQuestion", this.questions);
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+    
+
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+
+
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+    
+      console.log("selectedButton",selectedButton);
+      
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+  }
+
+  nextQuestionPatient() {
+
+    console.log(" this.currentQuestion", this.currentQuestion);
+
+    const buttons = document.querySelectorAll('.question-container button');
+    buttons.forEach(button => {
+      button.classList.remove('selected');
+    });
+
+   
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+
+
+
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    
+  }
+
+
+  closeModal() {
+
+    (document.getElementById('modal') as HTMLElement).style.display = 'none';
+    (document.getElementById('overlay') as HTMLElement).style.display = 'none';
+
+    this.conn = this.peer.connect(this.idRemote);
+    this.conn.on("open", () => {
+      this.conn.send("start");
+    });
+  }
 }
