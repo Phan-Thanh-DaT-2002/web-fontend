@@ -39,7 +39,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #76c7d2;
+
 }
 .test-area {
   flex: 1;
@@ -65,4 +66,56 @@ body {
 }
 .controls button:hover {
   background-color: #71a8e2;
+}
+
+ .custuomQues {
+  background-color: #abd5ac; /* Màu nền xanh lá cây */
+  border: none; /* Không có viền */
+  color: rgb(48, 19, 19); /* Màu chữ trắng */
+  padding: 15px 32px; /* Khoảng cách bên trong button */
+  text-align: center; /* Căn giữa văn bản trong button */
+  text-decoration: none; /* Không gạch chân chữ */
+  display: inline-block; /* Hiển thị như một khối trực tuyến */
+  font-size: 16px; /* Kích thước chữ */
+  margin: 10px; /* Khoảng cách giữa các button */
+  cursor: pointer; /* Con trỏ chuột khi di chuột qua button */
+  border-radius: 5px; /* Bo góc button */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền khi hover */
+}
+/* Hiệu ứng khi di chuột qua button */
+.question-container button:hover {
+  background-color: #45a049; /* Màu nền khi hover */
+}
+
+/* Căn chỉnh cho button được chọn */
+.question-container button.selected {
+  background-color: #adc30a; /* Màu nền xanh dương cho button được chọn */
+}
+
+/* Căn chỉnh cho button đã được chọn hoặc đã trả lời */
+.question-container button.disabled {
+  background-color: #c0c0c0; /* Màu nền xám cho button không hoạt động */
+  cursor: not-allowed; /* Con trỏ chuột khi di chuột qua button không hoạt động */
+}
+
+.video-container {
+  position: relative;
+  display: inline-block;
+}
+
+// video {
+//   display: block;
+//   width: 100%; /* Adjust as needed */
+//   height: auto; /* Adjust as needed */
+// }
+
+.overlay {
+  position: absolute;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  color: white; /* Adjust as needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust as needed */
+  padding: 5px; /* Adjust as needed */
+  font-size: 14px; /* Adjust as needed */
+  z-index: 1;
 }

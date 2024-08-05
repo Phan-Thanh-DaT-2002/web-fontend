@@ -245,7 +245,9 @@
               <ng-template let-row="row" ngx-datatable-cell-template>
                 <div class="align-items-center align-center">
                   <a *ngIf="row.statusOnline == 1" class="badge badge-pill">
-                    <button (click)="CallForTest(row.id, openModalCallForTest)" id="buttonCall">Gọi đi</button>
+                    <!-- <button (click)="CallForTest(row.id, openModalCallForTest)" id="buttonCall" -->
+                    <button (click)="ChoseForTest(row.id, openModalChoseForTest)" id="buttonCall"
+                      class="badge-success badge badge-pill" style=" width: 70px;">Gọi đi</button>
                   </a>
                 </div>
               </ng-template>
@@ -399,20 +401,24 @@
     </ng-template>
     <!-- / Modal -->
 
-    <!-- Modal openModalCallForTest user-->
-    <ng-template #openModalCallForTest let-modal>
+
+
+
+    <!-- Modal openModalChoseForTest user-->
+    <ng-template #openModalChoseForTest let-modal>
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel160">Đang trong quá trình đánh giá</h5>
+        <h5 class="modal-title" id="myModalLabel160">Chọn bài đánh giá tương ứng</h5>
         <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" tabindex="0" ngbAutofocus>
-        <app-call-for-test (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
+        <app-chose-for-test (userId)="userId" (afterTestResultsUser)="afterTestResultsUser()"
           (closeModal)="afterTestResultsUser()">
-        </app-call-for-test>
+        </app-chose-for-test>
       </div>
     </ng-template>
     <!-- / Modal -->
+
   </div>
 </div>

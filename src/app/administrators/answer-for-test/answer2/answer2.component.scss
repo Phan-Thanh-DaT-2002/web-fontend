@@ -1,0 +1,170 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  flex: 1;
+  height: 90vh;
+
+}
+.left-panel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+  transition: flex 0.5s ease-in-out; 
+}
+.left-panel  .patient-video {
+  width: 90%;
+  height: 100vh;
+  border-radius: 8px;
+}
+.doctor-video {
+  position: absolute;
+  width: 80%;
+  height: 40%;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.right-panel {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #9acaf1;
+}
+.test-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+.controls {
+  padding: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-around;
+}
+
+.area {
+  padding: 5px;
+  background-color: #f9f9f9;
+  display: grid;
+  justify-content: space-around;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  // background-color: #007bff;
+  // color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button:hover {
+  background-color: #71a8e2;
+}
+
+
+.test-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+.controls {
+  padding: 10px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-around;
+}
+.controls button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  // background-color: #007bff;
+  // color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.controls button:hover {
+  background-color: #71a8e2;
+}
+
+ .custuomQues {
+  background-color: #abd5ac; /* Màu nền xanh lá cây */
+  border: none; /* Không có viền */
+  color: rgb(48, 19, 19); /* Màu chữ trắng */
+  padding: 15px 32px; /* Khoảng cách bên trong button */
+  text-align: center; /* Căn giữa văn bản trong button */
+  text-decoration: none; /* Không gạch chân chữ */
+  display: inline-block; /* Hiển thị như một khối trực tuyến */
+  font-size: 16px; /* Kích thước chữ */
+  margin: 10px; /* Khoảng cách giữa các button */
+  cursor: pointer; /* Con trỏ chuột khi di chuột qua button */
+  border-radius: 5px; /* Bo góc button */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền khi hover */
+}
+/* Hiệu ứng khi di chuột qua button */
+.question-container button:hover {
+  background-color: #45a049; /* Màu nền khi hover */
+}
+
+/* Căn chỉnh cho button được chọn */
+.question-container button.selected {
+  background-color: #adc30a; /* Màu nền xanh dương cho button được chọn */
+}
+
+/* Căn chỉnh cho button đã được chọn hoặc đã trả lời */
+.question-container button.disabled {
+  background-color: #c0c0c0; /* Màu nền xám cho button không hoạt động */
+  cursor: not-allowed; /* Con trỏ chuột khi di chuột qua button không hoạt động */
+}
+
+/* Overlay phủ toàn bộ trang */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Màu nền bán trong suốt */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Đảm bảo lớp phủ nằm trên cùng */
+}
+
+/* Hộp thoại */
+.modal {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+  height: 200px;
+  top: 30%;
+  left: 50%;
+  bottom: 50%;
+  display: block ;
+
+}

@@ -16,7 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TestResultesUserComponent } from './test-resultes-user/test-resultes-user.component';
 import { ResultesComponent } from '../call-for-test/resultes/resultes.component';
 import { CallForTestComponent } from '../call-for-test/call-for-test.component';
+import { CallForTest2Component } from '../call-for-test2/call-for-test2.component';
+import { CallForTest3Component } from '../call-for-test3/call-for-test3.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { ChoseForTestComponent } from '../chose-for-test/chose-for-test.component';
 const routes: Routes = [
   {
     path: 'list-user',
@@ -33,7 +36,10 @@ const routes: Routes = [
     EditUserComponent,
     TestResultesUserComponent,
     CallForTestComponent,
-    ResultesComponent
+    CallForTest2Component,
+    CallForTest3Component,
+    ResultesComponent,
+    ChoseForTestComponent
   ],
   imports: [
     NgSelectModule,

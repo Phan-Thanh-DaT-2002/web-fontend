@@ -1,30 +1,59 @@
 <div class="container">
+
   <div class="left-panel">
+    <!-- <div class="video-container">
+      <video #patientVideo id="patientVideo" autoplay></video>
+      <div class="overlay">Patient Video</div>
+    </div>
+    <div class="video-container">
+      <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
+      <div class="overlay">Doctor Video</div>
+    </div> -->
     <video #patientVideo id="patientVideo" autoplay></video>
     <video #doctorVideo id="doctorVideo" class="doctor-video" autoplay muted (click)="swapVideos()"></video>
+
   </div>
   <div class="right-panel">
-    <div class="test-area">
+    <div class="test-area question-container">
       <h2>Bài Test</h2>
-
-      <p>{{ currentQuestion.question.que }}</p>
-      <p>{{ currentQuestion.question.ans1 }}</p>
-      <p>{{ currentQuestion.question.ans2 }}</p>
-      <p>{{ currentQuestion.question.ans3 }}</p>
-      <p>{{ currentQuestion.question.ans4 }}</p>
-
+      <h2>{{ currentQuestion.question.que }}</h2>
+      <button id="btn1" (click)="selectBtn(1);" class="custuomQues" *ngIf="currentQuestion.question.ans1"
+        [innerHTML]="getSanitizedHtml(currentQuestion.question.ans1)">{{
+        currentQuestion.question.ans1 }}</button>
+      <button id="btn2" (click)="selectBtn(2);" class="custuomQues" *ngIf="currentQuestion.question.ans2">{{
+        currentQuestion.question.ans2
+        }}</button>
+      <button id="btn3" (click)="selectBtn(3);" class="custuomQues" *ngIf="currentQuestion.question.ans3">{{
+        currentQuestion.question.ans3
+        }}</button>
+      <button id="btn4" (click)="selectBtn(4);" class="custuomQues" *ngIf="currentQuestion.question.ans4">{{
+        currentQuestion.question.ans4 }}</button>
     </div>
+
+
     <div class="controls">
-      <button (click)="toggleCamera()">Bật/tắt camera</button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == false">
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />
+        camera đang tắt</button>
+      <button (click)="toggleCamera()" *ngIf="CameraTogge == true"><img width="50" height="50"
+          src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> camera đang bật</button>
       <button *ngIf="otherCamera == 0" (click)="openCamera()">camera ở phía bệnh nhân đang thu nhỏ ( ấn để phóng
         to)</button>
       <button *ngIf="otherCamera == 1" (click)="closeCamera()">camera ở phía bệnh nhân đang phóng to ( ấn để thu
         nhỏ)</button>
-      <button (click)="toggleMic()">Bật/tắt micrô</button>
-      <button (click)="recordScreen()">Quay màn hình của bệnh nhân</button>
-      <button (click)="openModalResultsUser(openModalCallForTest)">Kết thúc cuộc gọi</button>
-      <button (click)="previousQuestion()">Quay lại</button>
-      <button (click)="nextQuestion()">Câu hỏi tiếp theo</button>
+      <!-- <button (click)="toggleMic()">Bật/tắt micrô</button> -->
+      <button (click)="recordScreen()"><img
+          src="data:image/png;base64,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">Quay
+        màn hình của bệnh nhân</button>
+      <button (click)="openModalResultsUser(openModalCallForTest)"><img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAACXBIWXMAAAsTAAALEwEAmpwYAAADqUlEQVR4nO2bS2wNURjHfzTxpvFY9eEVsRFB7GojSlg0qVgJIay8liSEjUeEsmGBhV2ReMTKa0Pi1WgVK2zqlQixoNHQqOKOnPjfZDLRpHfO3Dt37v1+yVncyfm+833/mfPNmTNzwTAMwzAMwzAMwzAMwzAMo3iMBeYBLcAO4DhwGXgAPAF6gPdAL/BLrVfHetTngWyOyUeLfDrfFUUt0AzsAi4AL4HfQFCk5ny/AM4DO4FlwCQyxHhgJdAGPB5CrEHgOXANOAXsBtYCTcBiYDZQD0wGatQm69hs9WmSzW75uC7hBocQtQs4qthcjGVFPbAVuAUMRIIf0HQ7AWwCFgKjihiL870I2Ayc1Ng//xPTTWALUEdKTAO2Aw+BXORsu2MHNXXLoSaNUyyHgI7IrMgp3m3A1GIHMgJYClyKnNXvKugbJGy542LcCFwB+kN5uJwuKkeXa+IcjlxpN4B15VhTCmACsF65/Anl53JNlJnAD13yzvl0Ko8Zyi2nXF3OiXFRZ6ad5GkAVgMHtNR5BLzT2m9QrVfHHqmP69sq26RpV64u50Ro0lnpTyjgMRLsLPA2gbXfG/lqlW9fGpRrTrl74YpppwJ1d9a4jARWAeeAvogA34C7eqrIrwfrhlgHLlEf1/eebMO++jTGKo0Zl4Py1+l7Q1kjRx9UcOPSE1k6dAN7gQUSKC41Wlvuk8/wksqNGZcJyjmQBrHplhO35vMhUDugYl0sZmiM/Hg+bJcPp0EsVsjBpwQWxEECCZV6PFdPP8rP8jgO7sjYPW9ShQI69sjPbQpkvgy/akelWgWslQaBNBk2bTI6TTIEGRXQcUa+jhRi9ExGbj+t2gVslq+nhRh9l9HEhIIIMizgpNCmSSoBZF3AWP5SD8CT1OPPG3RoVzdP3N9BzISi/jITf97AGd8PHY/7O4gpYNRfZuJPfQp4knr8+R2TJLavGkOL8lKRevxXZXTdM4gGbZcHegdRqhqYevxzgc8JbHYGal+AOSWsgWURf73ewEU3QAtpfTpzccTzJevxG+VAR8waaHjWQMMwyoIuvUw3MvIIWHEEJqAfJqAnJqAnJqAnJqAnJqAnJmABjC5AwP/1rWr2683/lGEIWKsPH90fZwz+CfJaQnVGPmaKCpgXL5BNEh8+VQSNwCsJE74SwwKGxXMfnM9KMd7MiBiomXjDZHpkOucFDE/bSvyPStGuxHCzaeshoonnIaKJ54Grd1bzDMMwDMMwDMMwDIPy4S/0Lu6buI4FhAAAAABJRU5ErkJggg==">
+        Kết thúc cuộc gọi</button>
+      <button (click)="previousQuestion()"> <img src="https://img.icons8.com/?size=100&id=19047&format=png" width="50"
+          height="50" alt="">Câu hỏi trước đó</button>
+      <button (click)="nextQuestion()"> <img src="https://img.icons8.com/?size=100&id=19048&format=png" width="50"
+          height="50" alt="">Câu hỏi
+        tiếp
+        theo</button>
     </div>
   </div>
 </div>
