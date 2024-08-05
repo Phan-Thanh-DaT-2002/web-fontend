@@ -4,7 +4,7 @@
 <div id="modal" class="modal">
   <h1>Thông báo</h1>
   <p>Vui lòng đợi xác nhận từ bác sĩ để làm bài kiểm tra này</p>
-  <p>Hướng dẫn bạn sẽ có 5s để ghi nhớ bức ảnh và 5s để xác nhận lại bức ảnh đó </p>
+  <p>Hướng dẫn: bạn sẽ có 5s để ghi nhớ bức ảnh và 5s để xác nhận lại bức ảnh đó </p>
   <!-- <button (click)="closeModal()">Đóng</button> -->
 </div>
 <div class="container">
@@ -15,15 +15,16 @@
   <div class="right-panel">
     <div class="test-area question-container">
       <h2>Bài Test</h2>
+      <h2>Câu số: {{currentQuestion.question.id}}</h2>
       <h2>{{ currentQuestion.question.que }}</h2>
       <p *ngIf="isRecording">Recording...</p>
       <button id="btn1" (click)="selectBtn(1)" class="custuomQues"
         [innerHTML]="getSanitizedHtml(currentQuestion.question.ans1)" *ngIf="currentQuestion.question.ans1">{{
         currentQuestion.question.ans1 }}</button>
-      <button id="btn2" (click)="selectBtn(2)" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans2)"
-        class="custuomQues" *ngIf="currentQuestion.question.ans2">{{
-        currentQuestion.question.ans2
-        }}</button>
+      <button id="btn2" (click)="selectBtn(2)" class="custuomQues"
+        [innerHTML]="getSanitizedHtml(currentQuestion.question.ans2)" *ngIf="currentQuestion.question.ans2">{{
+        currentQuestion.question.ans2 }}</button>
+
       <button id="btn3" (click)="selectBtn(3)" [innerHTML]="getSanitizedHtml(currentQuestion.question.ans3)"
         class="custuomQues" *ngIf="currentQuestion.question.ans3">{{
         currentQuestion.question.ans3
@@ -37,10 +38,10 @@
           src="https://img.icons8.com/ios/50/camera-microphone.png" alt="camera-microphone" /> Camera đang bật </button>
       <button (click)="toggleCamera()" *ngIf="CameraTogge == false"><img width="50" height="50"
           src="https://img.icons8.com/ios-filled/50/no-camera--v1.png" alt="no-camera--v1" />Camera đang tắt</button>
-      <button (click)="previousQuestion()"> <img src="https://img.icons8.com/?size=100&id=19047&format=png" width="50"
+      <!-- <button (click)="previousQuestion()"> <img src="https://img.icons8.com/?size=100&id=19047&format=png" width="50"
           height="50" alt="">Câu hỏi trước đó</button>
       <button (click)="nextQuestion()"> <img src="https://img.icons8.com/?size=100&id=19048&format=png" width="50"
-          height="50" alt="">Câu hỏi tiếp theo</button>
+          height="50" alt="">Câu hỏi tiếp theo</button> -->
     </div>
   </div>
 </div>

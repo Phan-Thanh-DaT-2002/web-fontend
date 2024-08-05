@@ -148,7 +148,7 @@ export class CallForTest2Component implements OnInit {
       id: 14,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,//
+      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
       ans2: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,
       ans3: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,
       ans4: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,
@@ -464,6 +464,7 @@ export class CallForTest2Component implements OnInit {
   public idRemote;
   public startTime;
   public endTime ;
+  public questCount = 0;
   public currentQuestion: Question;
   public videoTrack = null;
 
@@ -473,12 +474,21 @@ export class CallForTest2Component implements OnInit {
   public screenStream;
   public currentPeer = null
   public screenSharing = false
+  public answer
 public userId;
   constructor( private service: UserManagementService,private modalService: NgbModal,
     private sanitizer: DomSanitizer,
   ) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
   getSanitizedHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+  string_to_array(comma_string) {
+    // Kiểm tra nếu đầu vào không phải là chuỗi hoặc là chuỗi rỗng
+    if (typeof comma_string !== 'string' || comma_string.trim() === '') {
+      return [];
+    }
+    
+    return comma_string.split(',').map(item => item.trim() === '' ? 0 : Number(item.trim()));
   }
   ngOnInit(): void {
     this.userId =window.sessionStorage.getItem("userId" );
@@ -492,19 +502,65 @@ public userId;
         conn.on("data", (data) => {
           // Will print 'hi!'
           console.log(data);
-  
-          switch(data)
-          {
-            case "pre" :  this.previousQuestionPatient(); break;
-            case "next":  this.nextQuestionPatient(); break;
-            // case"toggleVideo": 
-            //   if(this.otherCamera == 1) { this.otherCamera =0;  }  else {this.otherCamera =1} break;
-            case "1" :  this.selectBtnPatient(1); break;
-            case "2" :  this.selectBtnPatient(2); break;
-            case "3" :  this.selectBtnPatient(3); break;
-            case "4" :  this.selectBtnPatient(4); break;
-            // case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
+          const idPrefix = "answer :"
+          const idPrefixEnd = "answerEnd :"
+          const dataStr = String(data);
+          console.log("dataStr.substring(0, 9):",dataStr.substring(0, 9));
+          
+          if (dataStr.substring(0, 6) === "answer") {
+            this.answer =  this.string_to_array(dataStr.split(idPrefix)[1]);
+            // string_to_array(this.answer)
+            console.log(" this.answer:", this.answer);
+            // this.nextQuestionPatient();
+
+            //kiem tra ket qua phase A
+            var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
+            console.log(" this.correctAns:", correctAns);
+            const matchingCount = this.countMatchingElements(correctAns,  this.answer);
+            // var matchingCount = this.countMatchingElements(correctAns,  correctAns);
+            console.log("matchingCount",matchingCount);
+            if(matchingCount >= 9){
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send("continute");
+              });
+            }
+            else{
+              this.conn = this.peer.connect(this.idRemote);
+              this.conn.on("open", () => {
+                this.conn.send("stop");
+              });
+            }
+            
           }
+          else if(dataStr.substring(0, 9) === "endAnswer"){
+            this.answer =  this.string_to_array(dataStr.split(idPrefixEnd)[1]);
+            console.log(" this.answer:", this.answer);
+            console.log(" sao k nhay vao luon nay the");
+            //kiem tra ket qua phase B
+            var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
+            console.log(" this.correctAns:", correctAns);
+            const matchingCount = this.countMatchingElements(correctAns,  this.answer);
+            // var matchingCount = this.countMatchingElements(correctAns,   correctAns);
+            sessionStorage.setItem('matchingCount', `${matchingCount}`);  
+            console.log("matchingCount",matchingCount);
+
+
+          } else{
+            switch(data)
+            {
+              case "pre" :  this.previousQuestionPatient(); break;
+              case "next":  this.nextQuestionPatient(); break;
+              // case"toggleVideo": 
+              //   if(this.otherCamera == 1) { this.otherCamera =0;  }  else {this.otherCamera =1} break;
+              case "1" :  this.selectBtnPatient(1); break;
+              case "2" :  this.selectBtnPatient(2); break;
+              case "3" :  this.selectBtnPatient(3); break;
+              case "4" :  this.selectBtnPatient(4); break;
+              // case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
+            }
+          }
+       
         });
         conn.on("open", () => {
           conn.send("hello!");
@@ -751,9 +807,9 @@ recordScreen() {
   });
 }
 countMatchingElements(arr1: number[], arr2: number[]): number {
-  if (arr1.length !== arr2.length) {
-    throw new Error("Hai mảng phải có cùng độ dài.");
-  }
+  // if (arr1.length !== arr2.length) {
+  //   throw new Error("Hai mảng phải có cùng độ dài.");
+  // }
 
   let count = 0;
   for (let i = 0; i < arr1.length; i++) {
@@ -767,24 +823,7 @@ countMatchingElements(arr1: number[], arr2: number[]): number {
 
 
    // modal Open Small
-   openModalResultsUser( modalSM) {
-    var correctAns =[3,3,4,1,2,1,3,4,4,4,3,2,4,2,3,4,1,1,1,1,1,1,1,1]
-    var Ans = this.questions.map(q => q.question.ans);
-// console.log("Ans",Anns);
-
-    const matchingCount = this.countMatchingElements(correctAns, Ans);
-    // console.log("ansssss",  matchingCount);
-    
-    this.conn = this.peer.connect(this.idRemote);
-    this.conn.on("open", () => {
-      this.conn.send("StopRecord");
-    });
-    this.endTime = performance.now();
-    const timeTaken = this.endTime - this.startTime;
-
-// console.log(`Thời gian thực hiện: ${Math.floor(timeTaken/1000/60)} milliseconds`);
-localStorage.setItem('timeTaken', `${Math.floor(timeTaken/1000/60)}`);      
-localStorage.setItem('matchingCount', `${matchingCount}`);      
+   openModalResultsUser( modalSM) {    
 this.modalService.open(modalSM, {
       centered: true,
       backdrop: 'static',
@@ -953,51 +992,66 @@ this.modalService.open(modalSM, {
       });
     }
   }
-
-  nextQuestionPatient() {
-
-    console.log(" this.currentQuestion", this.currentQuestion);
-
-    const buttons = document.querySelectorAll('.question-container button');
-    buttons.forEach(button => {
-      button.classList.remove('selected');
-    });
-
-   
-    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
-    // console.log("idRemote",idRemote);
-
-
-
-    if (this.currentQuestionIndex < this.questions.length - 1) {
-      this.currentQuestionIndex++;
-      this.currentQuestion = this.questions[this.currentQuestionIndex];
-    }
-    
-    if(this.currentQuestion.question.ans){
-      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
-      console.log("this.selectedButton",selectedButton);
-   
-    selectedButton.classList.add('selected');
-    }
-    else{
-      const buttons = document.querySelectorAll('.question-container button');
-      buttons.forEach(button => {
-        button.classList.remove('selected');
-      });
-    }
-    
+  checkScore(): boolean{
+    var check = true
+// asdasdas
+    return check
   }
+  nextQuestionPatient() {
+// console.log("questCount",this.questCount);
+// if(this.questCount >= 22 && this.checkScore())
+// {
+//   this.conn = this.peer.connect(this.idRemote);
+//   this.conn.on("open", () => {
+//     this.conn.send("stop");
+//   });
+// } 
+// else{
+
+
+      console.log(" this.currentQuestion", this.currentQuestion);
+
+        const buttons = document.querySelectorAll('.question-container button');
+        buttons.forEach(button => {
+          button.classList.remove('selected');
+        });
+
+      
+        // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+        // console.log("idRemote",idRemote);
+
+
+
+        if (this.currentQuestionIndex < this.questions.length - 1) {
+          this.currentQuestionIndex++;
+          this.currentQuestion = this.questions[this.currentQuestionIndex];
+        }
+        
+        if(this.currentQuestion.question.ans){
+          const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+          console.log("this.selectedButton",selectedButton);
+      
+        selectedButton.classList.add('selected');
+        }
+        else{
+          const buttons = document.querySelectorAll('.question-container button');
+          buttons.forEach(button => {
+            button.classList.remove('selected');
+          });
+        }
+        this.questCount++
+      }
+// }
 
 
   closeModal() {
-
-    (document.getElementById('modal') as HTMLElement).style.display = 'none';
-    (document.getElementById('overlay') as HTMLElement).style.display = 'none';
-
     this.conn = this.peer.connect(this.idRemote);
     this.conn.on("open", () => {
       this.conn.send("start");
     });
+    (document.getElementById('modal') as HTMLElement).style.display = 'none';
+    (document.getElementById('overlay') as HTMLElement).style.display = 'none';
+
+   
   }
 }

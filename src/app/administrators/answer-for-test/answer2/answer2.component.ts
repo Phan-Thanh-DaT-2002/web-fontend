@@ -3,6 +3,7 @@ import Peer from 'peerjs';
 import Swal from 'sweetalert2';
 import { AnswerForTestManagementService } from '../answer-for-test-management.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 interface Question {
   question: any;
 }
@@ -29,8 +30,8 @@ export class Answer2Component implements OnInit {
   public mediaRecorder;
   public navigator = <any>navigator;
   public videoTrack = null;
-
-
+  public answerArray : any ;
+  public countQuest = 0;
   public  questions: Question[] = [
     { question:  { 
       id: 1,
@@ -41,7 +42,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 2,
+      id: 1,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/6.png" width="150" height="250" alt="">`,//
@@ -51,7 +52,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 3,
+      id: 2,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/11.png" width="150" height="250" alt="">`,//
@@ -59,7 +60,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 4,
+      id: 2,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/26.png" width="150" height="250" alt="">`,//
@@ -69,7 +70,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 5,
+      id: 3,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/20.png" width="150" height="250" alt="">`,//
@@ -77,7 +78,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 6,
+      id: 3,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/20.png" width="150" height="250" alt="">`,//
@@ -87,7 +88,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 7,
+      id: 4,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/31.png" width="150" height="250" alt="">`,//
@@ -95,7 +96,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 8,
+      id: 4,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/33.png" width="150" height="250" alt="">`,//
@@ -105,7 +106,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 9,
+      id: 5,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/64.png" width="150" height="250" alt="">`,//
@@ -113,7 +114,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 10,
+      id: 5,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/65.png" width="150" height="250" alt="">`,//
@@ -123,7 +124,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 11,
+      id: 6,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/47.png" width="150" height="250" alt="">`,//
@@ -131,7 +132,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 12,
+      id: 6,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/48.png" width="150" height="250" alt="">`,//
@@ -141,7 +142,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 13,
+      id: 7,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/83.png" width="150" height="250" alt="">`,//
@@ -149,17 +150,17 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 14,
+      id: 7,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/1.png" width="150" height="250" alt="">`,//
+      ans1: `<img src="../../../../assets/images/imageForTest2/83.png" width="150" height="250" alt="">`,//
       ans2: `<img src="../../../../assets/images/imageForTest2/26.png" width="150" height="250" alt="">`,
       ans3: `<img src="../../../../assets/images/imageForTest2/42.png" width="150" height="250" alt="">`,
       ans4: `<img src="../../../../assets/images/imageForTest2/47.png" width="150" height="250" alt="">`,
     } },
   
     { question:  { 
-      id: 15,
+      id: 8,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/42.png" width="150" height="250" alt="">`,//
@@ -167,7 +168,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 16,
+      id: 8,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/42.png" width="150" height="250" alt="">`,//
@@ -177,7 +178,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 17,
+      id: 9,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/65.png" width="150" height="250" alt="">`,//
@@ -185,7 +186,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 18,
+      id: 9,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/51.png" width="150" height="250" alt="">`,//
@@ -195,7 +196,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 19,
+      id: 10,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/48.png" width="150" height="250" alt="">`,//
@@ -203,7 +204,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 20,
+      id: 10,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/62.png" width="150" height="250" alt="">`,//
@@ -213,7 +214,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 21,
+      id: 11,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/45.png" width="150" height="250" alt="">`,//
@@ -221,7 +222,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 22,
+      id: 11,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/59.png" width="150" height="250" alt="">`,//
@@ -231,7 +232,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 23,
+      id: 12,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/58.png" width="150" height="250" alt="">`,//
@@ -239,7 +240,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 24,
+      id: 12,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/72.png" width="150" height="250" alt="">`,//
@@ -249,7 +250,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 25,
+      id: 13,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/6.png" width="150" height="250" alt="">`,//
@@ -257,7 +258,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 26,
+      id: 13,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/12.png" width="150" height="250" alt="">`,//
@@ -267,7 +268,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 27,
+      id: 14,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/32.png" width="150" height="250" alt="">`,//
@@ -275,7 +276,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 28,
+      id: 14,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/71.png" width="150" height="250" alt="">`,//
@@ -285,7 +286,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 29,
+      id: 15,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/53.png" width="150" height="250" alt="">`,//
@@ -293,7 +294,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 30,
+      id: 15,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/53.png" width="150" height="250" alt="">`,//
@@ -303,7 +304,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 31,
+      id: 16,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/70.png" width="150" height="250" alt="">`,//
@@ -311,7 +312,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 32,
+      id: 16,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/82.png" width="150" height="250" alt="">`,//
@@ -321,7 +322,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 33,
+      id: 17,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/36.png" width="150" height="250" alt="">`,//
@@ -329,7 +330,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 34,
+      id: 17,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/24.png" width="150" height="250" alt="">`,//
@@ -338,7 +339,7 @@ export class Answer2Component implements OnInit {
       ans4: `<img src="../../../../assets/images/imageForTest2/36.png" width="150" height="250" alt="">`,
     } },
     { question:  { 
-      id: 35,
+      id: 18,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/75.png" width="150" height="250" alt="">`,//
@@ -346,7 +347,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 36,
+      id: 18,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/78.png" width="150" height="250" alt="">`,//
@@ -356,7 +357,7 @@ export class Answer2Component implements OnInit {
     } },
   
     { question:  { 
-      id: 37,
+      id: 19,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/83.png" width="150" height="250" alt="">`,//
@@ -364,7 +365,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 38,
+      id: 19,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/81.png" width="150" height="250" alt="">`,//
@@ -374,7 +375,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 39,
+      id: 20,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/17.png" width="150" height="250" alt="">`,//
@@ -382,7 +383,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 40,
+      id: 20,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/12.png" width="150" height="250" alt="">`,//
@@ -392,7 +393,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 41,
+      id: 21,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/4.png" width="150" height="250" alt="">`,//
@@ -400,7 +401,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 42,
+      id: 21,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/8.png" width="150" height="250" alt="">`,//
@@ -410,7 +411,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 43,
+      id: 22,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/13.png" width="150" height="250" alt="">`,//
@@ -418,7 +419,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 44,
+      id: 22,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/47.png" width="150" height="250" alt="">`,//
@@ -428,7 +429,7 @@ export class Answer2Component implements OnInit {
     } },
 
      { question:  { 
-      id: 45,
+      id: 23,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/68.png" width="150" height="250" alt="">`,//
@@ -436,7 +437,7 @@ export class Answer2Component implements OnInit {
     } },
 
     { question:  { 
-      id: 46,
+      id: 23,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/83.png" width="150" height="250" alt="">`,//
@@ -445,21 +446,27 @@ export class Answer2Component implements OnInit {
       ans4: `<img src="../../../../assets/images/imageForTest2/76.png" width="150" height="250" alt="">`,
     } },
     { question:  { 
-      id: 47,
+      id: 24,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
       ans1: `<img src="../../../../assets/images/imageForTest2/28.png" width="150" height="250" alt="">`,//
      
     } },
     { question:  { 
-      id: 48,
+      id: 24,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
       ans1: `<img src="../../../../assets/images/imageForTest2/27.png" width="150" height="250" alt="">`,//
       ans2: `<img src="../../../../assets/images/imageForTest2/29.png" width="150" height="250" alt="">`,
       ans3: `<img src="../../../../assets/images/imageForTest2/28.png" width="150" height="250" alt="">`,
       ans4: `<img src="../../../../assets/images/imageForTest2/67.png" width="150" height="250" alt="">`,
-    } },];
+    } },
+    { question:  { 
+      id: "",
+      ans: "",
+      que:'Hết',
+    } }
+  ];
   public currentPeer = null;
   public PRE = "DELTA";
   public SUF = "MEET";
@@ -468,7 +475,7 @@ export class Answer2Component implements OnInit {
   public local_stream;
   public currentQuestion: Question;
   public userId : number;
-  constructor( private service: AnswerForTestManagementService,  private sanitizer: DomSanitizer,) {     this.currentQuestion = this.questions[this.currentQuestionIndex]; }
+  constructor( private service: AnswerForTestManagementService, private _router: Router, private sanitizer: DomSanitizer,) {     this.currentQuestion = this.questions[this.currentQuestionIndex]; }
 
   ngOnInit(): void {
 
@@ -497,6 +504,20 @@ export class Answer2Component implements OnInit {
                 // case "next":  this.nextQuestionDoctor(); break;
                 case"toggle": this.openVideosDoctor(); break;
                 case"start": this.closeModal(); break;
+                case"continute": this.startQuiz1(); break;
+                case"stop": { 
+                    Swal.fire({
+                      icon: "error",
+                      title: " Bạn không đủ điều kiện để hoàn thành phần kiểm tra này",
+                      confirmButtonText: "Đồng ý",
+                    }).then((result) => {
+                      this._router.navigate(['/admin/user-answer/AnsChoseForTest'])
+                      .then(() => {
+                  
+                        window.location.reload();
+                        }); 
+                    });
+                  break;}
                 // case"toggleCameraDoctor": this.toggleCameraDoctor(); break;
                 // case "1" :  this.selectBtnDoctor(1); break;
                 // case "2" :  this.selectBtnDoctor(2); break;
@@ -506,18 +527,9 @@ export class Answer2Component implements OnInit {
                 // case "StopRecord" :  this.stopRecording(); break;
               }}
         });
-    
-        conn.on("open", () => {
-          conn.send("hello!");
-        });
+
       });
-      // Swal.fire({
-      //   icon: "error",
-      //   title: " Tài khoản đã tồn tại",
-      //   confirmButtonText: "Đồng ý",
-      // }).then((result) => {
-      //   this.startQuiz()
-      // });
+
 
   }
   openVideosDoctor() {
@@ -564,7 +576,17 @@ export class Answer2Component implements OnInit {
     }
   }
   startQuiz() {
-    for (let index = 0; index < 49; index++) {
+    
+    for (let index = 0; index < 24; index++) {
+      setTimeout(() => {
+        this.nextQuestion();
+      }, index * 5000); //  thời gian chờ mỗi lần lặp
+    
+    }
+  } 
+  startQuiz1() {
+    this.countQuest++
+    for (let index = 0; index < 25; index++) {
       setTimeout(() => {
         this.nextQuestion();
       }, index * 5000); //  thời gian chờ mỗi lần lặp
@@ -756,41 +778,63 @@ previousQuestion() {
 }
 
 nextQuestion() {
-
-  console.log(" this.currentQuestion", this.currentQuestion);
-
-  const buttons = document.querySelectorAll('.question-container button');
-  buttons.forEach(button => {
-    button.classList.remove('selected');
-  });
-
   this.conn = this.peer.connect(this.peerJsDoctor);
-  this.conn.on("open", () => {
-    this.conn.send("next");
-  });
-  // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
-  // console.log("idRemote",idRemote);
 
+  if(this.countQuest == 23){
+    this.answerArray  = this.questions.map(q => q.question.ans);
+    console.log(" this.currentQuestion", this.answerArray);
+    // console.log(" this.currentQuestion", this.currentQuestion);
 
+    this.conn = this.peer.connect(this.peerJsDoctor);
+    this.conn.on("open", () => {
+      this.conn.send(`answer :${this.answerArray}`);
+    });
+  }else if(this.countQuest == 48){
+    this.answerArray  = this.questions.map(q => q.question.ans);
+    console.log(" this.currentQuestion", this.answerArray);
+    // console.log(" this.currentQuestion", this.currentQuestion);
 
-  if (this.currentQuestionIndex < this.questions.length - 1) {
-    this.currentQuestionIndex++;
-    this.currentQuestion = this.questions[this.currentQuestionIndex];
+    this.conn = this.peer.connect(this.peerJsDoctor);
+    this.conn.on("open", () => {
+      this.conn.send(`endAnswer :${this.answerArray}`);
+    });
   }
   
-  if(this.currentQuestion.question.ans){
-    const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
-    console.log("this.selectedButton",selectedButton);
- 
-  selectedButton.classList.add('selected');
-  }
-  else{
+  else {
     const buttons = document.querySelectorAll('.question-container button');
     buttons.forEach(button => {
       button.classList.remove('selected');
     });
-  }
   
+    this.conn = this.peer.connect(this.peerJsDoctor);
+    this.conn.on("open", () => {
+      this.conn.send("next");
+    });
+    // const idRemote = (document.getElementById('remoteIdVideo') as HTMLInputElement).value;
+    // console.log("idRemote",idRemote);
+  
+  
+  
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.currentQuestion = this.questions[this.currentQuestionIndex];
+    }
+    
+    if(this.currentQuestion.question.ans){
+      const selectedButton = document.getElementById(`btn${this.currentQuestion.question.ans}`);
+      console.log("this.selectedButton",selectedButton);
+   
+    selectedButton.classList.add('selected');
+    }
+    else{
+      const buttons = document.querySelectorAll('.question-container button');
+      buttons.forEach(button => {
+        button.classList.remove('selected');
+      });
+    }
+    this.countQuest++
+  }
+
 }
 
 
@@ -859,10 +903,15 @@ closeModal() {
 
   (document.getElementById('modal') as HTMLElement).style.display = 'none';
   (document.getElementById('overlay') as HTMLElement).style.display = 'none';
- this.startQuiz();
+ setTimeout(() => {
+  this.startQuiz();
+
+  
+}, 5000);
 }
 showModal() {
   (document.getElementById('overlay') as HTMLElement).style.display = 'flex';
 }
+
 
 }
