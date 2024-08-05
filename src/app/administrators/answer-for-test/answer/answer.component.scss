@@ -24,14 +24,14 @@ body {
 .left-panel  .patient-video {
   width: 90%;
   height: 100vh;
-  border-radius: 8px;
+  border-radius: 15px;
 }
 .doctor-video {
   position: absolute;
   width: 80%;
   height: 40%;
   border: 2px solid #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   top: 50%;
   left: 50%;
@@ -47,7 +47,7 @@ body {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 11px solid #ccc;
 }
 .controls {
   padding: 10px;
@@ -74,7 +74,7 @@ body {
   border: none;
   // background-color: #007bff;
   // color: white;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -101,7 +101,7 @@ body {
   border: none;
   // background-color: #007bff;
   // color: white;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   font-size: 14px;
 }
@@ -120,7 +120,7 @@ body {
   font-size: 16px; /* Kích thước chữ */
   margin: 10px; /* Khoảng cách giữa các button */
   cursor: pointer; /* Con trỏ chuột khi di chuột qua button */
-  border-radius: 5px; /* Bo góc button */
+  border-radius: 15px; /* Bo góc button */
   transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền khi hover */
 }
 /* Hiệu ứng khi di chuột qua button */

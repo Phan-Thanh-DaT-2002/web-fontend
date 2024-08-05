@@ -282,7 +282,7 @@ public userId;
      
       conn.on("data", (data) => {
         // Will print 'hi!'
-        console.log(data);
+        // console.log(data);
 
         switch(data)
         {

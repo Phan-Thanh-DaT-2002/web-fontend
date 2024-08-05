@@ -488,7 +488,7 @@ export class Answer2Component implements OnInit {
       this.peer1.on("connection", (conn) => {
         conn.on("data", (data) => {
           // Will print 'hi!'
-          console.log(data);
+          // console.log(data);
           const idPrefix = "id :"
           const dataStr = String(data);
           
