@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { UserManagementService } from '../user-management/user-management.service';
 
 @Component({
   selector: 'app-ans-chose-for-test',
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AnsChoseForTestComponent implements OnInit {
 
-  constructor( private _router: Router,) { }
+  constructor( private _router: Router,private service1: UserManagementService) { }
 
   ngOnInit(): void {
   }
@@ -17,7 +19,7 @@ export class AnsChoseForTestComponent implements OnInit {
     case 1 : {
       this._router.navigate(['/admin/user-answer/Answer'])
       .then(() => {
-  
+        this.sendThisUserOnlined();
         window.location.reload();
       });
       break
@@ -26,7 +28,7 @@ export class AnsChoseForTestComponent implements OnInit {
     case 2 : {
       this._router.navigate(['/admin/user-answer/Answer2'])
       .then(() => {
-  
+        this.sendThisUserOnlined();
         window.location.reload();
       });
       break
@@ -41,5 +43,23 @@ export class AnsChoseForTestComponent implements OnInit {
       break
     }
    }
+  }
+
+  sendThisUserOnlined(){
+    let params = {
+      method: "GET", 
+    };
+    Swal.showLoading();
+    this.service1
+      .sendThisUserOnlined(params)
+      .then((data) => {
+        Swal.close();
+
+        
+        let response = data;
+      })
+      .catch((error) => {
+       
+      });
   }
 }

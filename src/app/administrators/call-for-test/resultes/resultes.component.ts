@@ -24,7 +24,7 @@ export class ResultesComponent implements OnInit {
     this.peer = new Peer();
     const idRemote = document.getElementById('remoteIdVideo');
     this.userId =window.sessionStorage.getItem("userId" );
-    this.matchingCount = sessionStorage.getItem("matchingCount" );
+    this.matchingCount = localStorage.getItem("matchingCount" );
 
     // console.log("idRemote",idRemote);
     // console.log("this.userId",this.userId);

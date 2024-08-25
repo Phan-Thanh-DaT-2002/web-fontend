@@ -104,7 +104,7 @@ export class AuthenticationService {
               var oldLoginId = localStorage.getItem('oldLoginAccount')
 
               localStorage.removeItem("menu");
-              this.sendThisUserOnlined();
+              // this.sendThisUserOnlined();
               localStorage.setItem('oldLoginAccount', params.username);
 
               // this.getMenuActsByRoleId()
