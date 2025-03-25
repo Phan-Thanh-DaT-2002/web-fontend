@@ -4,6 +4,7 @@ import { UserManagementService } from '../user-management/user-management.servic
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 interface Question {
   question: any;
@@ -945,7 +946,7 @@ export class CallForTest2Component implements OnInit {
   public screenSharing = false
   public answer
 public userId;
-  constructor( private service: UserManagementService,private modalService: NgbModal,
+  constructor(  private _router: Router,private service: UserManagementService,private modalService: NgbModal,
     private sanitizer: DomSanitizer,
   ) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
   getSanitizedHtml(html: string): SafeHtml {
@@ -995,6 +996,18 @@ public userId;
               });
             }
             else{
+              Swal.fire({
+                icon: "error",
+                title: ` Bệnh nhân không đủ điều kiện để hoàn thành phần kiểm tra này với số điểm ${matchingCount}`,
+                confirmButtonText: "Đồng ý",
+              }).then((result) => {
+                this._router.navigate(['/admin/user/list-user'])
+                .then(() => {
+            
+                  window.location.reload();
+                  }); 
+              });
+              
               this.conn = this.peer.connect(this.idRemote);
               this.conn.on("open", () => {
                 this.conn.send("stop");
@@ -1030,7 +1043,7 @@ public userId;
               case "2" :  this.selectBtnPatient(2); break;
               case "3" :  this.selectBtnPatient(3); break;
               case "4" :  this.selectBtnPatient(4); break;
-              // case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
+              case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
             }
           }
        

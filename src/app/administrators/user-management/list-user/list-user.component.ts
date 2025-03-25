@@ -78,6 +78,7 @@ export class ListUserComponent implements OnInit {
   public scoreFrom;
   public scoreTo;
   public statusOnline;
+  public status;
   public email;
   public dateError = false;
   public messages;
@@ -356,6 +357,7 @@ public listScore = [
       fullName:  this.fullName ? this.fullName :"", 
       email: this.email ? this.email:"", 
       statusOnline: this.statusOnline ? this.statusOnline.join() : "",
+      status: this.status ? this.status.join() : "",
       scoreFrom : scoreFrom ?scoreFrom :"",
       scoreTo : scoreTo ?scoreTo :"",
       fromDatePre: this.convertDateToString(this.fromDatePre), 
@@ -769,10 +771,8 @@ beforeUnloadHandler(event: Event) {
 }
 
 searchServiceRequest(boolSetPage: boolean = false) {
-  //console.log(this.phoneNumber);
-  // const pattern = /^(84\d{9})|((086|096|097|098|032|033|034|035|036|037|038|039|088|091|094|083|084|085|081|082|089|090|093|070|079|077|076|078|092|056|058|099|059)\d{7})$/;
-  // //console.log(pattern.test('0342611368')); // Kiểm tra với số điện thoại thực
-  //console.log("dateError",this.dateError);
+  console.log("this.statusOnline",this.statusOnline);
+
   const invalidControls = document.querySelectorAll<HTMLInputElement>('input.is-invalid');
 
   if(this.isInvalidPhoneNumber || this.isInvalidLength  || invalidControls.length != 0 ){

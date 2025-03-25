@@ -69,6 +69,7 @@ export class ResultesComponent implements OnInit {
     }
      var timeTaken = localStorage.getItem('timeTaken')
      
+     
     let params = {
       method: "POST",
       content: {
@@ -122,6 +123,8 @@ export class ResultesComponent implements OnInit {
           });
         }
       });
+      localStorage.removeItem('timeTaken');
+      localStorage.removeItem('matchingCount');
   }
   
   searchUser(){

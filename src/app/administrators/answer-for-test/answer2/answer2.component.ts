@@ -1010,6 +1010,7 @@ export class Answer2Component implements OnInit {
                 case"toggle": this.openVideosDoctor(); break;
                 case"start": this.closeModal(); break;
                 case"continute": this.startQuiz1(); break;
+                case"toggleCameraDoctor": this.toggleCameraDoctor(); break;
                 case"stop": { 
                     Swal.fire({
                       icon: "error",
@@ -1036,6 +1037,16 @@ export class Answer2Component implements OnInit {
       });
 
 
+  }
+
+  
+  toggleCameraDoctor(){
+    const videoElement = this.doctorVideo.nativeElement as HTMLVideoElement;
+    if (videoElement.style.display === 'none') {
+      videoElement.style.display = 'block';
+    } else {
+      videoElement.style.display = 'none';
+    }
   }
   openVideosDoctor() {
     

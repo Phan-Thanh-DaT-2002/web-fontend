@@ -1,5 +1,6 @@
 export abstract class ApiContext {
   public readonly BASE_URL = 'http://localhost:3232/';
+  // public readonly BASE_URL = 'http://192.168.194.252:3232/';
   // public readonly BASE_URL = 'http://10.252.10.222:3232/';
   public readonly SOCKET = 'http://localhost:8388/';
   // public readonly SOCKET = 'http://10.252.10.240:8388/';
