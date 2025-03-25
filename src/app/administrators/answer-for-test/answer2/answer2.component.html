@@ -4,7 +4,7 @@
 <div id="modal" class="modal">
   <h1>Thông báo</h1>
   <p>Vui lòng đợi xác nhận từ bác sĩ để làm bài kiểm tra này</p>
-  <p>Hướng dẫn: bạn sẽ có 5s để ghi nhớ bức ảnh và 5s để xác nhận lại bức ảnh đó </p>
+  <p>Hướng dẫn: bạn sẽ có 5s để ghi nhớ 12 bức ảnh và 5s để xác nhận lại 12 bức ảnh đó </p>
   <!-- <button (click)="closeModal()">Đóng</button> -->
 </div>
 <div class="container">
@@ -15,7 +15,7 @@
   <div class="right-panel">
     <div class="test-area question-container">
       <h2>Bài Test</h2>
-      <h2>Câu số: {{currentQuestion.question.id}}</h2>
+      <!-- <h2>Câu số: {{currentQuestion.question.id}}</h2> -->
       <h2>{{ currentQuestion.question.que }}</h2>
       <p *ngIf="isRecording">Recording...</p>
       <button id="btn1" (click)="selectBtn(1)" class="custuomQues"

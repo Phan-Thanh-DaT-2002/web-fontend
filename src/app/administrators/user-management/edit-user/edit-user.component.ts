@@ -66,7 +66,7 @@ public listIdDoctor =[]
         roles: [null, Validators.required],
         address: ["", ],
         gender: [null, ],
-        dob: ["", ],
+        dob: [null, ],
       },
     );
   }
@@ -107,14 +107,14 @@ public listIdDoctor =[]
         id: this.data.id,
         username: this.data.username,
         fullName: this.data.fullName,
-        phone: this.data.phone ? this.data.phone :"",
-        dob: this.data.dob ? this.formatDateStringToSimple(this.data.dob) :"",
+        phone: this.data.phone ? this.data.phone :null,
+        dob: this.data.dob ? this.formatDateStringToSimple(this.data.dob) :null,
         email: this.data.email,
         status: this.status ,
         roles: this.data.roles ,
-        gender : this.data.gender ? this.data.gender :"",
-        address : this.data.address ? this.data.address :"",
-        idDoctor : this.data.idDoctor ? this.data.idDoctor : ""
+        gender : this.data.gender ? this.data.gender :null,
+        address : this.data.address ? this.data.address :null,
+        idDoctor : this.data.idDoctor ? this.data.idDoctor : null
       },
       
     );

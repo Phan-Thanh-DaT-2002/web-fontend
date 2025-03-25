@@ -1,6 +1,14 @@
 .container {
   display: flex;
-  flex: 1;
-  height: 70vh;
-  size: 20px;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh;
+}
+.btn {
+  width: 30%;
+  margin: 5px;
+  padding: 10px; 
+  font-size: 16px; 
+  height: 30vh;
+
 }

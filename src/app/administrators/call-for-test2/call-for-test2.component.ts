@@ -4,6 +4,7 @@ import { UserManagementService } from '../user-management/user-management.servic
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 interface Question {
   question: any;
@@ -27,436 +28,905 @@ export class CallForTest2Component implements OnInit {
   public  isCameraOn = true;
   public isMicOn = false;
   public now = new Date();
+  // public  questions: Question[] = [
+  //   { question:  { 
+  //     id: 1,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/1.jpg"width="50" height="100" alt="">`,//
+    
+  //   } },
+  
+  //   { question:  { 
+  //     id: 2,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/6.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/1.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/49.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/42.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 3,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/11.jpg"width="50" height="100" alt="">`,//
+    
+  //   } },
+  
+  //   { question:  { 
+  //     id: 4,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/26.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/17.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/11.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/19.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 5,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/20.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 6,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/20.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/2.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/5.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 7,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/31.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 8,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/33.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/3.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/37.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/31.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 9,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/64.jpg"width="50" height="100" alt="">`,//
+    
+  //   } },
+  
+  //   { question:  { 
+  //     id: 10,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/65.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/64.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/26.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/2.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 11,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/47.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 12,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/48.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/17.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/47.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 13,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/83.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 14,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/83.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/26.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/42.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/47.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 15,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/42.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 16,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/42.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/14.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/70.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 17,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/65.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 18,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/51.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/37.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/65.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/79.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 19,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/48.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 20,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/62.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/76.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/46.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/6.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 21,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/45.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 22,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/59.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/73.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/3.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/45.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 23,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/58.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 24,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/72.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/31.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/3.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/58.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 25,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/6.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 26,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/12.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/17.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/6.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/21.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 27,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/32.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 28,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/71.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/27.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/32.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 29,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/53.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 30,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/53.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/54.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/52.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/55.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 31,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/70.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 32,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/82.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/79.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/70.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/74.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 33,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/36.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 34,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/24.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/13.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/16.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/36.jpg"width="50" height="100" alt="">`,
+  //   } },
+  //   { question:  { 
+  //     id: 35,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/75.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  
+  //   { question:  { 
+  //     id: 36,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/78.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/80.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/75.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/69.jpg"width="50" height="100" alt="">`,
+  //   } },
+  
+  //   { question:  { 
+  //     id: 37,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/83.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+
+  //   { question:  { 
+  //     id: 38,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/81.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/71.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/83.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/73.jpg"width="50" height="100" alt="">`,
+  //   } },
+
+  //   { question:  { 
+  //     id: 39,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/17.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+
+  //   { question:  { 
+  //     id: 40,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/12.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/17.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/6.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/48.jpg"width="50" height="100" alt="">`,
+  //   } },
+
+  //   { question:  { 
+  //     id: 41,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/4.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+
+  //   { question:  { 
+  //     id: 42,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/8.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/70.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/4.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/74.jpg"width="50" height="100" alt="">`,
+  //   } },
+
+  //   { question:  { 
+  //     id: 43,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/13.jpg"width="50" height="100" alt="">`,//
+   
+  //   } },
+
+  //   { question:  { 
+  //     id: 44,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/47.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/13.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/16.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/36.jpg"width="50" height="100" alt="">`,
+  //   } },
+
+  //    { question:  { 
+  //     id: 45,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/68.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+
+  //   { question:  { 
+  //     id: 46,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/83.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/1.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/68.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/76.jpg"width="50" height="100" alt="">`,
+  //   } },
+  //   { question:  { 
+  //     id: 47,
+  //     ans: "",
+  //     que:'Hãy nhớ cánh cửa sau đây :',
+  //     ans1: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,//
+     
+  //   } },
+  //   { question:  { 
+  //     id: 48,
+  //     ans: "",
+  //     que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+  //     ans1: `<img src="../../../../assets/images/portes/27.jpg"width="50" height="100" alt="">`,//
+  //     ans2: `<img src="../../../../assets/images/portes/29.jpg"width="50" height="100" alt="">`,
+  //     ans3: `<img src="../../../../assets/images/portes/28.jpg"width="50" height="100" alt="">`,
+  //     ans4: `<img src="../../../../assets/images/portes/67.jpg"width="50" height="100" alt="">`,
+  //   } },];
   public  questions: Question[] = [
     { question:  { 
       id: 1,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,//
+      ans1: `<img src="../../../../assets/images/portes/A1A.jpg" width="150" height="250" alt="">`,//
     
     } },
+    { question:  { 
+      id: 2,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A2C.jpg" width="150" height="250" alt="">`,//
+    
+    } },
+    
+    { question:  { 
+      id: 3,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A3B.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 4,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A4B.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 5,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A5A.jpg" width="150" height="250" alt="">`,//
+    
+    } },
+    { question:  { 
+      id: 6,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A6D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 7,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A7D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 8,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A8D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 9,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A9A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 10,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A10D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 11,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A11C.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 12,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/A12A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 1,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A1A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A1B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A1C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A1D.jpg" width="150" height="250" alt="">`,
+    } },
+  
+   
   
     { question:  { 
       id: 2,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/49.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A2A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A2B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A2C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A2D.jpg" width="150" height="250" alt="">`,
     } },
+  
   
     { question:  { 
       id: 3,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/11.png"width="50" height="100" alt="">`,//
-    
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A3A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A3B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A3C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A3D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 4,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/11.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/19.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A4A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A4B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A4C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A4D.jpg" width="150" height="250" alt="">`,
     } },
+  
+    
   
     { question:  { 
       id: 5,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/20.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A5A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A5B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A5C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A5D.jpg" width="150" height="250" alt="">`,
     } },
+  
+ 
   
     { question:  { 
       id: 6,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/20.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/2.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/5.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A6A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A6B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A6C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A6D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 7,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A7A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A7B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A7C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A7D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 8,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/33.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/37.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A8A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A8B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A8C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A8D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 9,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/64.png"width="50" height="100" alt="">`,//
-    
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A9A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A9B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A9C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A9D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 10,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/64.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/2.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A10A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A10B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A10C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A10D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 11,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/A11A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A11B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A11C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A11D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 12,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/A12A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/A12B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/A12C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/A12D.jpg" width="150" height="250" alt="">`,
     } },
   
     { question:  { 
       id: 13,
       ans: "",
       que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
+      ans1: `<img src="../../../../assets/images/portes/B1A.jpg" width="150" height="250" alt="">`,//
      
     } },
+
+    { question:  { 
+      id: 14,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B2C.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 15,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B3C.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 16,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B4D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 17,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B5D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 18,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B6A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 19,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B7A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 20,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B8B.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+    { question:  { 
+      id: 21,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B9A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+
+    { question:  { 
+      id: 22,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B10C.jpg" width="150" height="250" alt="">`,//
+   
+    } },
+
+    { question:  { 
+      id: 23,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B11A.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 24,
+      ans: "",
+      que:'Hãy nhớ cánh cửa sau đây :',
+      ans1: `<img src="../../../../assets/images/portes/B12D.jpg" width="150" height="250" alt="">`,//
+     
+    } },
+
+    { question:  { 
+      id: 13,
+      ans: "",
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B1A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B1B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B1C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B1D.jpg" width="150" height="250" alt="">`,
+    } },
+  
+ 
   
     { question:  { 
       id: 14,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/26.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B2A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B2B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B2C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B2D.jpg" width="150" height="250" alt="">`,
     } },
+  
+  
   
     { question:  { 
       id: 15,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B3A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B3B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B3C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B3D.jpg" width="150" height="250" alt="">`,
     } },
+  
+   
   
     { question:  { 
       id: 16,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/42.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/14.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B4A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B4B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B4C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B4D.jpg" width="150" height="250" alt="">`,
     } },
+  
+    
   
     { question:  { 
       id: 17,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B5A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B5B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B5C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B5D.jpg" width="150" height="250" alt="">`,
     } },
+   
   
     { question:  { 
       id: 18,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/51.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/37.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/65.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/79.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B6A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B6B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B6C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B6D.jpg" width="150" height="250" alt="">`,
     } },
   
+   
+
     { question:  { 
       id: 19,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B7A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B7B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B7C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B7D.jpg" width="150" height="250" alt="">`,
     } },
-  
+
+   
+
     { question:  { 
       id: 20,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/62.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/76.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/46.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B8A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B8B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B8C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B8D.jpg" width="150" height="250" alt="">`,
     } },
-  
+
+   
+
     { question:  { 
       id: 21,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/45.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B9A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B9B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B9C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B9D.jpg" width="150" height="250" alt="">`,
     } },
+
   
+
     { question:  { 
       id: 22,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/59.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/73.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/45.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B10A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B10B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B10C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B10D.jpg" width="150" height="250" alt="">`,
     } },
+
   
+
     { question:  { 
       id: 23,
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/58.png"width="50" height="100" alt="">`,//
-     
+      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
+      ans1: `<img src="../../../../assets/images/portes/B11A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B11B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B11C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B11D.jpg" width="150" height="250" alt="">`,
     } },
   
     { question:  { 
       id: 24,
       ans: "",
       que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/72.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/31.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/3.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/58.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 25,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 26,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/12.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/21.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 27,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/32.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 28,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/71.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/27.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/32.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 29,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/53.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 30,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/53.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/54.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/52.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/55.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 31,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 32,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/82.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/79.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/74.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 33,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 34,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/24.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/16.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,
+      ans1: `<img src="../../../../assets/images/portes/B12A.jpg" width="150" height="250" alt="">`,//
+      ans2: `<img src="../../../../assets/images/portes/B12B.jpg" width="150" height="250" alt="">`,
+      ans3: `<img src="../../../../assets/images/portes/B12C.jpg" width="150" height="250" alt="">`,
+      ans4: `<img src="../../../../assets/images/portes/B12D.jpg" width="150" height="250" alt="">`,
     } },
     { question:  { 
-      id: 35,
+      id: "",
       ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/75.png"width="50" height="100" alt="">`,//
-     
-    } },
-  
-    { question:  { 
-      id: 36,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/78.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/80.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/75.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/69.png"width="50" height="100" alt="">`,
-    } },
-  
-    { question:  { 
-      id: 37,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
-     
-    } },
-
-    { question:  { 
-      id: 38,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/81.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/71.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/73.png"width="50" height="100" alt="">`,
-    } },
-
-    { question:  { 
-      id: 39,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,//
-     
-    } },
-
-    { question:  { 
-      id: 40,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/12.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/17.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/6.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/48.png"width="50" height="100" alt="">`,
-    } },
-
-    { question:  { 
-      id: 41,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/4.png"width="50" height="100" alt="">`,//
-     
-    } },
-
-    { question:  { 
-      id: 42,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/8.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/70.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/4.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/74.png"width="50" height="100" alt="">`,
-    } },
-
-    { question:  { 
-      id: 43,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,//
-   
-    } },
-
-    { question:  { 
-      id: 44,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/47.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/13.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/16.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/36.png"width="50" height="100" alt="">`,
-    } },
-
-     { question:  { 
-      id: 45,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/68.png"width="50" height="100" alt="">`,//
-     
-    } },
-
-    { question:  { 
-      id: 46,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/83.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/1.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/68.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/76.png"width="50" height="100" alt="">`,
-    } },
-    { question:  { 
-      id: 47,
-      ans: "",
-      que:'Hãy nhớ cánh cửa sau đây :',
-      ans1: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,//
-     
-    } },
-    { question:  { 
-      id: 48,
-      ans: "",
-      que:'Cánh cửa nào trong số này là cánh cửa tôi đã chỉ cho bạn trước đó?',
-      ans1: `<img src="../../../../assets/images/imageForTest2/27.png"width="50" height="100" alt="">`,//
-      ans2: `<img src="../../../../assets/images/imageForTest2/29.png"width="50" height="100" alt="">`,
-      ans3: `<img src="../../../../assets/images/imageForTest2/28.png"width="50" height="100" alt="">`,
-      ans4: `<img src="../../../../assets/images/imageForTest2/67.png"width="50" height="100" alt="">`,
-    } },];
-
+      que:'Hết',
+    } }
+  ];
     
   public peer= new Peer();
   public conn;
@@ -476,19 +946,17 @@ export class CallForTest2Component implements OnInit {
   public screenSharing = false
   public answer
 public userId;
-  constructor( private service: UserManagementService,private modalService: NgbModal,
+  constructor(  private _router: Router,private service: UserManagementService,private modalService: NgbModal,
     private sanitizer: DomSanitizer,
   ) {  this.currentQuestion = this.questions[this.currentQuestionIndex]; }
   getSanitizedHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
-  string_to_array(comma_string) {
-    // Kiểm tra nếu đầu vào không phải là chuỗi hoặc là chuỗi rỗng
-    if (typeof comma_string !== 'string' || comma_string.trim() === '') {
-      return [];
+   string_to_array(comma_string) {
+    if (typeof comma_string !== 'string') {
+      return []; // Trả về mảng rỗng nếu input không phải là chuỗi
     }
-    
-    return comma_string.split(',').map(item => item.trim() === '' ? 0 : Number(item.trim()));
+    return comma_string.split(',').map(item => item === '' ? '' : Number(item.trim()));
   }
   ngOnInit(): void {
     this.userId =window.sessionStorage.getItem("userId" );
@@ -503,7 +971,7 @@ public userId;
           // Will print 'hi!'
           console.log(data);
           const idPrefix = "answer :"
-          const idPrefixEnd = "answerEnd :"
+          const idPrefixEnd = "endAnswer :"
           const dataStr = String(data);
           console.log("dataStr.substring(0, 9):",dataStr.substring(0, 9));
           
@@ -514,8 +982,10 @@ public userId;
             // this.nextQuestionPatient();
 
             //kiem tra ket qua phase A
-            var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
+            // var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
+            var correctAns =[,,,,,,,,,,,,1,3,2,2,1,4,4,4,1,4,3,1,,,,,,,,,,,,,1,3,3,4,4,1,1,2,1,3,1,4]
             console.log(" this.correctAns:", correctAns);
+            console.log(" this.correctAns:", correctAns.length);
             const matchingCount = this.countMatchingElements(correctAns,  this.answer);
             // var matchingCount = this.countMatchingElements(correctAns,  correctAns);
             console.log("matchingCount",matchingCount);
@@ -526,6 +996,18 @@ public userId;
               });
             }
             else{
+              Swal.fire({
+                icon: "error",
+                title: ` Bệnh nhân không đủ điều kiện để hoàn thành phần kiểm tra này với số điểm ${matchingCount}`,
+                confirmButtonText: "Đồng ý",
+              }).then((result) => {
+                this._router.navigate(['/admin/user/list-user'])
+                .then(() => {
+            
+                  window.location.reload();
+                  }); 
+              });
+              
               this.conn = this.peer.connect(this.idRemote);
               this.conn.on("open", () => {
                 this.conn.send("stop");
@@ -534,15 +1016,19 @@ public userId;
             
           }
           else if(dataStr.substring(0, 9) === "endAnswer"){
+            console.log("dataStr.split(idPrefixEnd)[1]",dataStr);
+            console.log("dataStr.split(idPrefixEnd)[1]",dataStr.split(idPrefixEnd)[1]);
+            
             this.answer =  this.string_to_array(dataStr.split(idPrefixEnd)[1]);
             console.log(" this.answer:", this.answer);
-            console.log(" sao k nhay vao luon nay the");
+            // console.log(" sao k nhay vao luon nay the");
             //kiem tra ket qua phase B
-            var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
-            console.log(" this.correctAns:", correctAns);
+            // var correctAns =[,2,,3,,1,,4,,2,,4,,1,,1,,3,,3,,4,,4,,3,,4,,1,,3,,4,,3,,3,,2,,3,,2,,3,,3]
+            var correctAns =[,,,,,,,,,,,,1,3,2,2,1,4,4,4,1,4,3,1,,,,,,,,,,,,,1,3,3,4,4,1,1,2,1,3,1,4]
+             console.log(" this.correctAns:", correctAns);
             const matchingCount = this.countMatchingElements(correctAns,  this.answer);
             // var matchingCount = this.countMatchingElements(correctAns,   correctAns);
-            sessionStorage.setItem('matchingCount', `${matchingCount}`);  
+            localStorage.setItem('matchingCount', `${matchingCount}`);  
             console.log("matchingCount",matchingCount);
 
 
@@ -557,7 +1043,7 @@ public userId;
               case "2" :  this.selectBtnPatient(2); break;
               case "3" :  this.selectBtnPatient(3); break;
               case "4" :  this.selectBtnPatient(4); break;
-              // case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
+              case "toggleCameraPatient" :  this.toggleCameraPatient(); break;
             }
           }
        
@@ -824,6 +1310,9 @@ countMatchingElements(arr1: number[], arr2: number[]): number {
 
    // modal Open Small
    openModalResultsUser( modalSM) {    
+    this.endTime = performance.now();
+    const timeTaken = this.endTime - this.startTime;
+    localStorage.setItem('timeTaken', `${Math.floor(timeTaken/1000/60)}`);  
 this.modalService.open(modalSM, {
       centered: true,
       backdrop: 'static',

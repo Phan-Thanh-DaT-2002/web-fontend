@@ -282,7 +282,7 @@ public userId;
      
       conn.on("data", (data) => {
         // Will print 'hi!'
-        console.log(data);
+        // console.log(data);
 
         switch(data)
         {
@@ -664,7 +664,7 @@ this.CameraTogge = !this.CameraTogge;
 // console.log("Ans",Anns);
 
       const matchingCount = this.countMatchingElements(correctAns, Ans);
-      // console.log("ansssss",  matchingCount);
+      console.log("ansssss",  matchingCount);
       
       this.conn = this.peer.connect(this.idRemote);
       this.conn.on("open", () => {
